@@ -21,7 +21,7 @@ class ErlangC:
         self.intensity = (self.n_transactions / self.interval) * self.aht
         self.shrinkage = shrinkage
 
-    def waiting_probability(self, positions, scale_positions=True):
+    def waiting_probability(self, positions, scale_positions=False):
         """
         :param positions: Number of positions to attend the transactions
         :param scale_positions: True if the positions where calculated using shrinkage
@@ -39,7 +39,7 @@ class ErlangC:
         erlang_b = 1 / erlang_b_inverse
         return productive_positions * erlang_b / (productive_positions - self.intensity * (1 - erlang_b))
 
-    def service_level(self, positions, scale_positions=True):
+    def service_level(self, positions, scale_positions=False):
         """
         :param positions: Number of positions attending
         :param scale_positions: True if the positions where calculated using shrinkage
@@ -54,7 +54,7 @@ class ErlangC:
         exponential = exp(-(productive_positions - self.intensity) * (self.asa / self.aht))
         return max(0, 1 - (probability_wait * exponential))
 
-    def achieved_occupancy(self, positions, scale_positions=True):
+    def achieved_occupancy(self, positions, scale_positions=False):
         """
         :param positions: Number of raw positions
         :param scale_positions: True if the positions where calculated using shrinkage
@@ -66,10 +66,10 @@ class ErlangC:
             productive_positions = positions
         return self.intensity/productive_positions
 
-    def required_agents(self, service_level):
+    def required_positions(self, service_level):
         """
         :param service_level: Target service level
-        :return: Number of positions needed to ensure the required sla
+        :return: Number of positions needed to ensure the required service level
         """
         positions = round(self.intensity + 1)
         achieved_sla = self.service_level(positions, scale_positions=False)
