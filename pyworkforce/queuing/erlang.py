@@ -3,7 +3,7 @@ from math import exp, ceil, floor
 
 class ErlangC:
     def __init__(self, transactions: float, asa: float, aht: float,
-                 interval: int = None, shrinkage=0.0,
+                 interval: int = None, shrinkage=0.0, max_occupancy=1.0,
                  **kwargs):
         """
         Computes the number of positions required fo attend a number of transactions in a queue system based on ErlangC
@@ -13,6 +13,7 @@ class ErlangC:
         :param aht: average handling time of a transaction (minutes)
         :param interval: Interval length (minutes)
         :param shrinkage: Percentage of time that an operator unit is not available
+        :param max_occupancy: Maximum percentage of time that an attending position can be occupied
         """
         self.n_transactions = transactions
         self.asa = asa
@@ -20,6 +21,7 @@ class ErlangC:
         self.interval = interval
         self.intensity = (self.n_transactions / self.interval) * self.aht
         self.shrinkage = shrinkage
+        self.max_occupancy = max_occupancy
 
     def waiting_probability(self, positions, scale_positions=False):
         """
@@ -33,8 +35,8 @@ class ErlangC:
             productive_positions = positions
 
         erlang_b_inverse = 1
-        for agent in range(1, productive_positions + 1):
-            erlang_b_inverse = 1 + (erlang_b_inverse * agent / self.intensity)
+        for position in range(1, productive_positions + 1):
+            erlang_b_inverse = 1 + (erlang_b_inverse * position / self.intensity)
 
         erlang_b = 1 / erlang_b_inverse
         return productive_positions * erlang_b / (productive_positions - self.intensity * (1 - erlang_b))
@@ -64,6 +66,7 @@ class ErlangC:
             productive_positions = floor((1 - self.shrinkage) * positions)
         else:
             productive_positions = positions
+
         return self.intensity/productive_positions
 
     def required_positions(self, service_level):
@@ -72,16 +75,24 @@ class ErlangC:
         :return: Number of positions needed to ensure the required service level
         """
         positions = round(self.intensity + 1)
-        achieved_sla = self.service_level(positions, scale_positions=False)
-        while achieved_sla < service_level:
+        achieved_service_level = self.service_level(positions, scale_positions=False)
+        while achieved_service_level < service_level:
             positions += 1
-            achieved_sla = self.service_level(positions, scale_positions=False)
+            achieved_service_level = self.service_level(positions, scale_positions=False)
 
         achieved_occupancy = self.achieved_occupancy(positions, scale_positions=False)
+
+        if achieved_occupancy > self.max_occupancy:
+            raw_positions = ceil(self.intensity / self.max_occupancy)
+            achieved_occupancy = self.achieved_occupancy(raw_positions)
+            achieved_service_level = self.service_level(raw_positions)
+
         raw_positions = ceil(positions)
+        waiting_probability = self.waiting_probability(positions=raw_positions)
         positions = ceil(raw_positions / (1 - self.shrinkage))
 
         return {"raw_positions": raw_positions,
                 "positions": positions,
-                "service_level": achieved_sla,
-                "occupancy": achieved_occupancy}
+                "service_level": achieved_service_level,
+                "occupancy": achieved_occupancy,
+                "waiting_probability": waiting_probability}
