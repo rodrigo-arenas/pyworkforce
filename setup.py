@@ -1,5 +1,7 @@
 import pathlib
-from setuptools import setup
+from setuptools import setup, find_packages
+
+# twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -19,10 +21,10 @@ setup(
     author_email="rodrigo.arenas456@gmail.com",
     license="MIT",
     classifiers=[
-        "License :: MIT License",
+        'License :: OSI Approved :: MIT License',
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=["pyworkforce"],
+    packages=find_packages(),
     include_package_data=True,
 )
