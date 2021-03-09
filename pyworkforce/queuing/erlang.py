@@ -105,12 +105,13 @@ class ErlangC:
 
         achieved_occupancy = self.achieved_occupancy(positions, scale_positions=False)
 
+        raw_positions = ceil(positions)
+
         if achieved_occupancy > max_occupancy:
             raw_positions = ceil(self.intensity / max_occupancy)
             achieved_occupancy = self.achieved_occupancy(raw_positions)
             achieved_service_level = self.service_level(raw_positions)
 
-        raw_positions = ceil(positions)
         waiting_probability = self.waiting_probability(positions=raw_positions)
         positions = ceil(raw_positions / (1 - self.shrinkage))
 
