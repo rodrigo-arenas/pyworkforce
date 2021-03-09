@@ -2,8 +2,8 @@ from math import exp, ceil, floor
 
 
 class ErlangC:
-    def __init__(self, transactions: float, asa: float, aht: float,
-                 interval: int = None, shrinkage=0.0, max_occupancy=1.0,
+    def __init__(self, transactions: float, aht: float, asa: float,
+                 interval: int = None, shrinkage=0.0,
                  **kwargs):
         """
         Computes the number of positions required fo attend a number of transactions in a queue system based on ErlangC
@@ -11,17 +11,16 @@ class ErlangC:
 
         :param transactions: number of total transactions that comes in
         :param aht: average handling time of a transaction (minutes)
+        :param asa: Required average speed of answer in minutes
         :param interval: Interval length (minutes)
         :param shrinkage: Percentage of time that an operator unit is not available
-        :param max_occupancy: Maximum percentage of time that an attending position can be occupied
         """
         self.n_transactions = transactions
-        self.asa = asa
         self.aht = aht
         self.interval = interval
+        self.asa = asa
         self.intensity = (self.n_transactions / self.interval) * self.aht
         self.shrinkage = shrinkage
-        self.max_occupancy = max_occupancy
 
     def waiting_probability(self, positions, scale_positions=False):
         """
@@ -67,11 +66,12 @@ class ErlangC:
         else:
             productive_positions = positions
 
-        return self.intensity/productive_positions
+        return self.intensity / productive_positions
 
-    def required_positions(self, service_level):
+    def required_positions(self, service_level: float, max_occupancy: float = 1.0):
         """
         :param service_level: Target service level
+        :param max_occupancy: Maximum fraction of time that an attending position can be occupied
         :return: Number of positions needed to ensure the required service level
         """
         positions = round(self.intensity + 1)
@@ -82,8 +82,8 @@ class ErlangC:
 
         achieved_occupancy = self.achieved_occupancy(positions, scale_positions=False)
 
-        if achieved_occupancy > self.max_occupancy:
-            raw_positions = ceil(self.intensity / self.max_occupancy)
+        if achieved_occupancy > max_occupancy:
+            raw_positions = ceil(self.intensity / max_occupancy)
             achieved_occupancy = self.achieved_occupancy(raw_positions)
             achieved_service_level = self.service_level(raw_positions)
 
