@@ -9,7 +9,7 @@ class ErlangC:
         Computes the number of positions required fo attend a number of transactions in a queue system based on ErlangC
         Implementation based on: https://lucidmanager.org/data-science/call-centre-workforce-planning-erlang-c-in-r/
 
-        :param transactions: number of total transactions that comes in
+        :param transactions: number of total transactions that comes in an interval
         :param aht: average handling time of a transaction (minutes)
         :param asa: Required average speed of answer in minutes
         :param interval: Interval length (minutes)
@@ -88,7 +88,13 @@ class ErlangC:
         """
         :param service_level: Target service level
         :param max_occupancy: Maximum fraction of time that an attending position can be occupied
-        :return: Number of positions needed to ensure the required service level
+        :return:
+                 * raw_positions: Required positions assuming shrinkage = 0
+                 * positions: Number of positions needed to ensure the required service level
+                 * service_level: Fraction of transactions that are expect to be assigned to a position,
+                   before the asa time
+                 * occupancy: Expected occupancy of positions
+                 * waiting_probability: The probability of a transaction waits in queue
         """
 
         if service_level < 0 or service_level > 1:
