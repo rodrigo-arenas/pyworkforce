@@ -28,8 +28,8 @@ class ErlangC:
         if interval < 0:
             raise ValueError("interval can't be smaller than 0")
 
-        if shrinkage < 0 or shrinkage > 1:
-            raise ValueError("shrinkage must be between 0 and 1")
+        if shrinkage < 0 or shrinkage >= 1:
+            raise ValueError("shrinkage must be between in the interval [0,1)")
 
         self.n_transactions = transactions
         self.aht = aht
