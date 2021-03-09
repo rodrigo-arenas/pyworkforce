@@ -1,5 +1,5 @@
 import pytest
-from pyworkforce.queuing.erlang import ErlangC
+from pyworkforce.queuing import ErlangC
 
 
 def test_expected_erlangc_results():

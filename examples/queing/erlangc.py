@@ -13,7 +13,7 @@ Maximum Occupancy: 85%
 Shrinkage: 30%
 """
 
-from pyworkforce.queuing.erlang import ErlangC
+from pyworkforce.queuing import ErlangC
 
 erlang = ErlangC(transactions=100, aht=3, interval=30, asa=20/60, shrinkage=0.3)
 

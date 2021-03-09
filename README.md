@@ -11,7 +11,7 @@ under some systems pre-defined parameters and goals.
 #### Example:
 
 ```python
-from pyworkforce.queuing.erlang import ErlangC
+from pyworkforce.queuing import ErlangC
 
 erlang = ErlangC(transactions=100, asa=20/60, aht=3, interval=30, shrinkage=0.3)
 
