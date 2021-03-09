@@ -23,6 +23,10 @@ print("positions_requirements: ", positions_requirements)
 achieved_service_level = erlang.service_level(positions=positions_requirements['raw_positions'])
 print("achieved_service_level: ", achieved_service_level)
 
+achieved_service_level = erlang.service_level(positions=positions_requirements['positions'],
+                                              scale_positions=True)
+print("achieved_service_level: ", achieved_service_level)
+
 waiting_probability = erlang.waiting_probability(positions=positions_requirements['raw_positions'])
 print("waiting_probability: ", waiting_probability)
 
