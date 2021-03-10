@@ -28,6 +28,10 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    packages=find_packages(),
+    packages=find_packages(include=['pyworkforce', 'pyworkforce.*']),
+    install_requires=[
+        'numpy>=1.18.1',
+        'ortools>=7.8.7959'
+    ],
     include_package_data=True,
 )
