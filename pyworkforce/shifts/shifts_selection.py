@@ -1,5 +1,6 @@
 import numpy as np
 from ortools.sat.python import cp_model
+from pyworkforce.shifts.utils import check_positive_integer, check_positive_float
 
 
 class MinAbsDifference:
@@ -7,9 +8,9 @@ class MinAbsDifference:
                  periods: int,
                  shifts_coverage: dict,
                  required_resources: list,
-                 max_period_concurrency: int = None,
-                 max_shift_concurrency: int = None,
-                 max_search_time: float = 120,
+                 max_period_concurrency: int,
+                 max_shift_concurrency: int,
+                 max_search_time: float = 120.0,
                  num_search_workers=4,
                  *args, **kwargs):
         """
@@ -33,6 +34,13 @@ class MinAbsDifference:
         :param max_search_time: Maximum time in seconds to search for a solution
         :param num_search_workers: Number of workers to search a solution
         """
+
+        is_valid_num_days = check_positive_integer("num_days", num_days)
+        is_valid_periods = check_positive_integer("periods", periods)
+        is_valid_max_period_concurrency = check_positive_integer("max_period_concurrency", max_period_concurrency)
+        is_valid_max_shift_concurrency = check_positive_integer("max_shift_concurrency", max_shift_concurrency)
+        is_valid_max_search_time = check_positive_float("max_search_time", max_search_time)
+        is_valid_num_search_workers = check_positive_integer("num_search_workers", num_search_workers)
 
         self.num_days = num_days
         self.shifts = list(shifts_coverage.keys())
@@ -58,10 +66,9 @@ class MinAbsDifference:
         transition_resources = np.empty(shape=(self.num_days, self.num_periods), dtype='object')
 
         # Resources
-        if self.max_shift_concurrency is not None:
-            for d in range(self.num_days):
-                for s in range(self.num_shifts):
-                    resources[d][s] = sch_model.NewIntVar(0, self.max_shift_concurrency, f'agents_d{d}s{s}')
+        for d in range(self.num_days):
+            for s in range(self.num_shifts):
+                resources[d][s] = sch_model.NewIntVar(0, self.max_shift_concurrency, f'agents_d{d}s{s}')
 
         for d in range(self.num_days):
             for p in range(self.num_periods):
@@ -84,8 +91,9 @@ class MinAbsDifference:
         # Total programmed resources, must be less or equals to max_period_concurrency, for each day and period
         for d in range(self.num_days):
             for p in range(self.num_periods):
-                sch_model.Add(sum(resources[d][s] * self.shifts_coverage_matrix[s][p] for s in range(self.num_shifts)) <=
-                              self.max_period_concurrency)
+                sch_model.Add(
+                    sum(resources[d][s] * self.shifts_coverage_matrix[s][p] for s in range(self.num_shifts)) <=
+                    self.max_period_concurrency)
 
         # Objective Function: Minimize the absolute value of the difference between required and shifted resources
 
