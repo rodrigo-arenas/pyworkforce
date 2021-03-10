@@ -2,26 +2,41 @@ from math import exp, ceil, floor
 
 
 class ErlangC:
-    def __init__(self, transactions: float, asa: float, aht: float,
-                 interval: int = None, shrinkage=0.0, max_occupancy=1.0,
+    def __init__(self, transactions: float, aht: float, asa: float,
+                 interval: int = None, shrinkage=0.0,
                  **kwargs):
         """
         Computes the number of positions required fo attend a number of transactions in a queue system based on ErlangC
         Implementation based on: https://lucidmanager.org/data-science/call-centre-workforce-planning-erlang-c-in-r/
 
-        :param transactions: number of total transactions that comes in
+        :param transactions: number of total transactions that comes in an interval
         :param aht: average handling time of a transaction (minutes)
+        :param asa: Required average speed of answer in minutes
         :param interval: Interval length (minutes)
         :param shrinkage: Percentage of time that an operator unit is not available
-        :param max_occupancy: Maximum percentage of time that an attending position can be occupied
         """
+
+        if transactions < 0:
+            raise ValueError("transactions can't be smaller than 0")
+
+        if aht < 0:
+            raise ValueError("aht can't be smaller than 0")
+
+        if asa < 0:
+            raise ValueError("asa can't be smaller than 0")
+
+        if interval < 0:
+            raise ValueError("interval can't be smaller than 0")
+
+        if shrinkage < 0 or shrinkage >= 1:
+            raise ValueError("shrinkage must be between in the interval [0,1)")
+
         self.n_transactions = transactions
-        self.asa = asa
         self.aht = aht
         self.interval = interval
+        self.asa = asa
         self.intensity = (self.n_transactions / self.interval) * self.aht
         self.shrinkage = shrinkage
-        self.max_occupancy = max_occupancy
 
     def waiting_probability(self, positions, scale_positions=False):
         """
@@ -67,13 +82,27 @@ class ErlangC:
         else:
             productive_positions = positions
 
-        return self.intensity/productive_positions
+        return self.intensity / productive_positions
 
-    def required_positions(self, service_level):
+    def required_positions(self, service_level: float, max_occupancy: float = 1.0):
         """
         :param service_level: Target service level
-        :return: Number of positions needed to ensure the required service level
+        :param max_occupancy: Maximum fraction of time that an attending position can be occupied
+        :return:
+                 * raw_positions: Required positions assuming shrinkage = 0
+                 * positions: Number of positions needed to ensure the required service level
+                 * service_level: Fraction of transactions that are expect to be assigned to a position,
+                   before the asa time
+                 * occupancy: Expected occupancy of positions
+                 * waiting_probability: The probability of a transaction waits in queue
         """
+
+        if service_level < 0 or service_level > 1:
+            raise ValueError("service_level must be between 0 and 1")
+
+        if max_occupancy < 0 or service_level > 1:
+            raise ValueError("max_occupancy must be between 0 and 1")
+
         positions = round(self.intensity + 1)
         achieved_service_level = self.service_level(positions, scale_positions=False)
         while achieved_service_level < service_level:
@@ -82,12 +111,13 @@ class ErlangC:
 
         achieved_occupancy = self.achieved_occupancy(positions, scale_positions=False)
 
-        if achieved_occupancy > self.max_occupancy:
-            raw_positions = ceil(self.intensity / self.max_occupancy)
+        raw_positions = ceil(positions)
+
+        if achieved_occupancy > max_occupancy:
+            raw_positions = ceil(self.intensity / max_occupancy)
             achieved_occupancy = self.achieved_occupancy(raw_positions)
             achieved_service_level = self.service_level(raw_positions)
 
-        raw_positions = ceil(positions)
         waiting_probability = self.waiting_probability(positions=raw_positions)
         positions = ceil(raw_positions / (1 - self.shrinkage))
 
