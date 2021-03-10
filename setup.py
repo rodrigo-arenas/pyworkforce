@@ -12,7 +12,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="pyworkforce",
-    version="0.1.0",
+    version="0.2.0",
     description="Common tools for workforce management, schedule and optimization problems",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -23,8 +23,15 @@ setup(
     classifiers=[
         'License :: OSI Approved :: MIT License',
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
-    packages=find_packages(),
+    packages=find_packages(include=['pyworkforce', 'pyworkforce.*']),
+    install_requires=[
+        'numpy>=1.18.1',
+        'ortools>=7.8.7959'
+    ],
     include_package_data=True,
 )

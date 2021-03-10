@@ -13,14 +13,18 @@ Maximum Occupancy: 85%
 Shrinkage: 30%
 """
 
-from pyworkforce.queuing.erlang import ErlangC
+from pyworkforce.queuing import ErlangC
 
-erlang = ErlangC(transactions=100, asa=20/60, aht=3, interval=30, max_occupancy=0.85, shrinkage=0.3)
+erlang = ErlangC(transactions=100, aht=3, interval=30, asa=20/60, shrinkage=0.3)
 
-positions_requirements = erlang.required_positions(service_level=0.8)
+positions_requirements = erlang.required_positions(service_level=0.8, max_occupancy=0.85)
 print("positions_requirements: ", positions_requirements)
 
 achieved_service_level = erlang.service_level(positions=positions_requirements['raw_positions'])
+print("achieved_service_level: ", achieved_service_level)
+
+achieved_service_level = erlang.service_level(positions=positions_requirements['positions'],
+                                              scale_positions=True)
 print("achieved_service_level: ", achieved_service_level)
 
 waiting_probability = erlang.waiting_probability(positions=positions_requirements['raw_positions'])
