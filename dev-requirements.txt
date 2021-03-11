@@ -1,4 +1,6 @@
 pytest==6.2.2
 codecov==2.1.11
 pytest-cov==2.11.1
-twine==2.4.7
+twine==3.3.0
+numpy>=1.18.1
+ortools>=7.8.7959

@@ -1,5 +1,12 @@
+
+[![Build Status](https://www.travis-ci.com/rodrigo-arenas/pyworkforce.svg?branch=main)](https://www.travis-ci.com/rodrigo-arenas/pyworkforce)
+[![PyPI Version](https://badge.fury.io/py/pyworkforce.svg)](https://badge.fury.io/py/pyworkforce)
+[![Python Version](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue)](https://www.python.org/downloads/)
+
+
+
 # pyworkforce
-Common tools for workforce management, schedule and optimization problems built in top of tools like google's ortools 
+Common tools for workforce management, schedule and optimization problems built on top of packages like google's ortools 
 and custom modules
 
 # Usage:

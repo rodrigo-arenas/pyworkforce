@@ -33,5 +33,6 @@ setup(
         'numpy>=1.18.1',
         'ortools>=7.8.7959'
     ],
+    python_requires=">=3.6",
     include_package_data=True,
 )
