@@ -9,7 +9,7 @@ before_install:
   - python --version
   - pip install -U pip
 install:
-  - pip install dev-requirements.txt
+  - pip install -r dev-requirements.txt
 script:
   - pytest tests/ --cov-config=.coveragerc
 after_success:
