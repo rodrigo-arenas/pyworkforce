@@ -1,3 +1,5 @@
+[![Build Status](https://www.travis-ci.com/rodrigo-arenas/pyworkforce.svg?branch=main)](https://www.travis-ci.com/rodrigo-arenas/pyworkforce)
+
 # pyworkforce
 Common tools for workforce management, schedule and optimization problems built in top of tools like google's ortools 
 and custom modules
