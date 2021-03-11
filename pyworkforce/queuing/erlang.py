@@ -16,17 +16,17 @@ class ErlangC:
         :param shrinkage: Percentage of time that an operator unit is not available
         """
 
-        if transactions < 0:
-            raise ValueError("transactions can't be smaller than 0")
+        if transactions <= 0:
+            raise ValueError("transactions can't be smaller or equals than 0")
 
-        if aht < 0:
-            raise ValueError("aht can't be smaller than 0")
+        if aht <= 0:
+            raise ValueError("aht can't be smaller or equals than 0")
 
-        if asa < 0:
-            raise ValueError("asa can't be smaller than 0")
+        if asa <= 0:
+            raise ValueError("asa can't be smaller or equals than 0")
 
-        if interval < 0:
-            raise ValueError("interval can't be smaller than 0")
+        if interval <= 0:
+            raise ValueError("interval can't be smaller or equals than 0")
 
         if shrinkage < 0 or shrinkage >= 1:
             raise ValueError("shrinkage must be between in the interval [0,1)")
@@ -100,7 +100,7 @@ class ErlangC:
         if service_level < 0 or service_level > 1:
             raise ValueError("service_level must be between 0 and 1")
 
-        if max_occupancy < 0 or service_level > 1:
+        if max_occupancy < 0 or max_occupancy > 1:
             raise ValueError("max_occupancy must be between 0 and 1")
 
         positions = round(self.intensity + 1)
