@@ -4,6 +4,7 @@ omit =
     ./venv/*
     ./docs/*
     ./examples/*
+    */tests/*
     setup.py
 [report]
 precision = 2
