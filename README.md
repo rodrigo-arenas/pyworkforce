@@ -13,10 +13,11 @@ and custom modules
 pyworkforce currently includes:
 
 [Queue Systems](./pyworkforce/queuing):
-- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate and infinite queue length
+- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate and infinite queue length and no dropout.
   
 [Shifts](./pyworkforce/shifts):
-- **shifts.MinAbsDifference:** Find the number of resources to schedule in a shift, based in the number of required positions per time interval (found for example using [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage
+- **shifts.MinAbsDifference:** Find the number of resources to schedule in a shift, based in the number of required positions per time interval (found for example using [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
+This module finds the "optimal" assignation by minimizing the total absolute differences between required resources per interval, against the scheduled resources found by the solver.
 
 
 # Usage:
