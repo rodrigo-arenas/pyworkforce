@@ -1,23 +1,38 @@
 
 [![Build Status](https://www.travis-ci.com/rodrigo-arenas/pyworkforce.svg?branch=main)](https://www.travis-ci.com/rodrigo-arenas/pyworkforce)
+[![Codecov](https://codecov.io/gh/rodrigo-arenas/pyworkforce/branch/main/graphs/badge.svg?branch=main&service=github)](https://codecov.io/github/rodrigo-arenas/pyworkforce?branch=main)
 [![PyPI Version](https://badge.fury.io/py/pyworkforce.svg)](https://badge.fury.io/py/pyworkforce)
 [![Python Version](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue)](https://www.python.org/downloads/)
 
 
-
 # pyworkforce
-Common tools for workforce management, schedule and optimization problems built on top of packages like google's ortools 
+Common tools for workforce management, schedule and optimization problems built on top of packages like google's or-tools 
 and custom modules
+
+## Features:
+pyworkforce currently includes:
+
+[Queue Systems](./pyworkforce/queuing):
+- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate and infinite queue length and no dropout.
+  
+[Shifts](./pyworkforce/shifts):
+- **shifts.MinAbsDifference:** Find the number of resources to schedule in a shift, based in the number of required positions per time interval (found for example using [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
+This module finds the "optimal" assignation by minimizing the total absolute differences between required resources per interval, against the scheduled resources found by the solver.
+
 
 # Usage:
 For complete list and details of examples go to the 
 [examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples)
 
+install pyworkforce
+
+```
+pip install pyworkforce
+```
+
+If you are having troubles with or-tools installation, check the [or-tools guide](https://github.com/google/or-tools#installation)
+
 ### Queue systems:
-
-It can be used for solving the required number of positions to manage a number of transactions,
-under some systems pre-defined parameters and goals.
-
 
 #### Example:
 
@@ -37,11 +52,7 @@ print("positions_requirements: ", positions_requirements)
                              'waiting_probability': 0.1741319335950498}
 ```
 
-### Shifts Design
-
-Find the optimal number of persons to assign to a pre-defined list of shifts, under a requirement of persons per period 
-of day and capacity restrictions
-
+### Shifts
 #### Example:
 
 ```python
