@@ -58,13 +58,13 @@ print("positions_requirements: ", positions_requirements)
 ```python
 from pyworkforce.shifts import MinAbsDifference
 
-# Rows are the days, each entry of a row, is an hour of the day (24). 
+# Rows are the days, each entry of a row, is number of positions required at an hour of the day (24). 
 required_resources = [
     [9, 11, 17, 9, 7, 12, 5, 11, 8, 9, 18, 17, 8, 12, 16, 8, 7, 12, 11, 10, 13, 19, 16, 7],
     [13, 13, 12, 15, 18, 20, 13, 16, 17, 8, 13, 11, 6, 19, 11, 20, 19, 17, 10, 13, 14, 23, 16, 8]
 ]
 
-# Each entry of a shift, is an hour of the day (24)
+# Each entry of a shift,an hour of the day (24), 1 if the shift covers that hour, 0 otherwise
 shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                    "Afternoon": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
                    "Night": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
