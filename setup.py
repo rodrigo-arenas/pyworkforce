@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="pyworkforce",
-    version="0.2.1",
+    version="0.2.2",
     description="Common tools for workforce management, schedule and optimization problems",
     long_description=README,
     long_description_content_type="text/markdown",
