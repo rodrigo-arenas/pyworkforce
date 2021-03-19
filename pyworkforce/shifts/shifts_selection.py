@@ -17,17 +17,16 @@ class MinAbsDifference:
         Solves the following schedule problem:
 
             Its required to find the optimal number of resources (agents, operators, doctors, etc) to allocate
-            in a shift, based on a pre-defined requirement of # of resources per period of the day (periods of hours,
+            in a shift, based on a pre-defined requirement of number of resources per period of the day (periods of hours,
             half-hour, etc)
 
-            The optimal criteria, is defined as the amount of resources per shifts that minimize the total absolute
+            The "optimal" criteria, is defined as the amount of resources per shifts that minimize the total absolute
             difference, between the required resources per period and the actual shifted by the solver
 
 
         :param num_days: Number of days needed to schedule
         :param periods: Number of working periods in a day
-        :param shifts_coverage: dict with structure {"shift_name": "shift_array"} where "shift_array" is an array
-        of size [periods] (p), 1 if shift covers period p, 0 otherwise
+        :param shifts_coverage: dict with structure {"shift_name": "shift_array"} where "shift_array" is an array of size [periods] (p), 1 if shift covers period p, 0 otherwise
         :param max_period_concurrency: Maximum resources allowed to shift in any period and day
         :param required_resources: Array of size [days, periods]
         :param max_shift_concurrency: Number of maximum allowed resources in a same shift
@@ -52,9 +51,9 @@ class MinAbsDifference:
         self.required_resources = required_resources
         self.max_search_time = max_search_time
         self.num_search_workers = num_search_workers
+        self.solver = cp_model.CpSolver()
         self.transposed_shifts_coverage = None
         self.status = None
-        self.solver = None
 
     def solve(self):
         sch_model = cp_model.CpModel()
@@ -100,7 +99,6 @@ class MinAbsDifference:
         sch_model.Minimize(
             sum(transition_resources[d][p] for d in range(self.num_days) for p in range(self.num_periods)))
 
-        self.solver = cp_model.CpSolver()
         self.solver.parameters.max_time_in_seconds = self.max_search_time
         self.solver.num_search_workers = self.num_search_workers
 
