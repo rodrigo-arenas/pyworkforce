@@ -43,8 +43,9 @@ erlang = ErlangC(transactions=100, asa=20/60, aht=3, interval=30, shrinkage=0.3)
 
 positions_requirements = erlang.required_positions(service_level=0.8, max_occupancy=0.85)
 print("positions_requirements: ", positions_requirements)
-
-
+```
+Output:
+```
 >> positions_requirements:  {'raw_positions': 14, 
                              'positions': 20, 
                              'service_level': 0.8883500191794669, 
@@ -80,7 +81,9 @@ scheduler = MinAbsDifference(num_days=2,
 
 solution = scheduler.solve()
 print("solution :", solution)
-
+```
+Output:
+```
 >> solution: {'status': 'OPTIMAL', 
               'cost': 157.0, 
               'resources_shifts': [{'day': 0, 'shift': 'Morning', 'resources': 8},
