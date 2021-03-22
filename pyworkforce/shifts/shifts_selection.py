@@ -225,6 +225,6 @@ class MinRequiredResources:
         else:
             solution = {"status": self.solver.StatusName(self.status),
                         "cost": -1,
-                        "resources_shifts": [{'day': -1, 'shift': 'Unknown', 'agents': -1}]}
+                        "resources_shifts": [{'day': -1, 'shift': 'Unknown', 'resources': -1}]}
 
         return solution
