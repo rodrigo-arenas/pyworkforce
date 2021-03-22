@@ -19,7 +19,7 @@ pyworkforce currently includes:
 
 It finds the number of resources to schedule in a shift, based in the number of required positions per time interval (found for example using [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
 - **shifts.MinAbsDifference:** This module finds the "optimal" assignation by minimizing the total absolute differences between required resources per interval, against the scheduled resources found by the solver.
-- **shifts.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total amount of scheduled resources, it ensures that in all intervals, there are
+- **shifts.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total weighted amount of scheduled resources (optionally weighted by shift cost), it ensures that in all intervals, there are
             never less resources shifted that the ones required per period. 
 
 

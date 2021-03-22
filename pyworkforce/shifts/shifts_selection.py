@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from ortools.sat.python import cp_model
 from pyworkforce.shifts.base import BaseShiftScheduler
 
@@ -103,12 +104,16 @@ class MinRequiredResources(BaseShiftScheduler):
                  required_resources: list,
                  max_period_concurrency: int,
                  max_shift_concurrency: int,
-                 max_search_time: float = 120.0,
-                 num_search_workers=4,
+                 cost_dict: dict = None,
+                 max_search_time: float = 240.0,
+                 num_search_workers: int = 4,
                  *args, **kwargs):
         """
-        The "optimal" criteria, is defined as minimum amount of resources, that ensures that there are
-        never less resources shifted that the ones required per period
+        The "optimal" criteria, is defined as minimum weighted amount of resources (by optional shift cost),
+        that ensures that there are never less resources shifted that the ones required per period
+
+        :param cost_dict: dict of form {shift: cost_value}, where shift must be the same options listed in the
+        shifts_coverage matrix and they must be all integers
         """
 
         super().__init__(num_days,
@@ -119,6 +124,16 @@ class MinRequiredResources(BaseShiftScheduler):
                          max_shift_concurrency,
                          max_search_time,
                          num_search_workers)
+
+        if cost_dict is None:
+            self.cost_dict = dict.fromkeys(self.shifts, 1)
+        else:
+            self.cost_dict = cost_dict
+
+        if set(sorted(self.shifts)) == set(sorted(list(self.cost_dict.keys()))):
+            self.df_cost_matrix = pd.DataFrame.from_records([self.cost_dict])
+        else:
+            raise KeyError('cost_dict must have the same keys as shifts_coverage')
 
     def solve(self):
         sch_model = cp_model.CpModel()
@@ -147,7 +162,9 @@ class MinRequiredResources(BaseShiftScheduler):
                         for s in range(self.num_shifts)) <= self.max_period_concurrency)
 
         # Objective Function: Minimize the total shifted resources
-        sch_model.Minimize(sum(resources[d][s] for d in range(self.num_days) for s in range(self.num_shifts)))
+        sch_model.Minimize(sum(resources[d][s] * self.df_cost_matrix[self.shifts[s]].item()
+                               for d in range(self.num_days)
+                               for s in range(self.num_shifts)))
 
         self.solver.parameters.max_time_in_seconds = self.max_search_time
         self.solver.num_search_workers = self.num_search_workers
