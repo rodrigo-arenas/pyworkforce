@@ -6,12 +6,14 @@ python:
   - 3.9
 os:
   - linux
+env:
+  - COV_THRESHOLD=95
 before_install:
   - python --version
   - pip install -U pip
 install:
   - pip install -r dev-requirements.txt
 script:
-  - pytest pyworkforce/ --verbose --color=yes --assert=plain --cov-fail-under=95 --cov-config=.coveragerc --cov=./
+  - pytest pyworkforce/ --verbose --color=yes --assert=plain --cov-fail-under=$COV_THRESHOLD --cov-config=.coveragerc --cov=./
 after_success:
   - codecov
