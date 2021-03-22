@@ -141,7 +141,7 @@ class MinRequiredResources:
             in a shift, based on a pre-defined requirement of number of resources per period of the day (periods of hours,
             half-hour, etc)
 
-            The "optimal" criteria, is defined as minimum amount of resources per shifts that ensures that there are
+            The "optimal" criteria, is defined as minimum amount of resources, that ensures that there are
             never least resources shifted that the ones required per period
 
 

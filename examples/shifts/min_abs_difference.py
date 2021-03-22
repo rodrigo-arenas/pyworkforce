@@ -28,8 +28,8 @@ scheduler = MinAbsDifference(num_days=2,
                              periods=24,
                              shifts_coverage=shifts_coverage,
                              required_resources=required_resources,
-                             max_period_concurrency=25,
-                             max_shift_concurrency=20)
+                             max_period_concurrency=27,
+                             max_shift_concurrency=25)
 
 solution = scheduler.solve()
 print(solution)
