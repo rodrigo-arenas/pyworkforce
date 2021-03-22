@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="pyworkforce",
-    version="0.2.2",
+    version="0.3.0",
     description="Common tools for workforce management, schedule and optimization problems",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -28,7 +28,8 @@ setup(
     packages=find_packages(include=['pyworkforce', 'pyworkforce.*']),
     install_requires=[
         'numpy>=1.18.1',
-        'ortools>=7.8.7959'
+        'ortools>=7.8.7959',
+        'pandas>=1.2.3'
     ],
     python_requires=">=3.6",
     include_package_data=True,
