@@ -13,7 +13,7 @@ and custom modules
 pyworkforce currently includes:
 
 [Queue Systems](./pyworkforce/queuing):
-- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate and infinite queue length and no dropout.
+- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate, infinite queue length and no dropout.
   
 [Shifts](./pyworkforce/shifts):
 

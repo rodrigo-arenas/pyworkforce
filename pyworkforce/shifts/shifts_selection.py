@@ -108,7 +108,7 @@ class MinRequiredResources(BaseShiftScheduler):
                  *args, **kwargs):
         """
         The "optimal" criteria, is defined as minimum amount of resources, that ensures that there are
-        never least resources shifted that the ones required per period
+        never less resources shifted that the ones required per period
         """
 
         super().__init__(num_days,
