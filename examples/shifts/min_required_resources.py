@@ -27,8 +27,8 @@ scheduler = MinRequiredResources(num_days=2,
                                  periods=24,
                                  shifts_coverage=shifts_coverage,
                                  required_resources=required_resources,
-                                 max_period_concurrency=35,
-                                 max_shift_concurrency=30)
+                                 max_period_concurrency=25,
+                                 max_shift_concurrency=25)
 
 solution = scheduler.solve()
 
