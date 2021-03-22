@@ -26,6 +26,8 @@ It finds the number of resources to schedule in a shift, based in the number of 
 # Usage:
 Install pyworkforce
 
+It's advised to install pyworkforce using a virtual env, inside the env use:
+
 ```
 pip install pyworkforce
 ```
