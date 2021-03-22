@@ -13,24 +13,29 @@ and custom modules
 pyworkforce currently includes:
 
 [Queue Systems](./pyworkforce/queuing):
-- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate and infinite queue length and no dropout.
+- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate, infinite queue length and no dropout.
   
 [Shifts](./pyworkforce/shifts):
-- **shifts.MinAbsDifference:** Find the number of resources to schedule in a shift, based in the number of required positions per time interval (found for example using [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
-This module finds the "optimal" assignation by minimizing the total absolute differences between required resources per interval, against the scheduled resources found by the solver.
+
+It finds the number of resources to schedule in a shift, based in the number of required positions per time interval (found for example using [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
+- **shifts.MinAbsDifference:** This module finds the "optimal" assignation by minimizing the total absolute differences between required resources per interval, against the scheduled resources found by the solver.
+- **shifts.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total weighted amount of scheduled resources (optionally weighted by shift cost), it ensures that in all intervals, there are
+            never less resources shifted that the ones required per period. 
 
 
 # Usage:
-For complete list and details of examples go to the 
-[examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples)
+Install pyworkforce
 
-install pyworkforce
+It's advised to install pyworkforce using a virtual env, inside the env use:
 
 ```
 pip install pyworkforce
 ```
 
 If you are having troubles with or-tools installation, check the [or-tools guide](https://github.com/google/or-tools#installation)
+
+For complete list and details of examples go to the 
+[examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples)
 
 ### Queue systems:
 
@@ -57,7 +62,7 @@ Output:
 #### Example:
 
 ```python
-from pyworkforce.shifts import MinAbsDifference
+from pyworkforce.shifts import MinAbsDifference, MinRequiredResources
 
 # Rows are the days, each entry of a row, is number of positions required at an hour of the day (24). 
 required_resources = [
@@ -72,27 +77,53 @@ shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0
                    "Mixed": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
 
 
-scheduler = MinAbsDifference(num_days=2,
-                             periods=24,
-                             shifts_coverage=shifts_coverage,
-                             required_resources=required_resources,
-                             max_period_concurrency=25,
-                             max_shift_concurrency=20)
+# Method One
+difference_scheduler = MinAbsDifference(num_days=2,
+                                        periods=24,
+                                        shifts_coverage=shifts_coverage,
+                                        required_resources=required_resources,
+                                        max_period_concurrency=27,
+                                        max_shift_concurrency=25)
 
-solution = scheduler.solve()
-print("solution :", solution)
+difference_solution = difference_scheduler.solve()
+
+# Method Two
+
+requirements_scheduler = MinRequiredResources(num_days=2,
+                                              periods=24,
+                                              shifts_coverage=shifts_coverage,
+                                              required_resources=required_resources,
+                                              max_period_concurrency=27,
+                                              max_shift_concurrency=25)
+
+requirements_solution = requirements_scheduler.solve()
+
+print("difference_solution :", difference_solution)
+
+print("requirements_solution :", requirements_solution)
 ```
 Output:
 ```
->> solution: {'status': 'OPTIMAL', 
-              'cost': 157.0, 
-              'resources_shifts': [{'day': 0, 'shift': 'Morning', 'resources': 8},
-                                   {'day': 0, 'shift': 'Afternoon', 'resources': 11},
-                                   {'day': 0, 'shift': 'Night', 'resources': 9}, 
-                                   {'day': 0, 'shift': 'Mixed', 'resources': 1}, 
-                                   {'day': 1, 'shift': 'Morning', 'resources': 13}, 
-                                   {'day': 1, 'shift': 'Afternoon', 'resources': 17}, 
-                                   {'day': 1, 'shift': 'Night', 'resources': 13}, 
-                                   {'day': 1, 'shift': 'Mixed', 'resources': 0}]
-              }
+>> difference_solution: {'status': 'OPTIMAL', 
+                          'cost': 157.0, 
+                          'resources_shifts': [{'day': 0, 'shift': 'Morning', 'resources': 8},
+                                               {'day': 0, 'shift': 'Afternoon', 'resources': 11},
+                                               {'day': 0, 'shift': 'Night', 'resources': 9}, 
+                                               {'day': 0, 'shift': 'Mixed', 'resources': 1}, 
+                                               {'day': 1, 'shift': 'Morning', 'resources': 13}, 
+                                               {'day': 1, 'shift': 'Afternoon', 'resources': 17}, 
+                                               {'day': 1, 'shift': 'Night', 'resources': 13}, 
+                                               {'day': 1, 'shift': 'Mixed', 'resources': 0}]
+                          }
+
+>> requirements_solution: {'status': 'OPTIMAL', 
+                           'cost': 113.0, 
+                           'resources_shifts': [{'day': 0, 'shift': 'Morning', 'resources': 15}, 
+                                                {'day': 0, 'shift': 'Afternoon', 'resources': 13}, 
+                                                {'day': 0, 'shift': 'Night', 'resources': 19}, 
+                                                {'day': 0, 'shift': 'Mixed', 'resources': 3}, 
+                                                {'day': 1, 'shift': 'Morning', 'resources': 20}, 
+                                                {'day': 1, 'shift': 'Afternoon', 'resources': 20}, 
+                                                {'day': 1, 'shift': 'Night', 'resources': 23}, 
+                                                {'day': 1, 'shift': 'Mixed', 'resources': 0}]}
 ```

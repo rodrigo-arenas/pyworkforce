@@ -1,3 +1,3 @@
-from pyworkforce.shifts.shifts_selection import MinAbsDifference
+from pyworkforce.shifts.shifts_selection import MinAbsDifference, MinRequiredResources
 
-__all__ = ["MinAbsDifference"]
+__all__ = ["MinAbsDifference", "MinRequiredResources"]
