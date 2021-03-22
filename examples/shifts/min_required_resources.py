@@ -9,7 +9,7 @@ Requirement: Find the number of workers needed to schedule per shift in a produc
     * The maximum number of workers that can be shifted in a same shift, is 20
 """
 
-from pyworkforce.shifts import MinAbsDifference
+from pyworkforce.shifts import MinRequiredResources
 
 # Columns are an hour of the day, rows are the days
 required_resources = [
@@ -24,12 +24,17 @@ shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0
                    "Mixed": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
 
 
-scheduler = MinAbsDifference(num_days=2,
-                             periods=24,
-                             shifts_coverage=shifts_coverage,
-                             required_resources=required_resources,
-                             max_period_concurrency=27,
-                             max_shift_concurrency=25)
+# The cost of shifting a resource if each shift, if present, solver will minimize the total cost
+cost_dict = {"Morning": 8, "Afternoon": 8, "Night": 10, "Mixed": 7}
+
+scheduler = MinRequiredResources(num_days=2,
+                                 periods=24,
+                                 shifts_coverage=shifts_coverage,
+                                 required_resources=required_resources,
+                                 cost_dict=cost_dict,
+                                 max_period_concurrency=25,
+                                 max_shift_concurrency=25)
 
 solution = scheduler.solve()
+
 print(solution)
