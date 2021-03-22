@@ -29,7 +29,7 @@ setup(
     install_requires=[
         'numpy>=1.18.1',
         'ortools>=7.8.7959',
-        'pandas>=1.2.3'
+        'pandas>=1.0.0'
     ],
     python_requires=">=3.6",
     include_package_data=True,

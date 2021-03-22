@@ -4,4 +4,4 @@ pytest-cov==2.11.1
 twine==3.3.0
 numpy>=1.18.1
 ortools>=7.8.7959
-pandas>=1.2.3
+pandas>=1.0.0
