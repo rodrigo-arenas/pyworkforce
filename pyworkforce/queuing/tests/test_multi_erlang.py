@@ -1,5 +1,5 @@
 import pytest
-from pyworkforce.multi_search import MultiErlangC
+from pyworkforce.queuing.erlang import MultiErlangC
 
 
 def test_expected_multierlangc_results():

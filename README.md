@@ -61,7 +61,7 @@ Output:
 If you want to run different scenarios at the same time, you can use the MultiErlangC, for example, trying different service levels:
 
 ```python
-from pyworkforce.multi_search import MultiErlangC
+from pyworkforce.queuing import MultiErlangC
 
 param_grid = {"transactions": [100], "aht": [3], "interval": [30], "asa": [20 / 60], "shrinkage": [0.3]}
 multi_erlang = MultiErlangC(param_grid=param_grid, n_jobs=-1)

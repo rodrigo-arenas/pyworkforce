@@ -1,4 +1,4 @@
-from pyworkforce.multi_search import MultiErlangC
+from pyworkforce.queuing import MultiErlangC
 
 param_grid = {"transactions": [100, 200], "aht": [3], "interval": [30], "asa": [20 / 60], "shrinkage": [0.3]}
 required_positions_scenarios = {"service_level": [0.85, 0.9], "max_occupancy": [0.8]}
