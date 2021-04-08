@@ -15,6 +15,6 @@ before_install:
 install:
   - pip install -r dev-requirements.txt
 script:
-  - pytest pyworkforce/ --verbose --color=yes --assert=plain --cov-fail-under=$COV_THRESHOLD --cov-config=.coveragerc --cov=./
+  - pytest pyworkforce/ --verbose --color=yes --assert=plain --cov-fail-under=$COV_THRESHOLD --cov-config=.coveragerc --cov=./ -p no:warnings
 after_success:
   - codecov
