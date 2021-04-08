@@ -58,6 +58,45 @@ Output:
                              'waiting_probability': 0.1741319335950498}
 ```
 
+If you want to run different scenarios at the same time, you can use the MultiErlangC, for example, trying different service levels:
+
+```python
+from pyworkforce.queuing import MultiErlangC
+
+param_grid = {"transactions": [100], "aht": [3], "interval": [30], "asa": [20 / 60], "shrinkage": [0.3]}
+multi_erlang = MultiErlangC(param_grid=param_grid, n_jobs=-1)
+
+required_positions_scenarios = {"service_level": [0.8, 0.85, 0.9], "max_occupancy": [0.8]}
+
+positions_requirements = multi_erlang.required_positions(required_positions_scenarios)
+print("positions_requirements: ", positions_requirements)
+```
+Output:
+```
+>> positions_requirements:   [
+                                {
+                                    "raw_positions": 13,
+                                    "positions": 19,
+                                    "service_level": 0.7955947884177831,
+                                    "occupancy": 0.7692307692307693,
+                                    "waiting_probability": 0.285270453036493
+                                },
+                                {
+                                    "raw_positions": 14,
+                                    "positions": 20,
+                                    "service_level": 0.8883500191794669,
+                                    "occupancy": 0.7142857142857143,
+                                    "waiting_probability": 0.1741319335950498
+                                },
+                                {
+                                    "raw_positions": 15,
+                                    "positions": 22,
+                                    "service_level": 0.9414528428690223,
+                                    "occupancy": 0.6666666666666666,
+                                    "waiting_probability": 0.10204236700798798
+                                }
+                            ]
+```
 ### Shifts
 #### Example:
 
