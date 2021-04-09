@@ -1,5 +1,5 @@
 from math import exp, ceil, floor
-from sklearn.model_selection import ParameterGrid
+from pyworkforce.utils import ParameterGrid
 from joblib import Parallel, delayed
 
 
@@ -132,8 +132,8 @@ class ErlangC:
 
 class MultiErlangC:
     """
-    This class uses de ErlangC class using joblib's Parallel allowing to run multiples scenarios with one class It
-    finds solutions iterating over all possible combinations provided by the users, inspired how Sklearn's Grid
+    This class uses de ErlangC class using joblib's Parallel allowing to run multiples scenarios with one class.
+     It finds solutions iterating over all possible combinations provided by the users, inspired how Sklearn's Grid
     Search works
     """
 
