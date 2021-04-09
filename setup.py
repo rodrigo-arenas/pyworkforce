@@ -1,6 +1,7 @@
 import pathlib
 from setuptools import setup, find_packages
 
+# python setup.py sdist bdist_wheel
 # twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
 
 HERE = pathlib.Path(__file__).parent
@@ -27,10 +28,9 @@ setup(
     ],
     packages=find_packages(include=['pyworkforce', 'pyworkforce.*']),
     install_requires=[
-        'numpy>=1.18.1',
+        'numpy',
         'ortools>=7.8.7959',
-        'pandas>=1.0.0',
-        'scikit-learn>=0.20.0',
+        'pandas',
         'joblib>=0.11'
     ],
     python_requires=">=3.6",
