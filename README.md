@@ -39,6 +39,8 @@ For complete list and details of examples go to the
 
 ### Queue systems:
 
+A brief introduction can be found in this [medium post](https://medium.com/mlearning-ai/workforce-planning-optimization-using-python-69af0ef9011a)
+
 #### Example:
 
 ```python
