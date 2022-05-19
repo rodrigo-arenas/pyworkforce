@@ -1,8 +1,14 @@
+import os
 import pathlib
 from setuptools import setup, find_packages
 
 # python setup.py sdist bdist_wheel
 # twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
+
+# get __version__ from _version.py
+ver_file = os.path.join("pyworkforce", "_version.py")
+with open(ver_file) as f:
+    exec(f.read())
 
 HERE = pathlib.Path(__file__).parent
 
@@ -10,7 +16,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="pyworkforce",
-    version="0.4.0",
+    version=__version__,
     description="Common tools for workforce management, schedule and optimization problems",
     long_description=README,
     long_description_content_type="text/markdown",
