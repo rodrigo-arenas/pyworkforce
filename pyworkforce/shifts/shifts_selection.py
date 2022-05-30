@@ -12,11 +12,32 @@ class MinAbsDifference(BaseShiftScheduler):
                  max_period_concurrency: int,
                  max_shift_concurrency: int,
                  max_search_time: float = 120.0,
-                 num_search_workers=4,
+                 num_search_workers=2,
                  *args, **kwargs):
         """
-        The "optimal" criteria, is defined as the amount of resources per shifts that minimize the total absolute
-        difference, between the required resources per period and the actual shifted by the solver
+        The "optimal" criteria is defined as the number of resources per shift
+        that minimize the total absolute difference between the required resources
+        per period and the actual shifts found by the solver
+
+        Parameters
+        ----------
+
+        num_days: int,
+            Number of days needed to schedule
+        periods: int,
+            Number of working periods in a day
+        shifts_coverage: dict,
+            dict with structure {"shift_name": "shift_array"} where "shift_array" is an array of size [periods] (p), 1 if shift covers period p, 0 otherwise
+        required_resources: list,
+            Array of size [days, periods]
+        max_period_concurrency: int,
+            Maximum resources that are allowed to shift in any period and day
+        max_shift_concurrency: int,
+            Number of maximum allowed resources in the same shift
+        max_search_time: float, default = 240
+            Maximum time in seconds to search for a solution
+        num_search_workers: int, default = 2
+            Number of workers to search for a solution
         """
 
         super().__init__(num_days,
@@ -29,6 +50,15 @@ class MinAbsDifference(BaseShiftScheduler):
                          num_search_workers)
 
     def solve(self):
+        """
+        Runs the optimization solver
+
+        Returns
+        -------
+        solution: dict,
+            Dictionary with the status on the optimization, the resources to schedule per day and the
+            final value of the cost function
+        """
         sch_model = cp_model.CpModel()
 
         # Resources: Number of resources assigned in day d to shift s
@@ -106,14 +136,35 @@ class MinRequiredResources(BaseShiftScheduler):
                  max_shift_concurrency: int,
                  cost_dict: dict = None,
                  max_search_time: float = 240.0,
-                 num_search_workers: int = 4,
+                 num_search_workers: int = 2,
                  *args, **kwargs):
         """
-        The "optimal" criteria, is defined as minimum weighted amount of resources (by optional shift cost),
-        that ensures that there are never less resources shifted that the ones required per period
+        The "optimal" criteria is defined as the minimum weighted amount
+        of resources (by optional shift cost), that ensures that there are never
+        fewer resources shifted than the ones required per period
 
-        :param cost_dict: dict of form {shift: cost_value}, where shift must be the same options listed in the
-        shifts_coverage matrix and they must be all integers
+        Parameters
+        ----------
+
+        num_days: int,
+            Number of days needed to schedule
+        periods: int,
+            Number of working periods in a day
+        shifts_coverage: dict,
+            dict with structure {"shift_name": "shift_array"} where "shift_array" is an array of size [periods] (p), 1 if shift covers period p, 0 otherwise
+        required_resources: list,
+            Array of size [days, periods]
+        max_period_concurrency: int,
+            Maximum resources that are allowed to shift in any period and day
+        max_shift_concurrency: int,
+            Number of maximum allowed resources in the same shift
+        cost_dict: dict, default = None
+            dictionary of form {shift: cost_value}, where shift must be the same options listed in the
+            shifts_coverage matrix, and they must be all integers
+        max_search_time: float, default = 240
+            Maximum time in seconds to search for a solution
+        num_search_workers: int, default = 2
+            Number of workers to search for a solution
         """
 
         super().__init__(num_days,
@@ -136,6 +187,15 @@ class MinRequiredResources(BaseShiftScheduler):
             raise KeyError('cost_dict must have the same keys as shifts_coverage')
 
     def solve(self):
+        """
+        Runs the optimization solver
+
+        Returns
+        -------
+        solution: dict,
+            Dictionary with the status on the optimization, the resources to schedule per day and the
+            final value of the cost function
+        """
         sch_model = cp_model.CpModel()
 
         # Resources: Number of resources assigned in day d to shift s

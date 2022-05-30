@@ -6,7 +6,7 @@ from joblib import Parallel, delayed
 class ErlangC:
     """
     Computes the number of positions required to attend a number of transactions in a
-    queue system based on ErlangC. Implementation inspired on:
+    queue system based on erlangc.rst. Implementation inspired on:
     https://lucidmanager.org/data-science/call-centre-workforce-planning-erlang-c-in-r/
 
     Parameters
@@ -118,7 +118,7 @@ class ErlangC:
 
     def required_positions(self, service_level: float, max_occupancy: float = 1.0):
         """
-        Computes the requirements using ErlangC
+        Computes the requirements using erlangc.rst
 
         Parameters
         ----------
@@ -177,7 +177,7 @@ class ErlangC:
 
 class MultiErlangC:
     """
-    This class uses the ErlangC class using joblib's Parallel,
+    This class uses the erlangc.rst class using joblib's Parallel,
     allowing to run multiple scenarios at once.
     It finds solutions iterating over all possible combinations provided by the users,
     inspired how Sklearn's Grid Search works
@@ -186,7 +186,7 @@ class MultiErlangC:
     ----------
 
     param_grid: dict,
-        Dictionary with the ErlangC.__init__ parameters, each key of the dictionary must be the
+        Dictionary with the erlangc.rst.__init__ parameters, each key of the dictionary must be the
         expected parameter and the value must be a list with the different options to iterate
         example: {"transactions": [100, 200], "aht": [3], "interval": [30], "asa": [20 / 60], "shrinkage": [0.3]}
     n_jobs: int, default=2
@@ -211,13 +211,13 @@ class MultiErlangC:
         """
         Returns the probability of waiting in the queue
         Returns a list with the solution to all the possible combinations from the arguments_grid
-        and the ErlangC param_grid
+        and the erlangc.rst param_grid
 
         Parameters
         ----------
 
         arguments_grid: dict,
-            Dictionary with the ErlangC.waiting_probability parameters,
+            Dictionary with the erlangc.rst.waiting_probability parameters,
             each key of the dictionary must be the expected parameter and
             the value must be a list with the different options to iterate
             example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
@@ -237,13 +237,13 @@ class MultiErlangC:
         """
         Returns the expected service level given a number of positions
         Returns a list with the solution to all the possible combinations from the arguments_grid
-        and the ErlangC param_grid
+        and the erlangc.rst param_grid
 
         Parameters
         ----------
 
         arguments_grid: dict,
-            Dictionary with the ErlangC.service_level parameters,
+            Dictionary with the erlangc.rst.service_level parameters,
             each key of the dictionary must be the expected parameter and
             the value must be a list with the different options to iterate
             example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
@@ -263,13 +263,13 @@ class MultiErlangC:
         """
         Returns the expected occupancy of positions
         Returns a list with the solution to all the possible combinations from the arguments_grid
-        and the ErlangC param_grid
+        and the erlangc.rst param_grid
 
         Parameters
         ----------
 
         arguments_grid: dict,
-            Dictionary with the ErlangC.achieved_occupancy parameters,
+            Dictionary with the erlangc.rst.achieved_occupancy parameters,
             each key of the dictionary must be the expected parameter and
             the value must be a list with the different options to iterate
             example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
@@ -288,13 +288,13 @@ class MultiErlangC:
     def required_positions(self, arguments_grid):
         """
         Computes the requirements using MultiErlangC
-        Returns a list with the solution to all the possible combinations from the arguments_grid and the ErlangC param_grid
+        Returns a list with the solution to all the possible combinations from the arguments_grid and the erlangc.rst param_grid
 
         Parameters
         ----------
 
         arguments_grid: dict,
-            Dictionary with the ErlangC.achieved_occupancy parameters,
+            Dictionary with the erlangc.rst.achieved_occupancy parameters,
             each key of the dictionary must be the expected parameter and
             the value must be a list with the different options to iterate
             example: {"service_level": [0.85, 0.9], "max_occupancy": [0.8, 0.95]}

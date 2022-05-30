@@ -24,10 +24,20 @@ It's advised to install pyworkforce using a virtual env, inside the env use::
 
 .. toctree::
    :maxdepth: 2
+   :titlesonly:
+   :caption: User Guide / Tutorials:
+
+   tutorials/erlangc
+   tutorials/erlangc_example
+
+.. toctree::
+   :maxdepth: 2
    :caption: API Reference:
 
    api/erlangc
    api/multierlangc
+   api/min_abs_difference
+   api/min_required_resources
 
 Indices and tables
 ==================
