@@ -6,21 +6,24 @@
 
 
 # pyworkforce
-Common tools for workforce management, schedule and optimization problems built on top of packages like google's or-tools 
-and custom modules
+Standard tools for workforce management, queue, schedule, and optimization problems built on top of packages like google's or-tools 
+and custom modules.
+Documentatio is available [here](https://pyworkforce.readthedocs.io/)
 
 ## Features:
 pyworkforce currently includes:
 
 [Queue Systems](./pyworkforce/queuing):
-- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate, infinite queue length and no dropout.
+- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate, 
+  infinite queue length, and no dropout.
   
 [Shifts](./pyworkforce/shifts):
 
-It finds the number of resources to schedule in a shift, based in the number of required positions per time interval (found for example using [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
-- **shifts.MinAbsDifference:** This module finds the "optimal" assignation by minimizing the total absolute differences between required resources per interval, against the scheduled resources found by the solver.
+It finds the number of resources to schedule in a shift based on the number of required positions per time interval 
+(found, for example, using  [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
+- **shifts.MinAbsDifference:** This module finds the "optimal" assignation by minimizing the total absolute differences between required resources per interval against the scheduled resources found by the solver.
 - **shifts.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total weighted amount of scheduled resources (optionally weighted by shift cost), it ensures that in all intervals, there are
-            never less resources shifted that the ones required per period. 
+    never fewer resources shifted than the ones required per period. 
 
 
 # Usage:

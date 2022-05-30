@@ -4,19 +4,28 @@ from joblib import Parallel, delayed
 
 
 class ErlangC:
-    def __init__(self, transactions: float, aht: float, asa: float,
-                 interval: int = None, shrinkage=0.0,
-                 **kwargs):
-        """
-        Computes the number of positions required fo attend a number of transactions in a queue system based on ErlangC
-        Implementation based on: https://lucidmanager.org/data-science/call-centre-workforce-planning-erlang-c-in-r/
+    """
+    Computes the number of positions required to attend a number of transactions in a
+    queue system based on erlangc.rst. Implementation inspired on:
+    https://lucidmanager.org/data-science/call-centre-workforce-planning-erlang-c-in-r/
 
-        :param transactions: number of total transactions that comes in an interval
-        :param aht: average handling time of a transaction (minutes)
-        :param asa: Required average speed of answer in minutes
-        :param interval: Interval length (minutes)
-        :param shrinkage: Percentage of time that an operator unit is not available
-        """
+    Parameters
+    ----------
+    transactions: float,
+        The number of total transactions that comes in an interval.
+    aht: float,
+        Average handling time of a transaction (minutes).
+    asa: float,
+        The required average speed of answer (minutes).
+    interval: int,
+        Interval length (minutes) where the transactions come in
+    shrinkage: float,
+        Percentage of time that an operator unit is not available.
+    """
+
+    def __init__(self, transactions: float, aht: float, asa: float,
+                 interval: int, shrinkage=0.0,
+                 **kwargs):
 
         if transactions <= 0:
             raise ValueError("transactions can't be smaller or equals than 0")
@@ -40,12 +49,19 @@ class ErlangC:
         self.intensity = (self.n_transactions / self.interval) * self.aht
         self.shrinkage = shrinkage
 
-    def waiting_probability(self, positions, scale_positions=False):
+    def waiting_probability(self, positions: int, scale_positions: bool = False):
         """
-        :param positions: Number of positions to attend the transactions
-        :param scale_positions: True if the positions where calculated using shrinkage
-        :return: the probability of a transaction waits in queue
+        Returns the probability of waiting in the queue
+
+        Parameters
+        ----------
+        positions: int,
+            The number of positions to attend the transactions.
+        scale_positions: bool, default=False
+            Set it to True if the positions were calculated using shrinkage.
+
         """
+
         if scale_positions:
             productive_positions = floor((1 - self.shrinkage) * positions)
         else:
@@ -58,11 +74,18 @@ class ErlangC:
         erlang_b = 1 / erlang_b_inverse
         return productive_positions * erlang_b / (productive_positions - self.intensity * (1 - erlang_b))
 
-    def service_level(self, positions, scale_positions=False):
+    def service_level(self, positions: int, scale_positions: bool = False):
         """
-        :param positions: Number of positions attending
-        :param scale_positions: True if the positions where calculated using shrinkage
-        :return: achieved service level
+        Returns the expected service level given a number of positions
+
+        Parameters
+        ----------
+
+        positions: int,
+            The number of positions attending.
+        scale_positions: bool, default = False
+            Set it to True if the positions were calculated using shrinkage.
+
         """
         if scale_positions:
             productive_positions = floor((1 - self.shrinkage) * positions)
@@ -73,11 +96,18 @@ class ErlangC:
         exponential = exp(-(productive_positions - self.intensity) * (self.asa / self.aht))
         return max(0, 1 - (probability_wait * exponential))
 
-    def achieved_occupancy(self, positions, scale_positions=False):
+    def achieved_occupancy(self, positions: int, scale_positions: bool = False):
         """
-        :param positions: Number of raw positions
-        :param scale_positions: True if the positions where calculated using shrinkage
-        :return: Expected occupancy of positions
+        Returns the expected occupancy of positions
+
+        Parameters
+        ----------
+
+        positions: int,
+            The number of raw positions
+        scale_positions: bool, default=False
+            Set it to True if the positions were calculated using shrinkage.
+
         """
         if scale_positions:
             productive_positions = floor((1 - self.shrinkage) * positions)
@@ -88,15 +118,30 @@ class ErlangC:
 
     def required_positions(self, service_level: float, max_occupancy: float = 1.0):
         """
-        :param service_level: Target service level
-        :param max_occupancy: Maximum fraction of time that an attending position can be occupied
-        :return:
-                 * raw_positions: Required positions assuming shrinkage = 0
-                 * positions: Number of positions needed to ensure the required service level
-                 * service_level: Fraction of transactions that are expect to be assigned to a position,
-                   before the asa time
-                 * occupancy: Expected occupancy of positions
-                 * waiting_probability: The probability of a transaction waits in queue
+        Computes the requirements using erlangc.rst
+
+        Parameters
+        ----------
+
+        service_level: float,
+            Target service level
+        max_occupancy: float,
+            The maximum fraction of time that a transaction can occupy a position
+
+        Returns
+        -------
+
+        raw_positions: int,
+            The required positions assuming shrinkage = 0
+        positions: int,
+            The number of positions needed to ensure the required service level
+        service_level: float,
+            The fraction of transactions that are expected to be assigned to a position,
+            before the asa time
+        occupancy: float,
+            The expected occupancy of positions
+        waiting_probability: float,
+            The probability of a transaction waiting in the queue
         """
 
         if service_level < 0 or service_level > 1:
@@ -132,20 +177,31 @@ class ErlangC:
 
 class MultiErlangC:
     """
-    This class uses de ErlangC class using joblib's Parallel allowing to run multiples scenarios with one class.
-     It finds solutions iterating over all possible combinations provided by the users, inspired how Sklearn's Grid
-    Search works
-    """
+    This class uses the erlangc.rst class using joblib's Parallel,
+    allowing to run multiple scenarios at once.
+    It finds solutions iterating over all possible combinations provided by the users,
+    inspired how Sklearn's Grid Search works
 
-    def __init__(self, param_grid, n_jobs=2, pre_dispatch='2 * n_jobs'):
-        """
-        :param param_grid: Dictionary with the ErlangC.__init__ parameters, each key of the dictionary must be the
+    Parameters
+    ----------
+
+    param_grid: dict,
+        Dictionary with the erlangc.rst.__init__ parameters, each key of the dictionary must be the
         expected parameter and the value must be a list with the different options to iterate
         example: {"transactions": [100, 200], "aht": [3], "interval": [30], "asa": [20 / 60], "shrinkage": [0.3]}
-        :param n_jobs: The maximum number of concurrently running jobs
-        :param pre_dispatch:The number of batches (of tasks) to be pre-dispatched. Default is ‘2*n_jobs’.
+    n_jobs: int, default=2
+        The maximum number of concurrently running jobs.
+        If -1 all CPUs are used. If 1 is given, no parallel computing code is used at all, which is useful for debugging.
+        For n_jobs below -1, (n_cpus + 1 + n_jobs) are used. Thus for n_jobs = -2, all CPUs but one are used.
+        None is a marker for ‘unset’ that will be interpreted as n_jobs=1 (sequential execution)
+        unless the call is performed under a parallel_backend() context manager that sets another value for n_jobs.
+    pre_dispatch: {"all", int, or expression}, default='2 * n_jobs'
+        The number of batches (of tasks) to be pre-dispatched. Default is ‘2*n_jobs’.
         See joblib's documentation for more details: https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html
-        """
+    """
+
+    def __init__(self, param_grid: dict, n_jobs: int = 2, pre_dispatch: str = '2 * n_jobs'):
+
         self.param_grid = param_grid
         self.n_jobs = n_jobs
         self.pre_dispatch = pre_dispatch
@@ -153,27 +209,45 @@ class MultiErlangC:
 
     def waiting_probability(self, arguments_grid):
         """
-        :param arguments_grid: Dictionary with the ErlangC.achieved_occupancy parameters, each key of the dictionary must be the
-        expected parameter and the value must be a list with the different options to iterate
-        example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
-        :return: A list with the solution to all the possible combinations from the arguments_grid and the ErlangC param_grid
+        Returns the probability of waiting in the queue
+        Returns a list with the solution to all the possible combinations from the arguments_grid
+        and the erlangc.rst param_grid
+
+        Parameters
+        ----------
+
+        arguments_grid: dict,
+            Dictionary with the erlangc.rst.waiting_probability parameters,
+            each key of the dictionary must be the expected parameter and
+            the value must be a list with the different options to iterate
+            example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
         """
+
         arguments_list = list(ParameterGrid(arguments_grid))
         combinations = len(self.param_list) * len(arguments_list)
         results = Parallel(n_jobs=self.n_jobs,
                            pre_dispatch=self.pre_dispatch)(delayed(ErlangC(**params).waiting_probability)(**arguments)
                                                            for params in self.param_list
                                                            for arguments in arguments_list)
-        self.check_solutions(results, combinations)
+        self._check_solutions(results, combinations)
 
         return results
 
     def service_level(self, arguments_grid):
         """
-        :param arguments_grid: Dictionary with the ErlangC.required_positions parameters, each key of the dictionary must be the
-        expected parameter and the value must be a list with the different options to iterate
-        example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
-        :return: A list with the solution to all the possible combinations from the arguments_grid and the ErlangC param_grid
+        Returns the expected service level given a number of positions
+        Returns a list with the solution to all the possible combinations from the arguments_grid
+        and the erlangc.rst param_grid
+
+        Parameters
+        ----------
+
+        arguments_grid: dict,
+            Dictionary with the erlangc.rst.service_level parameters,
+            each key of the dictionary must be the expected parameter and
+            the value must be a list with the different options to iterate
+            example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
+
         """
         arguments_list = list(ParameterGrid(arguments_grid))
         combinations = len(self.param_list) * len(arguments_list)
@@ -181,45 +255,65 @@ class MultiErlangC:
                            pre_dispatch=self.pre_dispatch)(delayed(ErlangC(**params).service_level)(**arguments)
                                                            for params in self.param_list
                                                            for arguments in arguments_list)
-        self.check_solutions(results, combinations)
+        self._check_solutions(results, combinations)
 
         return results
 
     def achieved_occupancy(self, arguments_grid):
         """
-        :param arguments_grid: Dictionary with the ErlangC.achieved_occupancy parameters, each key of the dictionary must be the
-        expected parameter and the value must be a list with the different options to iterate
-        example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
-        :return: A list with the solution to all the possible combinations from the arguments_grid and the ErlangC param_grid
+        Returns the expected occupancy of positions
+        Returns a list with the solution to all the possible combinations from the arguments_grid
+        and the erlangc.rst param_grid
+
+        Parameters
+        ----------
+
+        arguments_grid: dict,
+            Dictionary with the erlangc.rst.achieved_occupancy parameters,
+            each key of the dictionary must be the expected parameter and
+            the value must be a list with the different options to iterate
+            example: {"positions": [10, 20, 30], "scale_positions": [True, False]}
         """
+
         arguments_list = list(ParameterGrid(arguments_grid))
         combinations = len(self.param_list) * len(arguments_list)
         results = Parallel(n_jobs=self.n_jobs,
                            pre_dispatch=self.pre_dispatch)(delayed(ErlangC(**params).achieved_occupancy)(**arguments)
                                                            for params in self.param_list
                                                            for arguments in arguments_list)
-        self.check_solutions(results, combinations)
+        self._check_solutions(results, combinations)
 
         return results
 
     def required_positions(self, arguments_grid):
         """
-        :param arguments_grid: Dictionary with the ErlangC.required_positions parameters, each key of the dictionary must be the
-        expected parameter and the value must be a list with the different options to iterate
-        example: {"service_level": [0.85, 0.9], "max_occupancy": [0.8, 0.95]}
-        :return: A list with the solution to all the possible combinations from the arguments_grid and the ErlangC param_grid
+        Computes the requirements using MultiErlangC
+        Returns a list with the solution to all the possible combinations from the arguments_grid and the erlangc.rst param_grid
+
+        Parameters
+        ----------
+
+        arguments_grid: dict,
+            Dictionary with the erlangc.rst.achieved_occupancy parameters,
+            each key of the dictionary must be the expected parameter and
+            the value must be a list with the different options to iterate
+            example: {"service_level": [0.85, 0.9], "max_occupancy": [0.8, 0.95]}
         """
+
         arguments_list = list(ParameterGrid(arguments_grid))
         combinations = len(self.param_list) * len(arguments_list)
         results = Parallel(n_jobs=self.n_jobs,
                            pre_dispatch=self.pre_dispatch)(delayed(ErlangC(**params).required_positions)(**arguments)
                                                            for params in self.param_list
                                                            for arguments in arguments_list)
-        self.check_solutions(results, combinations)
+        self._check_solutions(results, combinations)
 
         return results
 
-    def check_solutions(self, solutions, combinations):
+    def _check_solutions(self, solutions, combinations):
+        """
+        Checks the integrity of the solution in terms of dimensions
+        """
         if len(solutions) < 1:
             raise ValueError("Could not find any solution, make sure the param_grid is defined correctly")
 
