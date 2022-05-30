@@ -31,6 +31,11 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
+    project_urls={
+        "Documentation": "https://pyworkforce.readthedocs.io/en/stable/",
+        "Source Code": "https://github.com/rodrigo-arenas/pyworkforce",
+        "Bug Tracker": "https://github.com/rodrigo-arenas/pyworkforce/issues",
+    },
     packages=find_packages(include=['pyworkforce', 'pyworkforce.*']),
     install_requires=[
         'numpy',
