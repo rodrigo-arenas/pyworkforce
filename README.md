@@ -8,7 +8,7 @@
 # pyworkforce
 Standard tools for workforce management, queue, schedule, and optimization problems built on top of packages like google's or-tools 
 and custom modules.
-Documentatio is available [here](https://pyworkforce.readthedocs.io/)
+Documentation is available [here](https://pyworkforce.readthedocs.io/)
 
 ## Features:
 pyworkforce currently includes:
