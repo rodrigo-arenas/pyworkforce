@@ -32,7 +32,7 @@ Name            Type                Description
 :math:`\beta`   Parameter           Maximum number of resources that are allowed in a shift
 :math:`\gamma`  Parameter           Maximum number of resources that are allowed in a period
 :math:`N_{dp}`  Parameter           Number of resources required at day `d` for the period `p`
-:math:`A_{ds}`  Decision variable   Number of resources to schedule at day `d` for the shift `s`
+:math:`X_{ds}`  Decision variable   Number of resources to schedule at day `d` for the shift `s`
 =============== ==================  =====================================
 
 Notice that the definition of period allows splitting a day in any number of intervals; it may be 24
@@ -49,9 +49,9 @@ Under this definition, the objective function is formulated as:
 
 .. math::
 
-    min \sum_{d, p} \left | A_{ds}*E_{sp} - N_{dp} \right |
+    min \sum_{d, p} \left | X_{ds}*E_{sp} - N_{dp} \right |
 
-Notice that the term :math:`A_{ds}*E_{sp}` would result in the number of scheduled resources for a period
+Notice that the term :math:`X_{ds}*E_{sp}` would result in the number of scheduled resources for a period
 and day, and the term :math:`N_{dp}` is the required resources, so the objective is to minimize
 the absolute difference over all days and periods of the requirements vs. the actual scheduling.
 
@@ -61,20 +61,20 @@ Now we Introduce the restrictions of this model:
 
 .. math::
 
-    0 \leq A_{ds}*E_{sp} \leq \gamma \; \forall d \in  D, \forall p \in  P
+    0 \leq X_{ds}*E_{sp} \leq \gamma \; \forall d \in  D, \forall p \in  P
 
 
 * The number of scheduled resources on a same shift, can't exceed the maximum allowed capacity.
 
 .. math::
 
-    0 \leq A_{ds} \leq \beta \; \forall d \in  D, \forall s \in  S
+    0 \leq X_{ds} \leq \beta \; \forall d \in  D, \forall s \in  S
 
 * Positive integers restriction
 
 .. math::
 
-    A_{ds}, \gamma, N_{dp} \in \mathbb{Z}^{*} \; \forall d \in  D, \forall s \in  S, \forall p \in  P \\
+    X_{ds}, \gamma, N_{dp} \in \mathbb{Z}^{*} \; \forall d \in  D, \forall s \in  S, \forall p \in  P \\
 
 * Bool restriction
 
@@ -134,8 +134,8 @@ The solver will print this solution:
 
 First, we see that the status is optimal; this means that the solver found an optimal feasible solution.
 The cost is 157; this is the value of the objective function.
-The resources_shifts dict is the actual shifts schedule; this tells you how many resources to schedule
-per day and shift.
+The resources_shifts dict is the actual shifts schedule, i.e :math:`X_{ds}`;
+this tells you how many resources to schedule per day and shift.
 
 
 MinRequiredResources
@@ -158,7 +158,7 @@ In this case, the objective function is:
 
 .. math::
 
-    min \sum_{d, s} C_{s}*A_{ds}
+    min \sum_{d, s} C_{s}*X_{ds}
 
 
 Now we Introduce the restrictions of this model:
@@ -168,26 +168,26 @@ Now we Introduce the restrictions of this model:
 
 .. math::
 
-    \sum_{d, p} A_{ds}*E_{sp} \geq  N_{dp} \; \forall d \in  D, \forall p \in  P
+    \sum_{d, p} X_{ds}*E_{sp} \geq  N_{dp} \; \forall d \in  D, \forall p \in  P
 
 * The number of scheduled resources for a period `p` and day `d` can't exceed the maximum allowed capacity.
 
 .. math::
 
-    0 \leq A_{ds}*E_{sp} \leq \gamma \; \forall d \in  D, \forall p \in  P
+    0 \leq X_{ds}*E_{sp} \leq \gamma \; \forall d \in  D, \forall p \in  P
 
 
 * The number of scheduled resources on a same shift, can't exceed the maximum allowed capacity.
 
 .. math::
 
-    0 \leq A_{ds} \leq \beta \; \forall d \in  D, \forall s \in  S
+    0 \leq X_{ds} \leq \beta \; \forall d \in  D, \forall s \in  S
 
 * Positive integers restriction
 
 .. math::
 
-    A_{ds}, \gamma, N_{dp} \in \mathbb{Z}^{*} \; \forall d \in  D, \forall s \in  S, \forall p \in  P \\
+    X_{ds}, \gamma, N_{dp} \in \mathbb{Z}^{*} \; \forall d \in  D, \forall s \in  S, \forall p \in  P \\
 
 * Bool restriction
 
@@ -251,5 +251,5 @@ The solver will print this solution:
 
 First, we see that the status is optimal; this means that the solver found an optimal feasible solution.
 The cost is 113; this is the value of the objective function.
-The resources_shifts dict is the actual shifts schedule; this tells you how many resources to schedule
-per day and shift.
+The resources_shifts dict is the actual shifts schedule, i.e :math:`X_{ds}`;
+this tells you how many resources to schedule per day and shift.
