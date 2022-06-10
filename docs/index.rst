@@ -5,11 +5,10 @@
 
 pyworkforce
 ===========
-Common tools for workforce management,
-schedule and optimization problems built on top of packages like google's
-or-tools and custom modules.
+Standard tools for workforce management, queue, scheduling, and optimization problems.
 
 #########################################################################
+
 This package implements a python interface for common problems in operations research
 applied to queue and scheduling problems, among others.
 
@@ -39,6 +38,12 @@ It's advised to install pyworkforce using a virtual env, inside the env use::
    api/multierlangc
    api/min_abs_difference
    api/min_required_resources
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Release Notes
+
+   release_notes
 
 Indices and tables
 ==================

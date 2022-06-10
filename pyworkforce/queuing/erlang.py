@@ -198,6 +198,26 @@ class MultiErlangC:
     pre_dispatch: {"all", int, or expression}, default='2 * n_jobs'
         The number of batches (of tasks) to be pre-dispatched. Default is ‘2*n_jobs’.
         See joblib's documentation for more details: https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html
+
+    Attributes
+    ----------
+
+    waiting_probability_params: list[tuple],
+        Each tuple of the list represents the used parameters in param_grid for ErlangC and
+        arguments_grid for waiting_probability method,corresponding to the same order returned
+        by the MultiErlangC.waiting_probability method.
+    service_level_params: list[tuple],
+        Each tuple of the list represents the used parameters in param_grid for ErlangC and
+        arguments_grid for service_level method,corresponding to the same order returned
+        by the MultiErlangC.service_level method.
+    achieved_occupancy_params: list[tuple],
+        Each tuple of the list represents the used parameters in param_grid for ErlangC and
+        arguments_grid for achieved_occupancy method,corresponding to the same order returned
+        by the MultiErlangC.achieved_occupancy method.
+    required_positions_params: list[tuple],
+        Each tuple of the list represents the used parameters in param_grid for ErlangC and
+        arguments_grid for required_positions method,corresponding to the same order returned
+        by the MultiErlangC.required_positions method.
     """
 
     def __init__(self, param_grid: dict, n_jobs: int = 2, pre_dispatch: str = '2 * n_jobs'):
@@ -206,6 +226,10 @@ class MultiErlangC:
         self.n_jobs = n_jobs
         self.pre_dispatch = pre_dispatch
         self.param_list = list(ParameterGrid(self.param_grid))
+        self.waiting_probability_params = None
+        self.service_level_params = None
+        self.achieved_occupancy_params = None
+        self.required_positions_params = None
 
     def waiting_probability(self, arguments_grid):
         """
@@ -224,6 +248,9 @@ class MultiErlangC:
         """
 
         arguments_list = list(ParameterGrid(arguments_grid))
+        self.waiting_probability_params = [(erlang_params, wait_params)
+                                           for erlang_params in self.param_list
+                                           for wait_params in arguments_list]
         combinations = len(self.param_list) * len(arguments_list)
         results = Parallel(n_jobs=self.n_jobs,
                            pre_dispatch=self.pre_dispatch)(delayed(ErlangC(**params).waiting_probability)(**arguments)
@@ -250,6 +277,9 @@ class MultiErlangC:
 
         """
         arguments_list = list(ParameterGrid(arguments_grid))
+        self.service_level_params = [(erlang_params, sl_params)
+                                     for erlang_params in self.param_list
+                                     for sl_params in arguments_list]
         combinations = len(self.param_list) * len(arguments_list)
         results = Parallel(n_jobs=self.n_jobs,
                            pre_dispatch=self.pre_dispatch)(delayed(ErlangC(**params).service_level)(**arguments)
