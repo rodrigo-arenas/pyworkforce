@@ -3,12 +3,22 @@ Release Notes
 
 Some notes on new features in various releases
 
-What's new in 0.5.0
--------------------
+What's new in 0.5.0dev0
+-----------------------
+
+^^^^^^^^^
+Features:
+^^^^^^^^^
 
 * Added the properties `waiting_probability_params`, `service_level_params`, `achieved_occupancy_params`,
   and `required_positions_params` in :class:`~pyworkforce.shifts.MultiErlangC` to track in which
   combination order each method returns a solution.
+
+^^^^^^^^^^^^
+API Changes:
+^^^^^^^^^^^^
+
+* The queing module was rename to queuing
 
 What's new in 0.4.1 and bellow
 ------------------------------

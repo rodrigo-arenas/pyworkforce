@@ -344,11 +344,11 @@ class MultiErlangC:
         """
         Checks the integrity of the solution in terms of dimensions
         """
-        if len(solutions) < 1:
+        if len(solutions) < 1:  # noqa
             raise ValueError("Could not find any solution, make sure the param_grid is defined correctly")
 
         if len(solutions) != combinations:
             raise ValueError('Inconsistent results. Expected {} '
                              'solutions, got {}'
                              .format(len(self.param_list),
-                                     len(solutions)))
+                                     len(solutions))) # noqa

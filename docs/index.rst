@@ -15,8 +15,6 @@ applied to queue and scheduling problems, among others.
 Installation:
 #############
 
-Install pyworkforce
-
 It's advised to install pyworkforce using a virtual env, inside the env use::
 
    pip install pyworkforce
