@@ -1,12 +1,12 @@
 MinAbsDifference
 ----------------
 
-.. currentmodule:: pyworkforce.shifts
+.. currentmodule:: pyworkforce.scheduling
 
 .. autosummary:: MinAbsDifference
    MinAbsDifference.solve
 
-.. autoclass:: pyworkforce.shifts.MinAbsDifference
+.. autoclass:: pyworkforce.scheduling.MinAbsDifference
    :members:
    :inherited-members:
    :undoc-members: True

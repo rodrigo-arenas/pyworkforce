@@ -1,4 +1,4 @@
-from pyworkforce.shifts import MinAbsDifference, MinRequiredResources
+from pyworkforce.scheduling import MinAbsDifference, MinRequiredResources
 import pytest
 
 

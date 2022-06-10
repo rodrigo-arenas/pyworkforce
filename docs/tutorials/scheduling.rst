@@ -89,7 +89,7 @@ we split each day into 24 intervals of one hour.
 
 .. code:: python3
 
-   from pyworkforce.shifts import MinAbsDifference
+   from pyworkforce.scheduling import MinAbsDifference
    from pprint import PrettyPrinter
 
    # Columns are an hour of the day, rows are the days
@@ -202,7 +202,7 @@ we split each day into 24 intervals of one hour.
 
 .. code:: python3
 
-   from pyworkforce.shifts import MinRequiredResources
+   from pyworkforce.scheduling import MinRequiredResources
    from pprint import PrettyPrinter
 
    # Columns are an hour of the day, rows are the days

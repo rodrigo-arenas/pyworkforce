@@ -1,12 +1,12 @@
 MinRequiredResources
 --------------------
 
-.. currentmodule:: pyworkforce.shifts
+.. currentmodule:: pyworkforce.scheduling
 
 .. autosummary:: MinRequiredResources
    MinRequiredResources.solve
 
-.. autoclass:: pyworkforce.shifts.MinRequiredResources
+.. autoclass:: pyworkforce.scheduling.MinRequiredResources
    :members:
    :inherited-members:
    :undoc-members: True

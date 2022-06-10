@@ -2,14 +2,14 @@
 Requirement: Find the number of workers needed to schedule per shift in a production plant for the next 2 days with the
     following conditions:
     * There is a number of required persons per hour and day given in the matrix "required_resources"
-    * There are 4 available shifts called "Morning", "Afternoon", "Night", "Mixed"; their start and end hour is
+    * There are 4 available scheduling called "Morning", "Afternoon", "Night", "Mixed"; their start and end hour is
       determined in the dictionary "shifts_coverage", 1 meaning the shift is active at that hour, 0 otherwise
     * The number of required workers per day and period (hour) is determined in the matrix "required_resources"
     * The maximum number of workers that can be shifted simultaneously at any hour is 25, due plat capacity restrictions
     * The maximum number of workers that can be shifted in a same shift, is 20
 """
 
-from pyworkforce.shifts import MinAbsDifference
+from pyworkforce.scheduling import MinRequiredResources
 from pprint import PrettyPrinter
 
 # Columns are an hour of the day, rows are the days
@@ -26,12 +26,16 @@ shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0
                    "Night": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
                    "Mixed": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
 
-scheduler = MinAbsDifference(num_days=2,  # S
-                             periods=24,  # P
-                             shifts_coverage=shifts_coverage,
-                             required_resources=required_resources,
-                             max_period_concurrency=27,  # gamma
-                             max_shift_concurrency=25)   # beta
+# The cost of shifting a resource if each shift, if present, solver will minimize the total cost
+# C_s
+cost_dict = {"Morning": 1, "Afternoon": 1.2, "Night": 2, "Mixed": 1.5}
+
+scheduler = MinRequiredResources(num_days=2,  # S
+                                 periods=24,  # P
+                                 shifts_coverage=shifts_coverage,
+                                 required_resources=required_resources,
+                                 max_period_concurrency=27,  # gamma
+                                 max_shift_concurrency=25)   # beta
 
 solution = scheduler.solve()
 pp = PrettyPrinter(indent=2)

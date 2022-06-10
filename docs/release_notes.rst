@@ -18,7 +18,8 @@ Features:
 API Changes:
 ^^^^^^^^^^^^
 
-* The queing module was rename to queuing
+* The queing module was renamed to queuing
+* The shifts module was renamed to scheduling
 
 What's new in 0.4.1 and bellow
 ------------------------------
