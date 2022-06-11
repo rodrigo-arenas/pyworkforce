@@ -1,5 +1,5 @@
 from ortools.sat.python import cp_model
-from pyworkforce.shifts.utils import check_positive_integer, check_positive_float
+from pyworkforce.scheduling.utils import check_positive_integer, check_positive_float
 
 
 class BaseShiftScheduler:

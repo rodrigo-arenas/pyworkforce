@@ -6,23 +6,25 @@
 
 
 # pyworkforce
-Standard tools for workforce management, queue, schedule, and optimization problems built on top of packages like google's or-tools 
-and custom modules.
-Documentation is available [here](https://pyworkforce.readthedocs.io/)
+Standard tools for workforce management, queue, scheduling, and optimization problems. 
+
+Make sure to check the documentation, which is available [here](https://pyworkforce.readthedocs.io/)
 
 ## Features:
 pyworkforce currently includes:
 
 [Queue Systems](./pyworkforce/queuing):
-- **queing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate, 
+- **queuing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate, 
   infinite queue length, and no dropout.
   
-[Shifts](./pyworkforce/shifts):
+[scheduling ](./pyworkforce/scheduling):
 
 It finds the number of resources to schedule in a shift based on the number of required positions per time interval 
-(found, for example, using  [queing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
-- **shifts.MinAbsDifference:** This module finds the "optimal" assignation by minimizing the total absolute differences between required resources per interval against the scheduled resources found by the solver.
-- **shifts.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total weighted amount of scheduled resources (optionally weighted by shift cost), it ensures that in all intervals, there are
+(found, for example, using  [queuing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
+- **scheduling.MinAbsDifference:** This module finds the "optimal" assignation by minimizing the total absolute 
+    differences between required resources per interval against the scheduled resources found by the solver.
+- **scheduling.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total 
+    weighted amount of scheduled resources (optionally weighted by shift cost), it ensures that in all intervals, there are
     never fewer resources shifted than the ones required per period. 
 
 
@@ -102,11 +104,11 @@ Output:
                                 }
                             ]
 ```
-### Shifts
+### Scheduling
 #### Example:
 
 ```python
-from pyworkforce.shifts import MinAbsDifference, MinRequiredResources
+from pyworkforce.scheduling import MinAbsDifference, MinRequiredResources
 
 # Rows are the days, each entry of a row, is number of positions required at an hour of the day (24). 
 required_resources = [
@@ -119,7 +121,6 @@ shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0
                    "Afternoon": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
                    "Night": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
                    "Mixed": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
-
 
 # Method One
 difference_scheduler = MinAbsDifference(num_days=2,

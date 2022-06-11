@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from ortools.sat.python import cp_model
-from pyworkforce.shifts.base import BaseShiftScheduler
+from pyworkforce.scheduling.base import BaseShiftScheduler
 
 
 class MinAbsDifference(BaseShiftScheduler):
@@ -17,7 +17,7 @@ class MinAbsDifference(BaseShiftScheduler):
         """
         The "optimal" criteria is defined as the number of resources per shift
         that minimize the total absolute difference between the required resources
-        per period and the actual shifts found by the solver
+        per period and the actual scheduling found by the solver
 
         Parameters
         ----------
