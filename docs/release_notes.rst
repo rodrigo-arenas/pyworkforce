@@ -29,7 +29,7 @@ What's new in 0.4.1 and bellow
 * Implemented :class:`~pyworkforce.queuing.MultiErlangC` as a parallel implementation for multi-input
   `ErlangC`, similar to scikit-learn's param_grid in Grid Search
 
-* Added :class:`~pyworkforce.shifts.MinAbsDifference` and :class:`~pyworkforce.shifts.MinRequiredResources`
+* Added :class:`~pyworkforce.scheduling.MinAbsDifference` and :class:`~pyworkforce.scheduling.MinRequiredResources`
   solvers to find the optimal number of resources to allocate in a shift,
   based on a pre-defined requirement of the number of resources per period of the day.
 

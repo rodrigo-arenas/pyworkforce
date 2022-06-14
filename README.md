@@ -8,16 +8,16 @@
 # pyworkforce
 Standard tools for workforce management, queue, scheduling, and optimization problems. 
 
-Make sure to check the documentation, which is available [here](https://pyworkforce.readthedocs.io/)
+Make sure to check the documentation, which is available [here](https://pyworkforce.readthedocs.io/en/stable/)
 
 ## Features:
 pyworkforce currently includes:
 
 [Queue Systems](./pyworkforce/queuing):
-- **queuing.ErlangC:** Find the number of positions required to attend incoming traffic to a constant rate, 
+- **queuing.ErlangC:** Find the number of resources required to attend incoming traffic to a constant rate, 
   infinite queue length, and no dropout.
   
-[scheduling ](./pyworkforce/scheduling):
+[Scheduling](./pyworkforce/scheduling):
 
 It finds the number of resources to schedule in a shift based on the number of required positions per time interval 
 (found, for example, using  [queuing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
@@ -25,8 +25,13 @@ It finds the number of resources to schedule in a shift based on the number of r
     differences between required resources per interval against the scheduled resources found by the solver.
 - **scheduling.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total 
     weighted amount of scheduled resources (optionally weighted by shift cost), it ensures that in all intervals, there are
-    never fewer resources shifted than the ones required per period. 
+    never fewer resources shifted than the ones required per period.
 
+[Rostering](./pyworkforce/rostering):
+
+It assigns a list of resources to a list of required positions per day and shifts, it takes into account
+different restrictions as shift bans, consecutive shifts, resting days and others.
+It also introduces soft restrictions like shifts preferences.
 
 # Usage:
 Install pyworkforce
