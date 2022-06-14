@@ -5,7 +5,7 @@
 
 pyworkforce
 ===========
-Standard tools for workforce management, queue, scheduling, and optimization problems.
+Standard tools for workforce management, queuing, scheduling, rostering and optimization problems.
 
 #########################################################################
 
