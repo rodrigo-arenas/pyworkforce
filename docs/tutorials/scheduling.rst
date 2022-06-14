@@ -8,7 +8,7 @@ In workforce management, scheduling refers to finding the "optimal" way to sched
 resources depending on the projected requirements demand per interval.
 This may be, for example, finding how many call center agents to schedule per one-hour interval,  given
 some demand (for instance, using ErlangC) and some restrictions.
-The "optimal" criteria is defined under an objective function, for example, minimizing the overall
+The "optimal" criterion is defined under an objective function, for example, minimizing the overall
 number of scheduled resources or the absolute difference between the required and the planned resources.
 
 Pyworkforce comes with several methods that already choose  over the objective function and

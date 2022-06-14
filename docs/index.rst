@@ -27,6 +27,7 @@ It's advised to install pyworkforce using a virtual env, inside the env use::
    tutorials/erlangc
    tutorials/erlangc_example
    tutorials/scheduling
+   tutorials/rostering
 
 .. toctree::
    :maxdepth: 2
