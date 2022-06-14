@@ -24,10 +24,6 @@ class MinHoursRoster:
         Array of size [shifts] with the total hours within the shift
     min_working_hours: int,
         Minimum working hours per resource in the horizon
-    non_sequential_shifts: List[dict]
-        Each element must have the form {"origin": first_shift, "destination": second_shift}
-        to make sure that destination shift can't be after origin shift.
-        example: [{"origin":"Night", "destination":"Morning"}],
     banned_shifts: list[dict]
         Each element {"resource": resource_index, "shift": shift_name, "day": day_number} indicating
         that the resource can't be assigned to that shift that particular day
@@ -37,10 +33,14 @@ class MinHoursRoster:
     required_resources: dict[list]
         Each key of the dict must be one of the shifts, the value must be a  list of length [days]
         specifying the number of resources to shift in each day for that shift
+    non_sequential_shifts: List[dict]
+        Each element must have the form {"origin": first_shift, "destination": second_shift}
+        to make sure that destination shift can't be after origin shift.
+        example: [{"origin":"Night", "destination":"Morning"}]
     resources_preferences: list[dict]
         Each element must have the form {"resource": resource_idx, "shifts":shift_name}
         indicating the resources that have preference for shift
-    resources_prioritization: list[dict]
+    resources_prioritization: list[dict], default=None
         Each element must have the form {"resource": resource_idx, "weight": weight_percentage}
         this represent the relative importance for resources_preferences assignment
     max_search_time: float, default = 240
@@ -54,12 +54,12 @@ class MinHoursRoster:
                  shifts: list,
                  shifts_hours: list,
                  min_working_hours: int,
-                 non_sequential_shifts: list,
                  banned_shifts: list,
                  max_resting: int,
                  required_resources: list,
-                 resources_preferences: list,
-                 resources_prioritization: list,
+                 non_sequential_shifts: list = None,
+                 resources_preferences: list = None,
+                 resources_prioritization: list = None,
                  max_search_time: float = 240,
                  num_search_workers=2):
 
@@ -70,10 +70,10 @@ class MinHoursRoster:
         self.num_shifts = len(shifts)
         self.shifts_hours = shifts_hours
         self.min_working_hours = min_working_hours
-        self.non_sequential_shifts = non_sequential_shifts
         self.banned_shifts = banned_shifts
         self.max_resting = max_resting
         self.required_resources = required_resources
+        self.non_sequential_shifts = non_sequential_shifts
         self.resources_preferences = resources_preferences
         self.resources_prioritization = resources_prioritization
         self.max_search_time = max_search_time
@@ -128,10 +128,11 @@ class MinHoursRoster:
 
         # Create bool matrix of shifts dependencies
         self.non_sequential_shifts_indices = np.zeros(shape=(self.num_shifts, self.num_shifts), dtype='object')
-        for dependence in self.non_sequential_shifts:
-            i_idx = self.shifts.index(dependence['origin'])
-            j_idx = self.shifts.index(dependence['destination'])
-            self.non_sequential_shifts_indices[i_idx][j_idx] = 1
+        if self.non_sequential_shifts:
+            for dependence in self.non_sequential_shifts:
+                i_idx = self.shifts.index(dependence['origin'])
+                j_idx = self.shifts.index(dependence['destination'])
+                self.non_sequential_shifts_indices[i_idx][j_idx] = 1
 
         # An resource can not have two consecutive shifts according to shifts dependencies
 
@@ -162,16 +163,18 @@ class MinHoursRoster:
 
         self.resources_shifts_preferences = np.zeros(shape=(self.num_resource, self.num_shifts), dtype='object')
 
-        for preference in self.resources_preferences:
-            resource_idx = self.resources.index(preference['resource'])
-            shift_idx = self.shifts.index(preference['shift'])
-            self.resources_shifts_preferences[resource_idx][shift_idx] = 1
+        if self.resources_preferences:
+            for preference in self.resources_preferences:
+                resource_idx = self.resources.index(preference['resource'])
+                shift_idx = self.shifts.index(preference['shift'])
+                self.resources_shifts_preferences[resource_idx][shift_idx] = 1
 
         # resource relative weight for shift preferences
         self.resources_shifts_weight = np.ones(shape=self.num_resource, dtype='object')
-        for prioritization in self.resources_prioritization:
-            resource_idx = self.resources.index(prioritization['resource'])
-            self.resources_shifts_weight[resource_idx] = prioritization['weight']
+        if self.resources_prioritization:
+            for prioritization in self.resources_prioritization:
+                resource_idx = self.resources.index(prioritization['resource'])
+                self.resources_shifts_weight[resource_idx] = prioritization['weight']
 
         # Objective function: Minimize the total number of shifted hours rewarded by resource preferences
 
