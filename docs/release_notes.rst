@@ -10,6 +10,10 @@ What's new in 0.5.0dev0
 Features:
 ^^^^^^^^^
 
+* Added a new type of solver  under the class :class:`~pyworkforce.rostering.MinHoursRoster`
+  for rostering problems, it can find the roster of resources for each day
+  and shift subject to shift restrictions, resting days, shifts preferences, bans and more.
+
 * Added the properties `waiting_probability_params`, `service_level_params`, `achieved_occupancy_params`,
   and `required_positions_params` in :class:`~pyworkforce.shifts.MultiErlangC` to track in which
   combination order each method returns a solution.

@@ -29,9 +29,9 @@ It finds the number of resources to schedule in a shift based on the number of r
 
 [Rostering](./pyworkforce/rostering):
 
-It assigns a list of resources to a list of required positions per day and shifts, it takes into account
-different restrictions as shift bans, consecutive shifts, resting days and others.
-It also introduces soft restrictions like shifts preferences.
+It assigns a list of resources to a list of required positions per day and shifts; it takes into account
+different restrictions as shift bans, consecutive shifts, resting days, and others.
+It also introduces soft restrictions like shift preferences.
 
 # Usage:
 Install pyworkforce

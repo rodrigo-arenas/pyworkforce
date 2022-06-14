@@ -36,6 +36,7 @@ It's advised to install pyworkforce using a virtual env, inside the env use::
    api/multierlangc
    api/min_abs_difference
    api/min_required_resources
+   api/min_hours_roster
 
 .. toctree::
    :maxdepth: 2
