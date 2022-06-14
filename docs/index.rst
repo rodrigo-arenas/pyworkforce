@@ -5,7 +5,7 @@
 
 pyworkforce
 ===========
-Standard tools for workforce management, queue, scheduling, and optimization problems.
+Standard tools for workforce management, queuing, scheduling, rostering and optimization problems.
 
 #########################################################################
 
@@ -27,6 +27,7 @@ It's advised to install pyworkforce using a virtual env, inside the env use::
    tutorials/erlangc
    tutorials/erlangc_example
    tutorials/scheduling
+   tutorials/rostering
 
 .. toctree::
    :maxdepth: 2
@@ -36,6 +37,7 @@ It's advised to install pyworkforce using a virtual env, inside the env use::
    api/multierlangc
    api/min_abs_difference
    api/min_required_resources
+   api/min_hours_roster
 
 .. toctree::
    :maxdepth: 2
