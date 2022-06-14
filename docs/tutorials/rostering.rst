@@ -18,25 +18,26 @@ MinHoursRoster
 This method assigns a list of resources to a list of required positions per day and shifts;
 it considers different restrictions such as shift bans, consecutive shifts, resting days, and others.
 It also introduces soft restrictions like shift preferences.
+
 The "optimal" criterion is the minimum total scheduled hours, optionally weighted by resource shift preferences.
 
 Let's start by introducing the variables that the model uses.
 
-=================== ==================  =====================================
-Name                Type                Description
-=================== ==================  =====================================
-:math:`D`           Set                 Days on the planning horizon
-:math:`S`           Set                 Shifts in a day
-:math:`N`           Set                 Resources available to schedule
-:math:`\delta_s`    Parameter           Number of hours in the shift `s`
-:math:`\mu`         Parameter           Maximum number of days off per resource in the planning horizon
-:math:`R_{ds}`      Parameter           Number of resources required at day `d` for the shift `s`
-:math:`\tau_{ij}`   Parameter           1 if no resource can't be shifted on shift `i`, and to the next day on shift `j`, 0 otherwise
-:math:`\sigma_{ns}` Parameter           1 if the resource `n` can't be shifted on shift `s`, 0 otherwise
-:math:`\phi_{ns}`   Parameter           1 if the resource `n` prefers to be shifted on shift `s`, 0 if there is not specific preference
-:math:`\alpha_{n}`  Parameter           Weight factor from which the O.F reduces is value if the shift preference for the resource `n` is met
-:math:`X_{nds}`     Decision variable   1 if the resource `n` is scheduled at day `d` for the shift `s`, 0 otherwise
-=================== ==================  =====================================
+==================== ==================  =====================================
+Name                 Type                Description
+==================== ==================  =====================================
+:math:`D`            Set                 Days on the planning horizon
+:math:`S`            Set                 Shifts in a day
+:math:`N`            Set                 Resources available to schedule
+:math:`\delta_s`     Parameter           Number of hours in the shift `s`
+:math:`\mu`          Parameter           Maximum number of days off per resource in the planning horizon
+:math:`R_{ds}`       Parameter           Number of resources required at day `d` for the shift `s`
+:math:`\tau_{ij}`    Parameter           1 if no resource can't be shifted on shift `i`, and to the next day on shift `j`, 0 otherwise
+:math:`\sigma_{nds}` Parameter           1 if the resource `n` can't be shifted on shift `s` at day `d`, 0 otherwise
+:math:`\phi_{ns}`    Parameter           1 if the resource `n` prefers to be shifted on shift `s`, 0 if there is not specific preference
+:math:`\alpha_{n}`   Parameter           Weight factor from which the O.F reduces is value if the shift preference for the resource `n` is met
+:math:`X_{nds}`      Decision variable   1 if the resource `n` is scheduled at day `d` for the shift `s`, 0 otherwise
+==================== ==================  =====================================
 
 
 In this case, the variables :math:`\tau_{ij}`, :math:`\phi_{ns}`, and :math:`\alpha_{n}` are optional for the solver.
@@ -69,7 +70,7 @@ Now we Introduce the restrictions of this model:
 
      \sum_{d, s} 1- X_{nds} \leq \mu \; \forall n \in N
 
-* Each resource only can be scheduled at most once a day
+* Each resource can be scheduled at most once a day
 
 .. math::
 
@@ -85,7 +86,7 @@ Now we Introduce the restrictions of this model:
 
 .. math::
 
-     \sum_{n, d, s} \sigma_{ns}*X_{nds} = 0
+     \sum_{n, d, s} \sigma_{nds}*X_{nds} = 0
 
 
 We'll solve an example using pyworkforce with the following conditions:
