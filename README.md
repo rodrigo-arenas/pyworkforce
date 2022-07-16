@@ -10,6 +10,20 @@ Standard tools for workforce management, queuing, scheduling, rostering and opti
 
 Make sure to check the documentation, which is available [here](https://pyworkforce.readthedocs.io/en/stable/)
 
+# Usage:
+Install pyworkforce
+
+It's advised to install pyworkforce using a virtual env, inside the env use:
+
+```
+pip install pyworkforce
+```
+
+If you are having troubles with or-tools installation, check the [or-tools guide](https://github.com/google/or-tools#installation)
+
+For complete list and details of examples go to the 
+[examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples)
+
 ## Features:
 pyworkforce currently includes:
 
@@ -36,20 +50,6 @@ It finds the number of resources to schedule in a shift based on the number of r
 It assigns a list of resources to a list of required positions per day and shifts; it takes into account
 different restrictions as shift bans, consecutive shifts, resting days, and others.
 It also introduces soft restrictions like shift preferences.
-
-# Usage:
-Install pyworkforce
-
-It's advised to install pyworkforce using a virtual env, inside the env use:
-
-```
-pip install pyworkforce
-```
-
-If you are having troubles with or-tools installation, check the [or-tools guide](https://github.com/google/or-tools#installation)
-
-For complete list and details of examples go to the 
-[examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples)
 
 ### Queue systems:
 
@@ -114,6 +114,8 @@ Output:
                             ]
 ```
 ### Scheduling
+
+A brief introduction can be found in this [medium post](https://towardsdatascience.com/how-to-solve-scheduling-problems-in-python-36a9af8de451)
 
 #### Example:
 
