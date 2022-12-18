@@ -60,7 +60,7 @@ class MinHoursRoster:
                  non_sequential_shifts: list = None,
                  resources_preferences: list = None,
                  resources_prioritization: list = None,
-                 max_search_time: float = 240,
+                 max_search_time: float = 540,
                  num_search_workers=2):
 
         self._num_days = num_days
@@ -153,7 +153,6 @@ class MinHoursRoster:
                 sch_model.Add(shifted_resource[resource_idx][day_idx][shift_idx] == 0)
 
         # Minimum working hours per resource in the horizon
-
         for n in range(self.num_resource):
             sch_model.Add(
                 sum(shifted_resource[n][d][s] * self.shifts_hours[s]
@@ -204,6 +203,7 @@ class MinHoursRoster:
                     for s in range(self.num_shifts):
                         if self.solver.Value(shifted_resource[n][d][s]):
                             resource_shifts.append({
+                                'id': n,
                                 "resource": self.resources[n],
                                 "day": d,
                                 "shift": self.shifts[s]})

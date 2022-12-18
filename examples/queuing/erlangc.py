@@ -13,6 +13,11 @@ Maximum Occupancy: 85%
 Shrinkage: 30%
 """
 
+from pathlib import Path
+import sys
+path_root = Path(__file__).parents[2]
+sys.path.append(str(path_root))
+
 from pyworkforce.queuing import ErlangC
 
 erlang = ErlangC(transactions=100, aht=3, interval=30, asa=20/60, shrinkage=0.3)
