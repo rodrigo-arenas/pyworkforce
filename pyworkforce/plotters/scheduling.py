@@ -1,7 +1,15 @@
 from __future__ import absolute_import as _absolute_import
 import operator
 import numpy as np
-#! /usr/bin/env python
+import matplotlib.pyplot as plt
+
+def plot_xy_per_interval(filename,
+    df,
+    x,
+    y,
+    fig_size=(15,5)):
+    df.plot(y=y, use_index=True)
+    plt.savefig(filename, dpi=150, bbox_inches='tight')
 
 def plot(solution, 
     shifts_spec, 

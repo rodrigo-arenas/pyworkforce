@@ -1,7 +1,24 @@
 from collections import deque
+import numpy as np
+
+from pyworkforce.queuing.erlang import ErlangC
+
+from datetime import datetime as dt
 
 HMin = 60
 DayH = 24
+
+def get_shift_short_name(t):
+    duration = dt.strptime(t['duration'], "%H:%M").hour
+    start = dt.strptime(t['sheduleTimeStart'], "%H:%M").hour
+    end = dt.strptime(t['sheduleTimeEndStart'], "%H:%M").hour
+    stepTime = t['stepTime']
+    return f'x_{duration}_{start}_{end}_{stepTime}'
+
+def required_positions(call_volume, aht, interval, art, service_level):
+  erlang = ErlangC(transactions=call_volume, aht=aht / 60.0, interval=interval, asa=art / 60.0, shrinkage=0.0)
+  positions_requirements = erlang.required_positions(service_level=service_level / 100.0, max_occupancy=1.00)
+  return positions_requirements['positions']
 
 def upscale_and_shift(a, time_scale, shift_right_pos):
   scaled = [val for val in a for _ in range(time_scale)]
@@ -18,24 +35,49 @@ def genereate_shifts_coverage(shift_hours, name, horizon_in_hours, start_hour, e
     res[s_name] = upscale_and_shift(shift_hours, time_scale, i) 
   return res
 
-def decode_shift_spec(a):
-    name, duration, start, end, step = a.split('_')
+def unwrap_shift(encoded_shift_name, with_breaks = False):
+    t = decode_shift_spec(encoded_shift_name)
+    if (with_breaks):
+        base_spec = [1 if (i < t.duration and i != t.duration // 2) else 0 for i in range(DayH)]
+    else:
+        base_spec = [1 if (i < t.duration) else 0 for i in range(DayH)]
+    base_spec = deque(base_spec)
+    base_spec.rotate(t.start)
+    base_spec = list(base_spec)
+
+    step_mins = 15 #todo
+    scaled = upscale_and_shift(base_spec, HMin // step_mins,t.offset // step_mins) 
+    return scaled
+
+def decode_shift_spec(encoded_shift_name):
+    cx = encoded_shift_name.count('_')
     class Object(object):
-        pass
+        def __str__(self):
+            return "todo: replace tostring()"
+    t = Object()
+    if cx == 3:
+        name, duration, start, offset = encoded_shift_name.split('_')
+        t.offset = int(offset)
+    elif cx == 4:
+        name, duration, start, end, step = encoded_shift_name.split('_')
+        t.end = int(end)
+        t.step = int(step)
+    else:
+        raise "Shift spec not supported"
 
-    a = Object()
-    a.name = name
-    a.duration = int(duration)
-    a.start = int(start)
-    a.end = int(end)
-    a.step = int(step)
-    return a
+    t.name = name
+    t.duration = int(duration)
+    t.start = int(start)
+    return t
 
-def get_shift_coverage(shifts):
+def get_shift_coverage(shifts, with_breaks = False):
     shift_cover = {}
     for i in shifts:
         a = decode_shift_spec(i)
-        base_spec = [1 if (i < a.duration) else 0 for i in range(DayH)]
+        if (with_breaks):
+            base_spec = [1 if (i < a.duration and i != a.duration // 2) else 0 for i in range(DayH)]
+        else:
+            base_spec = [1 if (i < a.duration) else 0 for i in range(DayH)]
         base_spec = deque(base_spec)
         base_spec.rotate(a.start)
         base_spec = list(base_spec)
@@ -51,3 +93,41 @@ def get_shift_colors(shift_names):
         else:
             shift_colors[i] = '#0800ff'
     return shift_colors
+
+def count_consecutive_zeros(shift_or):
+    previous = 0
+    count = 1
+    for c in shift_or:
+        if previous == 0 and c == 0:
+            count += 1
+        previous = c
+    return count
+
+def get_12h_transitional_shifts(shift_names):
+    res = []
+    for i in shift_names:
+        t = decode_shift_spec(i)
+        if (t.start + t.duration > 24):
+            res.append(i)
+    return res
+
+def build_non_sequential_shifts(shift_names, h_distance, m_step):
+    transitional_shifts = get_12h_transitional_shifts(shift_names)
+    exclude_transitional = [t for t in shift_names if t not in transitional_shifts]
+    res = []
+    for i in range(len(transitional_shifts)):
+        name_o = transitional_shifts[i]
+        shift_o = np.array(unwrap_shift(name_o))
+        shift_o_first_zero_pos = min(np.where(shift_o == 0)[0])
+        for j in range(len(exclude_transitional)):
+            name_d = exclude_transitional[j]
+            shift_d = np.array(unwrap_shift(name_d))
+            shift_d_first_non_zero_pos = min(np.where(shift_d == 1)[0])
+            distance = (shift_d_first_non_zero_pos - shift_o_first_zero_pos) / (1.0 * HMin / m_step)
+            if (distance < h_distance):
+                res.append({
+                    "origin": name_o,
+                    "destination":name_d
+                })
+    return res
+

@@ -1,0 +1,70 @@
+{ 
+  "campaignUtc": 3,
+  "min_working_hours": 176,
+  "employees": [
+    {
+     "id":"f2b6508e-83f4-41e6-92bd-b901b247f50d",
+     "min_working_hours": 176,
+     "max_working_hours": 176,
+     "schemes":["2d3b29ee-a719-4d3a-9f35-d810b897a87e"],
+     "utc": "6",
+     "dup": 150
+    }, 
+  	{
+     "id":"f2b6508e-83f4-41e6-92bd-b901b247f566",
+     "min_working_hours": 176,
+     "max_working_hours": 176,
+     "schemes":["2d3b29ee-a719-4d3a-9f35-d810b897a87e"],
+     "utc": "3",
+     "dup": 75
+    },
+    {
+      "id":"f2b6508e-83f4-41e6-92bd-b901b247f577",
+      "min_working_hours": 176,
+      "max_working_hours": 176,
+      "schemes":["2d3b29ee-a719-4d3a-9f35-d810b897a87e"],
+      "utc": "-3",
+      "dup": 150
+     }
+  ],
+  "schemes": [
+    {
+        "id":"2d3b29ee-a719-4d3a-9f35-d810b897a87e",
+        "holidays":{
+          "days":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"],
+          "minDaysInRow":1,
+          "maxDaysInRaw":5
+        },
+        "schemeShifts":[
+          {
+            "id":"af935696-acfa-48e6-ac54-7e9f351829ed",
+            "days":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"],
+            "minDaysInRow":1,
+            "maxDaysInRaw":5,
+            "shiftId": "c8e4261e-3de3-4343-abda-dc65e4042494"
+          }
+        ]
+    }
+  ],
+  "shifts": [
+    {
+      "id":"c8e4261e-3de3-4343-abda-dc65e4042494",
+      "duration":"09:00", 
+      "sheduleTimeStart":"06:00",
+      "sheduleTimeEndStart":"13:00",
+      "minIntervalBetweenActivities":"00:05",
+      "maxIntervalBetweenActivities":"01:30",
+      "stepTime":"15",
+      "activities":["80173794-2eba-4247-afae-718edaef2ad0"]
+    }
+  ],
+  "activities": [
+    {
+      "id": "80173794-2eba-4247-afae-718edaef2ad0",
+	    "duration":"00:30",
+      "timeStart": "13:30",
+      "timeDue": "18:00",
+      "isPaid": true
+    }
+  ]
+}
