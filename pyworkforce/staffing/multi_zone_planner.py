@@ -26,9 +26,28 @@ class MultiZonePlanner():
         self.timezones = list(map(lambda t: int(t['utc']), self.meta['employees']))
         self.ratio = 1.5 #For rostering
 
-        group_by_schemas = [(k, list(g)[0]) for k, g in itertools.groupby(self.meta['employees'], lambda x: x['schemes'][0])]
-        map_to_shifts = [ (self.get_shift_by_schema(i[0]), i[1]['utc'], i[1]['dup']) for i in group_by_schemas]
-        self.shift_with_names = [ i + (self.get_shift_name_by_id(i[0]),)  for i in map_to_shifts]
+        edf = pd.DataFrame(self.meta['employees'])
+        edf['shiftId'] = edf.apply(lambda t: self.get_shift_by_schema(t['schemas'][0]), axis=1)
+
+        edf_g = edf.groupby(['utc', 'shiftId'])['id'].agg(['count'])
+
+        print(edf_g)
+
+        self.shift_with_names = []
+        # [('c8e4261e-3de3-4343-abda-dc65e4042494', '+6', 150, 'x_9_6_13_15', 0.410958904109589), ('c8e4261e-3de3-4343-abda-dc65e4042495', '+3', 33, 'x_9_6_13_15', 0.09041095890410959), ('c8e4261e-3de3-4343-abda-dc65e4042490', '+3', 32, 'x_12_6_13_15', 0.08767123287671233), ('22e4261e-3de3-4343-abda-dc65e4042496', '-3', 150, 'x_9_6_13_15', 0.410958904109589)]
+        for index, row in edf_g.iterrows():
+            utc = index[0]
+            shift_orig_name = index[1]
+            shift_name = self.get_shift_name_by_id(shift_orig_name)
+            count = row['count']
+            self.shift_with_names.append((shift_orig_name, utc, count, shift_name))
+
+        
+
+        # group_by_schemas = [(k, list(g)[0]) for k, g in itertools.groupby(self.meta['employees'], lambda x: x['schemes'][0])]
+        # map_to_shifts = [ (self.get_shift_by_schema(i[0]), i[1]['utc'], i[1]['dup']) for i in group_by_schemas]
+        # self.shift_with_names = [ i + (self.get_shift_name_by_id(i[0]),)  for i in map_to_shifts]
+        
 
         manpowers = np.array([i[2] for i in self.shift_with_names])
         manpowers_r = manpowers / manpowers.sum(axis = 0)
@@ -80,8 +99,8 @@ class MultiZonePlanner():
             outfile.write(json.dumps(rostering, indent=2))
 
     def get_shift_by_schema(self, schema_guid):
-        schema = next(t for t in self.meta['schemes'] if t['id'] == schema_guid)
-        shiftId = schema['schemeShifts'][0]['shiftId']
+        schema = next(t for t in self.meta['schemas'] if t['id'] == schema_guid)
+        shiftId = schema['shifts'][0]['shiftId']
         return shiftId
 
     def get_shift_name_by_id(self, id):
@@ -108,13 +127,13 @@ class MultiZonePlanner():
 
         self.df.index = self.df.index.tz_localize(tz='Europe/Moscow')
 
-        campaignUtc = int(self.meta['campaignUtc'])
+        campainUtc = int(self.meta['campainUtc'])
 
         for party in self.shift_with_names:
             shift_id = party[0]
             shift_name = party[3]
             tzone = party[1]
-            tzone_shift = int(tzone) - campaignUtc
+            tzone_shift = int(tzone) - campainUtc
             position_portion = party[4]
             position_requested = int(party[2])
 

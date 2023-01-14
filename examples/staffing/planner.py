@@ -27,12 +27,12 @@ output_dir = '..'
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 df = pd.read_csv(input_csv_path, parse_dates=[0], index_col=0)
 
-with open(input_meta_path, 'r') as f:
+with open(input_meta_path, 'r', encoding='utf-8') as f:
     meta = json.load(f)
 
 mzp = MultiZonePlanner(df, meta, output_dir)
-mzp.solve()
+# mzp.solve()
 
-# mzp.schedule()
+mzp.schedule()
 # mzp.roster()
 # mzp.roster_postprocess()
