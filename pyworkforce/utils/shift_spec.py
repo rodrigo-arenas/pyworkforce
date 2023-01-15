@@ -8,17 +8,42 @@ from datetime import datetime as dt
 HMin = 60
 DayH = 24
 
-def get_shift_short_name(t):
+def get_shift_short_name(t, utc):
     duration = dt.strptime(t['duration'], "%H:%M").hour
     start = dt.strptime(t['scheduleTimeStart'], "%H:%M").hour
     end = dt.strptime(t['scheduleTimeEndStart'], "%H:%M").hour
     stepTime = dt.strptime(t['stepTime'], "%H:%M").minute
-    return f'x_{duration}_{start}_{end}_{stepTime}'
+    return f'x_{utc}_{duration}_{start}_{end}_{stepTime}'
 
-def required_positions(call_volume, aht, interval, art, service_level):
-  erlang = ErlangC(transactions=call_volume, aht=aht / 60.0, interval=interval, asa=art / 60.0, shrinkage=0.0)
+def required_positions(call_volume: int, aht: int, interval: int, art: int, service_level: int) -> int:
+  """
+  Calculates the required number of resources to serve requests.
+  It calculates 'raw' positions, without any shrinkage etc.
+
+  Parameters
+  ----------
+  call_volume: int
+    Call intensivity over time, count
+  aht: int
+    average handling time of a single call, seconds
+  interval: int
+    an interval to plan for, seconds
+  art: int
+    Average response time, seconds
+  service_level: int
+    required service level to achieve 0-100
+
+  Returns
+  -------
+  The required number of resources.
+  It returns the closest int number of resources to achieve the requested service level.
+
+  E.g. if service level is defined as 80%, but required resource = 14,
+  then it could the future service level will be 82%, not 80% as it was requested.
+  """
+  erlang = ErlangC(transactions=call_volume, aht=aht, interval=interval, asa=art, shrinkage=0.0)
   positions_requirements = erlang.required_positions(service_level=service_level / 100.0, max_occupancy=1.00)
-  return positions_requirements['positions']
+  return int(positions_requirements['positions'])
 
 def upscale_and_shift(a, time_scale, shift_right_pos):
   scaled = [val for val in a for _ in range(time_scale)]
@@ -62,6 +87,10 @@ def decode_shift_spec(encoded_shift_name):
         name, duration, start, end, step = encoded_shift_name.split('_')
         t.end = int(end)
         t.step = int(step)
+    elif cx == 5:
+        utc, name, duration, start, end, step = encoded_shift_name.split('_')
+        t.end = int(end)
+        t.step = int(step)
     else:
         raise "Shift spec not supported"
 
@@ -74,15 +103,18 @@ def get_shift_coverage(shifts, with_breaks = False):
     shift_cover = {}
     for i in shifts:
         a = decode_shift_spec(i)
+
         if (with_breaks):
             base_spec = [1 if (i < a.duration and i != a.duration // 2) else 0 for i in range(DayH)]
         else:
             base_spec = [1 if (i < a.duration) else 0 for i in range(DayH)]
+
         base_spec = deque(base_spec)
         base_spec.rotate(a.start)
         base_spec = list(base_spec)
         res = genereate_shifts_coverage(base_spec, a.name, a.duration, a.start, a.end, a.step)
         shift_cover = shift_cover | res
+
     return shift_cover
 
 def get_shift_colors(shift_names):

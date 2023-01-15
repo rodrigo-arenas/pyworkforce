@@ -61,7 +61,8 @@ class MinHoursRoster:
                  resources_preferences: list = None,
                  resources_prioritization: list = None,
                  max_search_time: float = 540,
-                 num_search_workers=2):
+                 num_search_workers=2,
+                 strict_mode = True):
 
         self._num_days = num_days
         self.resources = resources
@@ -81,6 +82,10 @@ class MinHoursRoster:
         self.non_sequential_shifts_indices = None
         self.resources_shifts_preferences = None
         self.resources_shifts_weight = None
+
+        self.strict_mode = strict_mode
+        self.__deficit_weight = 1
+
         self._status = None
         self.solver = None
 
@@ -106,13 +111,33 @@ class MinHoursRoster:
                 for s in range(self.num_shifts):
                     shifted_resource[n][d][s] = sch_model.NewBoolVar(f'resource_shifts_n{n}d{d}s{s}')
 
-        # Constrains
+        # Constraints
+
+        objective_int_vars = []
+        objective_int_coeffs = []
 
         # The number of shifted resource must be ge that required resource, for each day and shift
+        # For strict mode - wants resource presence in the required quantity
+        # For non strict mode - minimize deficit (=delta) penalty for the missed resources
         for d in range(self._num_days):
             for s in range(self.num_shifts):
-                sch_model.Add(sum(shifted_resource[n][d][s] for n in range(self.num_resource))
-                              >= self.required_resources[self.shifts[s]][d])
+                works = sum(shifted_resource[n][d][s] for n in range(self.num_resource))
+                demand = self.required_resources[self.shifts[s]][d]
+
+                if self.strict_mode:
+                    sch_model.Add(works >= demand)
+                else:
+                    delta = sch_model.NewIntVar(0, max(self.num_resource, demand), '')
+                    z1 = sch_model.NewIntVar(- demand, self.num_resource - demand, '')
+                    z2 = sch_model.NewIntVar(demand - self.num_resource, demand, '')
+
+                    sch_model.Add(z1 == works - demand)
+                    sch_model.Add(z2 == demand - works)
+                    sch_model.AddMaxEquality(delta, [z1, z2])
+
+                    objective_int_vars.append(delta)
+                    objective_int_coeffs.append(self.__deficit_weight)
+
 
         # A resource can at most, work 1 shift per day
         for n in range(self.num_resource):
@@ -183,15 +208,25 @@ class MinHoursRoster:
                                              self.resources_shifts_preferences[n][s])
                 for n in range(self.num_resource)
                 for d in range(self._num_days)
-                for s in range(self.num_shifts)))
+                for s in range(self.num_shifts))
+            +
+            sum(objective_int_vars[i] * objective_int_coeffs[i] for i in range(len(objective_int_vars)))
+
+        )
 
         self.solver = cp_model.CpSolver()
         self.solver.parameters.max_time_in_seconds = self.max_search_time
         self.solver.num_search_workers = self.num_search_workers
 
-        self._status = self.solver.Solve(sch_model)
+        solution_printer = cp_model.ObjectiveSolutionPrinter()
+        self._status = self.solver.Solve(sch_model, solution_printer)
 
         # Output
+
+        # print('Penalties:')
+        # for i, var in enumerate(objective_int_vars):
+        #     if self.solver.Value(var) > 0:
+        #         print(f'  {var.Name()} violated by {self.solver.Value(var)}, linear penalty={objective_int_coeffs[i]}')
 
         if self._status in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
             resource_shifts = []

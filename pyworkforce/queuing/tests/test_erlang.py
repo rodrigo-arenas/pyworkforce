@@ -90,3 +90,18 @@ def test_wrong_max_occupancy_erlangc():
     with pytest.raises(Exception) as excinfo:
         results = erlang.required_positions(service_level=0.8, max_occupancy=1.2)
     assert str(excinfo.value) == "max_occupancy must be between 0 and 1"
+
+def test_required_positions_14():
+    erlang = ErlangC(transactions=200, asa=20, aht=3*60, interval=60*60, shrinkage=0.0)
+    results = erlang.required_positions(service_level=0.8, max_occupancy=1.0)
+    positions = results['positions']
+
+    assert positions == 14
+
+
+def test_required_positions_81():
+    erlang = ErlangC(transactions=202, asa=30, aht=330, interval=15*60, shrinkage=0.0)
+    results = erlang.required_positions(service_level=0.8, max_occupancy=1.0)
+    positions = results['positions']
+
+    assert positions == 81

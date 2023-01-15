@@ -1,11 +1,11 @@
-pytest==6.2.2
+pytest~=7.2.0
 codecov==2.1.11
 pytest-cov==2.11.1
 twine==3.3.0
-numpy~=1.18.1
+numpy~=1.24.1
 ortools>=7.8.7959
-pandas~=1.0.0
-joblib~=0.11
+pandas~=1.5.2
+joblib~=1.2.0
 sphinx
 sphinx_gallery
 sphinx_rtd_theme
@@ -13,3 +13,7 @@ sphinx-copybutton
 numpydoc
 nbsphinx
 
+
+pytz~=2022.7
+setuptools~=65.5.1
+StrEnum~=0.4.9

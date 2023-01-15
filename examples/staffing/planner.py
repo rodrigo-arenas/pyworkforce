@@ -31,8 +31,8 @@ with open(input_meta_path, 'r', encoding='utf-8') as f:
     meta = json.load(f)
 
 mzp = MultiZonePlanner(df, meta, output_dir)
-# mzp.solve()
+#mzp.solve()
 
-mzp.schedule()
+# mzp.schedule()
 # mzp.roster()
-# mzp.roster_postprocess()
+mzp.roster_postprocess()
