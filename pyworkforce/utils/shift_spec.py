@@ -71,7 +71,14 @@ def unwrap_shift(encoded_shift_name, with_breaks = False):
     base_spec = list(base_spec)
 
     step_mins = 15 #todo
-    scaled = upscale_and_shift(base_spec, HMin // step_mins,t.offset // step_mins) 
+    scaled = upscale_and_shift(base_spec, HMin // step_mins, t.offset // step_mins)
+    return scaled
+
+def all_zeros_shift():
+    spec = [0 for i in range(DayH)]
+    step_mins = 15  # todo
+    scaled = upscale_and_shift(spec, HMin // step_mins, 0)
+
     return scaled
 
 def decode_shift_spec(encoded_shift_name):

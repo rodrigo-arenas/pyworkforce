@@ -4,7 +4,8 @@ import pandas as pd
 import numpy as np
 
 from pyworkforce.staffing.stats.calculate_stats import calculate_stats
-from pyworkforce.utils.shift_spec import required_positions, get_shift_short_name, get_shift_coverage, unwrap_shift
+from pyworkforce.utils.shift_spec import required_positions, get_shift_short_name, get_shift_coverage, unwrap_shift, \
+    all_zeros_shift
 from pyworkforce.plotters.scheduling import plot_xy_per_interval
 import math
 from datetime import datetime as dt
@@ -276,6 +277,14 @@ class MultiZonePlanner():
     def roster_postprocess(self):
         print("Start rostering postprocessing")
 
+        # just a helper function to use
+        def replace_nan(df, col, what):
+            nans = df[col].isnull()
+            df.loc[nans, col] = [what for isnan in nans.values if isnan]
+            return df
+
+        df_total = None
+
         for party in self.shift_with_names:
             (shift_id, shift_name, utc, *_) = party
 
@@ -287,25 +296,24 @@ class MultiZonePlanner():
             with open(f'../rostering_output_{shift_name}.json', 'r') as f:
                 rostering = json.load(f)
 
-            # total_resources = rostering['total_resources']
-            # needed_resource = shifts_info["num_resources"]
-
-            # id_to_drop = random.sample(range(0, total_resources), total_resources - needed_resource)
-
-            # resource_shifts = rostering['resource_shifts']
             df = pd.DataFrame(rostering['resource_shifts'])
-            # df = df[~df['id'].isin(id_to_drop)]
 
-            #rostering['total_resources'] = needed_resource
-            # rostering['resource_day_shifts'] = json.loads(df.to_json(orient='records'))
+            # this is virtual empty shift, to be used as a filler for rest days
+            empty_shift = np.array(all_zeros_shift()) * 1
+            empty_schedule = pd.DataFrame(index = [i for i in range(31)])   # todo: fix 31 day constant
 
-            # with open(f'../rostering_output_final_{shift_name}.json', 'w') as f:
-            #     f.write(json.dumps(rostering, indent=2))
+            df['shifted_resources_per_slot'] = df.apply(
+                lambda t: np.array(unwrap_shift(t['shift'])) * 1, axis=1
+            )
 
-            df['shifted_resources_per_slot'] = df.apply(lambda t: np.array(unwrap_shift(t['shift'])) * 1, axis=1)
-
-            df1 = df[['day', 'shifted_resources_per_slot']].groupby('day', as_index=False)[
+            df1 = df[['day', 'shifted_resources_per_slot']].groupby('day', as_index=True)[
                 'shifted_resources_per_slot'].apply(lambda x: np.sum(np.vstack(x), axis=0)).to_frame()
+
+            # on missed indexes (=days), nan will be placed, because there are no any rest days in df1
+            df1 = pd.concat([df1, empty_schedule], axis=1)
+            df1 = replace_nan(df1, 'shifted_resources_per_slot', empty_shift)
+            # new items are at the end with propper index - just sort them to be moved to correct position
+            df1 = df1.sort_index(ascending=True)
 
             np.set_printoptions(linewidth=np.inf, formatter=dict(float=lambda x: "%3.0i" % x))
             arr = df1['shifted_resources_per_slot'].values
@@ -315,8 +323,17 @@ class MultiZonePlanner():
 
             plot_xy_per_interval(f'rostering_{shift_name}.png', df3, x='index', y=["positions", "resources_shifts"])
 
+            if df_total is None:
+                df_total = df3
+            else:
+                df_total['resources_shifts'] += df3['resources_shifts']
+
+        plot_xy_per_interval(f'rostering.png', df_total, x='index', y=["positions", "resources_shifts"])
+
         print("Done rostering postprocessing")
         return "Done"
+
+
 
     def recalculate_stats(self):
         # TODO:
