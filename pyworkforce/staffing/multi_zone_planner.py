@@ -39,7 +39,7 @@ class MultiZonePlanner():
         self.df = df
         self.__df_stats = None
         self.meta = meta
-        self.timezones = list(map(lambda t: int(t['utc']), self.meta['employees']))
+        # self.timezones = list(map(lambda t: int(t['utc']), self.meta['employees']))
 
         # todo: replace this magic number with configured property or even better remove it
         self.rostering_ratio = 1.0  # For rostering
