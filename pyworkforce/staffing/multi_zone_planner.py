@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+
 import pandas as pd
 import numpy as np
 
@@ -283,6 +284,14 @@ class MultiZonePlanner():
             df.loc[nans, col] = [what for isnan in nans.values if isnan]
             return df
 
+        def to_df_stats(df: pd.DataFrame):
+            interested_columns = ['tc', 'call_volume', 'aht', 'service_level', 'art', 'positions', 'resources_shifts']
+
+            df = df[interested_columns]
+            df = df.rename(columns={'resources_shifts': 'scheduled_positions'})
+
+            return df
+
         df_total = None
 
         for party in self.shift_with_names:
@@ -330,13 +339,29 @@ class MultiZonePlanner():
 
         plot_xy_per_interval(f'{self.output_dir}/rostering.png', df_total, x='index', y=["positions", "resources_shifts"])
 
+        self.__df_stats = to_df_stats(df_total)
+
         print("Done rostering postprocessing")
         return "Done"
 
 
 
     def recalculate_stats(self):
-        # TODO:
-        if False:
-            self.__df_stats = calculate_stats(None, None, None)
+        if self.__df_stats is None:
+            return
+
+        print("Recalculate statistics: start")
+
+        self.__df_stats = calculate_stats(self.__df_stats)
+
+        # dump statistics to .json
+        result = self.__df_stats.to_json(orient="records")
+        parsed = json.loads(result)
+
+        print("Writing statistics to .json")
+
+        with open(f'{self.output_dir}/statistics_output.json', 'w') as f:
+            f.write(json.dumps(parsed, indent=2))
+
+        print("Recalculate statistics: done")
 

@@ -74,7 +74,7 @@ class ErlangC:
         erlang_b = 1 / erlang_b_inverse
         return productive_positions * erlang_b / (productive_positions - self.intensity * (1 - erlang_b))
 
-    def service_level(self, positions: int, scale_positions: bool = False):
+    def service_level(self, positions: int, scale_positions: bool = False, asa: float = None):
         """
         Returns the expected service level given a number of positions
 
@@ -85,6 +85,8 @@ class ErlangC:
             The number of positions attending.
         scale_positions: bool, default = False
             Set it to True if the positions were calculated using shrinkage.
+        asa: float, default = self.asa
+            Target average speed of answer to use in calculation
 
         """
         if scale_positions:
@@ -92,9 +94,37 @@ class ErlangC:
         else:
             productive_positions = positions
 
+        if asa is None:
+            asa = self.asa
+        elif asa <= 0:
+            raise ValueError("asa can't be smaller or equals than 0")
+
         probability_wait = self.waiting_probability(productive_positions, scale_positions=False)
-        exponential = exp(-(productive_positions - self.intensity) * (self.asa / self.aht))
+        exponential = exp(-(productive_positions - self.intensity) * (asa / self.aht))
         return max(0, 1 - (probability_wait * exponential))
+
+    def what_asa(self, positions: int):
+        """
+        Returns the average speed of answer given a number of positions
+
+        Parameters
+        ----------
+
+        positions: int,
+            The number of positions attending.
+
+        """
+
+        productive_positions = positions
+
+        if positions <= 0:
+            raise ValueError("positions can't be smaller or equals than 0")
+
+        probability_wait = self.waiting_probability(productive_positions, scale_positions=False)
+
+        asa = (probability_wait * self.aht) / (productive_positions - self.intensity)
+
+        return asa
 
     def achieved_occupancy(self, positions: int, scale_positions: bool = False):
         """

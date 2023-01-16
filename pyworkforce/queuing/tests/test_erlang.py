@@ -105,3 +105,20 @@ def test_required_positions_81():
     positions = results['positions']
 
     assert positions == 81
+
+def test_what_required_positions():
+    erlang = ErlangC(transactions=27, asa=30, aht=233, interval=15*60, shrinkage=0.0)
+    results = erlang.required_positions(service_level=0.8, max_occupancy=1.0)
+    positions = results['positions']
+
+    print(positions)
+
+    assert positions == 10
+
+
+def test_what_asa():
+    erlang = ErlangC(transactions=27, asa=30, aht=233, interval=15*60, shrinkage=0.0)
+    results = erlang.what_asa(positions=4)
+    print(results)
+
+    assert results > 0
