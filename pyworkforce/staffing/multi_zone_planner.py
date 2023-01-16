@@ -70,7 +70,7 @@ class MultiZonePlanner():
                 (shift_orig_id, shift_name, utc, employee_count, )
             )
 
-        manpowers = np.array([i[2] for i in shift_with_names])  # i[2] == count
+        manpowers = np.array([i[3] for i in shift_with_names])  # i[2] == count
         manpowers_r = manpowers / manpowers.sum(axis=0)
         for idx, i in enumerate(shift_with_names):
             shift_with_names[idx] += (manpowers_r[idx],)
