@@ -1,4 +1,5 @@
 from collections import deque
+from re import sub
 import numpy as np
 
 from pyworkforce.queuing.erlang import ErlangC
@@ -7,6 +8,16 @@ from datetime import datetime as dt
 
 HMin = 60
 DayH = 24
+
+def get_start_from_shift_short_name(name):
+    # 3_12_7_45
+    start_time = dt.strptime(f'{name.split("_")[2]}:{name.split("_")[3]}',"%H:%M")
+    return sub(".*\\s+", "", str(start_time))
+
+def get_duration_from_shift_short_name(name):
+    # 3_12_7_45
+    duration = int(name.split('_')[1])
+    return duration
 
 def get_shift_short_name(t, utc):
     duration = dt.strptime(t['duration'], "%H:%M").hour
