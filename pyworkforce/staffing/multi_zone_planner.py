@@ -53,21 +53,21 @@ class MultiZonePlanner():
 
     def build_shifts(self):
         edf = pd.DataFrame(self.meta['employees'])
-        edf['shiftId'] = edf.apply(lambda t: self.get_shift_by_schema(t['schemas'][0]), axis=1)
-        edf_g = edf.groupby(['utc', 'shiftId'])['id'].agg(['count'])
-        print(edf_g)
-
+        edf['schema'] = edf.apply(lambda t: t['schemas'][0], axis=1)
+        edf['shiftId'] = edf.apply(lambda t: self.get_shift_by_schema(t['schema']), axis=1)
+        edf_g = edf.groupby(['utc', 'shiftId', 'schema'])['id'].agg(['count'])
         shift_with_names = []
 
         # [('c8e4261e-3de3-4343-abda-dc65e4042494', '+6', 150, 'x_9_6_13_15', 0.410958904109589), ('c8e4261e-3de3-4343-abda-dc65e4042495', '+3', 33, 'x_9_6_13_15', 0.09041095890410959), ('c8e4261e-3de3-4343-abda-dc65e4042490', '+3', 32, 'x_12_6_13_15', 0.08767123287671233), ('22e4261e-3de3-4343-abda-dc65e4042496', '-3', 150, 'x_9_6_13_15', 0.410958904109589)]
         for index, row in edf_g.iterrows():
             utc = index[0]
             shift_orig_id = index[1]
+            schema_name = index[2]
             shift_name = self.get_shift_name_by_id(shift_orig_id, utc)
             employee_count = int(row['count'])  # by default its int64 -> non serializible
 
             shift_with_names.append(
-                (shift_orig_id, shift_name, utc, employee_count, )
+                (shift_orig_id, shift_name, utc, employee_count, schema_name,)
             )
 
         manpowers = np.array([i[3] for i in shift_with_names])  # i[2] == count
@@ -185,7 +185,7 @@ class MultiZonePlanner():
         campainUtc = int(self.meta['campainUtc'])
 
         for party in self.shift_with_names:
-            (shift_id, shift_name, utc, positions_requested, position_portion) = party
+            (shift_id, shift_name, utc, positions_requested, schema, position_portion) = party
             utc_shift = int(utc) - campainUtc
 
             # shift = self.meta['shifts'][0] #todo map
@@ -288,35 +288,42 @@ class MultiZonePlanner():
         return "Done"
     
     def combine_results(self):
-        combine = []
-        for party in self.shift_with_names:
-            (shift_id, shift_name, utc, *_) = party
+        campainUtc = self.meta['campainUtc']
+        out = {
+            "campainUtc": campainUtc,
+            "campainSchedule": []
+        }
+        campainSchedule = out['campainSchedule']
+        for party in self.shift_with_names:            
+            (shift_name, shift_code, utc, mp, schema_name, q) = party
 
-            t = {
-                'utc': utc,
-                'shiftId': shift_id
-            }
+            print(f'Shift: {shift_name} ({shift_name})')
 
-            print(f'Shift: {shift_name} ({shift_id})')
-
-            with open(f'{self.output_dir}/rostering_output_{shift_name}.json', 'r') as f:
+            with open(f'{self.output_dir}/rostering_output_{shift_code}.json', 'r') as f:
                 rostering = json.load(f)
 
-            
             df = pd.DataFrame(rostering['resource_shifts'])
-            df['TimeStart'] = df.apply(
+            df['shiftTimeStartLocal'] = df.apply(
                 lambda t: get_start_from_shift_short_name(t['shift']), axis=1
             )
             
+            delta = utc - campainUtc
+            from datetime import datetime, timedelta
+            df['shiftTimeStart'] = df.apply(lambda t: format(dt.strptime(t['shiftTimeStartLocal'], "%H:%M:%S") + timedelta(hours=delta), '%H:%M'), axis=1)
+            df['schemaId'] = schema_name
+            df['shiftId'] = shift_name
+            df['employeeId'] = df['resource']
+            df['employeeUtc'] = utc
+            df['activities'] = None
+            min_date = min(self.df.index)
             
-            rostering['resource_shifts'] = json.loads(df[['resource', 'day', 'TimeStart']].to_json(orient="records"))
+            df['shiftDate'] = df.apply(lambda t: format(min_date + timedelta(days=t['day']), "%d.%m.%y"), axis=1)
             
-
-            t['rostering'] = rostering
-            combine.append(t)
+            res = json.loads(df[['employeeId', 'employeeUtc', 'schemaId', 'shiftId', 'shiftDate', 'shiftTimeStart', 'activities']].to_json(orient="records"))
+            campainSchedule.extend(res)
 
         with open(f'{self.output_dir}/rostering.json', 'w',  encoding='utf-8') as f:
-            f.write(json.dumps(combine, indent=2, ensure_ascii=False))
+            f.write(json.dumps(out, indent=2, ensure_ascii=False))
 
     def roster_postprocess(self):
         print("Start rostering postprocessing")
