@@ -6,18 +6,19 @@ def get_12h_break_config():
     _1h_interval = int(1 * 60 / 15)
     _30m = 2
 
+    # (id, start)_index, end_index)
     _12_h_breaks = [
         # 1st lunch break: 03:00 -> 05:30, 30min
-        (3 * _1h_interval, 5 * _1h_interval + _30m, 2),
+        ('lunch1', 3 * _1h_interval, 5 * _1h_interval + _30m, 2),
 
         # 2nd lunch break: 05:30 -> 09:30, 30min
-        (5 * _1h_interval + _30m, 9 * _1h_interval, 2),
+        ('lunch1', 5 * _1h_interval + _30m, 9 * _1h_interval, 2),
 
         # just break: 05:30 -> 11:00, 15min
-        (5 * _1h_interval + _30m, 11 * _1h_interval, 1),
+        ('break1', 5 * _1h_interval + _30m, 11 * _1h_interval, 1),
 
         # just break: 01:00 -> 10:00, 15min
-        (1 * _1h_interval, 10 * _1h_interval, 1),
+        ('break2', 1 * _1h_interval, 10 * _1h_interval, 1),
     ]
     return _12_h_breaks
 
@@ -47,25 +48,23 @@ def test_1_day_3_employee():
     # employee shifts
     calendar = generate_12h_calendar(num_workers=1, num_days=_days)
 
-    # Configuration of breaks
-    # 1. Delays between breaks
-    min_break_delay = int(1.5 * _1h_interval)
-    max_break_delay = int(3.5 * _1h_interval)
-
-    # 2. Break rules
+    # Break rules
     #    (min_start, max_start, duration)
     _12_h_breaks = get_12h_break_config()
 
     model = BreaksIntervalsScheduling(
         num_employees=1,
         num_intervals=_1d_intervals * _days,
-        intervals_demand=[1 for _ in range(_1d_intervals * _days)],
+        # intervals_demand=[1 for _ in range(_1d_intervals * _days)],
         employee_calendar=calendar,
         breaks=_12_h_breaks,
-        break_delays=(min_break_delay, max_break_delay)
+        break_min_delay=int(1.5 * _1h_interval),
+        break_max_delay=int(3.5 * _1h_interval)
     )
 
-    model.solve()
+    solution = model.solve()
+
+    assert solution["status"] in ["OPTIMAL", "FEASIBLE"]
 
 
 def test_1_week_3_employee():
@@ -77,25 +76,23 @@ def test_1_week_3_employee():
     # employee shifts
     calendar = generate_12h_calendar(_days, 3)
 
-    # Configuration of breaks
-    # 1. Delays between breaks
-    min_break_delay = int(1.5 * _1h_interval)
-    max_break_delay = int(3.5 * _1h_interval)
-
-    # 2. Break rules
+    # Break rules
     #    (min_start, max_start, duration)
     _12_h_breaks = get_12h_break_config()
 
     model = BreaksIntervalsScheduling(
         num_employees=len(calendar),
         num_intervals=_1d_intervals * _days,
-        intervals_demand=[1 for _ in range(_1d_intervals * _days)],  # not used
+        # intervals_demand=[1 for _ in range(_1d_intervals * _days)],  # not used
         employee_calendar=calendar,
         breaks=_12_h_breaks,
-        break_delays=(min_break_delay, max_break_delay)
+        break_min_delay=int(1.5 * _1h_interval),
+        break_max_delay=int(3.5 * _1h_interval)
     )
 
-    model.solve()
+    solution = model.solve()
+
+    assert solution["status"] in ["OPTIMAL", "FEASIBLE"]
 
 def test_1_week_100_employee():
     _days = 7
@@ -106,25 +103,25 @@ def test_1_week_100_employee():
     # employee shifts
     calendar = generate_12h_calendar(_days, 100)
 
-    # Configuration of breaks
-    # 1. Delays between breaks
-    min_break_delay = int(1.5 * _1h_interval)
-    max_break_delay = int(3.5 * _1h_interval)
-
-    # 2. Break rules
+    # break rules
     #    (min_start, max_start, duration)
     _12_h_breaks = get_12h_break_config()
 
     model = BreaksIntervalsScheduling(
         num_employees=len(calendar),
         num_intervals=_1d_intervals * _days,
-        intervals_demand=[1 for _ in range(_1d_intervals * _days)],  # not used
+        # intervals_demand=[1 for _ in range(_1d_intervals * _days)],  # not used
         employee_calendar=calendar,
         breaks=_12_h_breaks,
-        break_delays=(min_break_delay, max_break_delay)
+        break_min_delay=int(1.5 * _1h_interval),
+        break_max_delay=int(3.5 * _1h_interval)
     )
 
-    model.solve()
+    solution = model.solve()
+
+    assert solution["status"] in ["OPTIMAL", "FEASIBLE"]
+
+
 def test_1_month_400_employee():
     _days = 31
     _1h_interval = int(1 * 60 / 15)
@@ -134,22 +131,20 @@ def test_1_month_400_employee():
     # employee shifts
     calendar = generate_12h_calendar(_days, 400)
 
-    # Configuration of breaks
-    # 1. Delays between breaks
-    min_break_delay = int(1.5 * _1h_interval)
-    max_break_delay = int(3.5 * _1h_interval)
-
-    # 2. Break rules
+    # Break rules
     #    (min_start, max_start, duration)
     _12_h_breaks = get_12h_break_config()
 
     model = BreaksIntervalsScheduling(
         num_employees=len(calendar),
         num_intervals=_1d_intervals * _days,
-        intervals_demand=[1 for _ in range(_1d_intervals * _days)],  # not used
+        # intervals_demand=[1 for _ in range(_1d_intervals * _days)],  # not used
         employee_calendar=calendar,
         breaks=_12_h_breaks,
-        break_delays=(min_break_delay, max_break_delay)
+        break_min_delay=int(1.5 * _1h_interval),
+        break_max_delay=int(3.5 * _1h_interval)
     )
 
-    model.solve()
+    solution = model.solve()
+
+    assert solution["status"] in ["OPTIMAL", "FEASIBLE"]

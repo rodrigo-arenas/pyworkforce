@@ -9,15 +9,25 @@ from datetime import datetime as dt
 HMin = 60
 DayH = 24
 
+
 def get_start_from_shift_short_name(name):
     # 3_12_7_45
     start_time = dt.strptime(f'{name.split("_")[2]}:{name.split("_")[3]}',"%H:%M")
     return sub(".*\\s+", "", str(start_time))
 
+
+def get_start_from_shift_short_name_mo(name):
+    # 3_12_7_45
+    h = int(name.split("_")[2])
+    m = int(name.split("_")[3])
+    return f"{h:02}:{m:02}"
+
+
 def get_duration_from_shift_short_name(name):
     # 3_12_7_45
     duration = int(name.split('_')[1])
     return duration
+
 
 def get_shift_short_name(t, utc):
     duration = dt.strptime(t['duration'], "%H:%M").hour
@@ -25,6 +35,7 @@ def get_shift_short_name(t, utc):
     end = dt.strptime(t['scheduleTimeEndStart'], "%H:%M").hour
     stepTime = dt.strptime(t['stepTime'], "%H:%M").minute
     return f'x_{utc}_{duration}_{start}_{end}_{stepTime}'
+
 
 def required_positions(call_volume: int, aht: int, interval: int, art: int, service_level: int) -> int:
   """
@@ -56,11 +67,13 @@ def required_positions(call_volume: int, aht: int, interval: int, art: int, serv
   positions_requirements = erlang.required_positions(service_level=service_level / 100.0, max_occupancy=1.00)
   return int(positions_requirements['positions'])
 
+
 def upscale_and_shift(a, time_scale, shift_right_pos):
   scaled = [val for val in a for _ in range(time_scale)]
   items = deque(scaled)
   items.rotate(shift_right_pos)
   return list(items)
+
 
 def genereate_shifts_coverage(shift_hours, name, horizon_in_hours, start_hour, end_hour, step_mins):
   time_scale = int(HMin / step_mins)
@@ -70,6 +83,7 @@ def genereate_shifts_coverage(shift_hours, name, horizon_in_hours, start_hour, e
     s_name = f'{name}_{horizon_in_hours}_{start_hour + (i * step_mins // HMin)}_{i * step_mins % HMin}'
     res[s_name] = upscale_and_shift(shift_hours, time_scale, i) 
   return res
+
 
 def unwrap_shift(encoded_shift_name, with_breaks = False):
     t = decode_shift_spec(encoded_shift_name)
@@ -85,12 +99,14 @@ def unwrap_shift(encoded_shift_name, with_breaks = False):
     scaled = upscale_and_shift(base_spec, HMin // step_mins, t.offset // step_mins)
     return scaled
 
+
 def all_zeros_shift():
     spec = [0 for i in range(DayH)]
     step_mins = 15  # todo
     scaled = upscale_and_shift(spec, HMin // step_mins, 0)
 
     return scaled
+
 
 def decode_shift_spec(encoded_shift_name):
     cx = encoded_shift_name.count('_')
@@ -117,6 +133,7 @@ def decode_shift_spec(encoded_shift_name):
     t.start = int(start)
     return t
 
+
 def get_shift_coverage(shifts, with_breaks = False):
     shift_cover = {}
     for i in shifts:
@@ -135,6 +152,7 @@ def get_shift_coverage(shifts, with_breaks = False):
 
     return shift_cover
 
+
 def get_shift_colors(shift_names):
     shift_colors = {}
     for i in shift_names:
@@ -143,6 +161,7 @@ def get_shift_colors(shift_names):
         else:
             shift_colors[i] = '#0800ff'
     return shift_colors
+
 
 def count_consecutive_zeros(shift_or):
     previous = 0
@@ -153,6 +172,7 @@ def count_consecutive_zeros(shift_or):
         previous = c
     return count
 
+
 def get_12h_transitional_shifts(shift_names):
     res = []
     for i in shift_names:
@@ -160,6 +180,7 @@ def get_12h_transitional_shifts(shift_names):
         if (t.start + t.duration > 24):
             res.append(i)
     return res
+
 
 def build_non_sequential_shifts(shift_names, h_distance, m_step):
     transitional_shifts = get_12h_transitional_shifts(shift_names)

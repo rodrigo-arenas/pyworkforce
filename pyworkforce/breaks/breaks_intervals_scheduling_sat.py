@@ -8,24 +8,23 @@ INTERVALS_PER_HOUR = 4
 
 class BreaksIntervalsScheduling:
     def __init__(self,
-                 num_employees: int,
-                 num_intervals: int,
-                 intervals_demand: list,
+                 # intervals_demand: list, # not used for the moment
                  employee_calendar: dict,
                  breaks: list,
-                 break_delays,
+                 break_min_delay: int,
+                 break_max_delay: int,
                  *args, **kwargs):
 
-        self.num_intervals_per_day = INTERVALS_PER_HOUR * 24;
-        self.num_days = int(num_intervals / self.num_intervals_per_day)
-
-        self.num_intervals = num_intervals
-        self.num_employees = num_employees
         self.employee_calendar = employee_calendar
         self.breaks = breaks
-        (self.break_delays_min, self.break_delays_max) = break_delays
+        self.break_min_delay = break_min_delay
+        self.break_max_delay = break_max_delay
 
-        self.intervals_demand = intervals_demand
+        # not using it now
+        # self.intervals_demand = intervals_demand
+
+        self.solver = None
+        self.status = None
 
     def solve(self):
 
@@ -48,31 +47,31 @@ class BreaksIntervalsScheduling:
         for e in self.employee_calendar:
             breaks = []
 
-            for (work_start_interval, work_end_interval) in self.employee_calendar[e]:
+            for (day_work_start_interval, day_work_end_interval) in self.employee_calendar[e]:
 
                 # Accumulate intervals per working shift, order is not meaningful, hust a bag of intervals
                 # It will guarantee no intervals are intersected
                 working_day = []
 
                 for (i, br) in enumerate(self.breaks):
-                    (break_start_min, break_start_max, break_duration) = br
+                    (_id, break_start_min, break_start_max, break_duration) = br
                     # breaks are relative to shift startings -> fix them:
-                    break_start_min += work_start_interval
-                    break_start_max += work_start_interval
+                    break_start_min += day_work_start_interval
+                    break_start_max += day_work_start_interval
 
                     # Break of given duration
                     start = model.NewIntVar(break_start_min, break_start_max, f'break_start_e{e}_br{i}')
                     duration = break_duration  # Python cp/sat code accepts integer variables or constants.
-                    end = model.NewIntVar(work_start_interval, work_end_interval, f'break_end_e{e}_br{i}')
+                    end = model.NewIntVar(day_work_start_interval, day_work_end_interval, f'break_end_e{e}_br{i}')
                     rest = model.NewIntervalVar(start, duration, end, f'break_e{e}_{i}')
 
                     # Working time after break, to be ensure they aren't joint
-                    working_duration = model.NewIntVar(self.break_delays_min, self.break_delays_max, '')
-                    working_end = model.NewIntVar(work_start_interval, work_end_interval + self.break_delays_max, '')
+                    working_duration = model.NewIntVar(self.break_min_delay, self.break_max_delay, '')
+                    working_end = model.NewIntVar(day_work_start_interval, day_work_end_interval + self.break_max_delay, '')
                     working = model.NewIntervalVar(end, working_duration, working_end, '')
 
                     breaks.append(
-                        (start, end)
+                        (_id, start, end)
                     )
 
                     working_day.extend(
@@ -103,68 +102,49 @@ class BreaksIntervalsScheduling:
         print("Solving started...")
 
         # Solve the model.
-        solver = cp_model.CpSolver()
+        self.solver = cp_model.CpSolver()
         solution_printer = cp_model.ObjectiveSolutionPrinter()
 
-        status = solver.Solve(model, solution_printer)
+        self.status = self.solver.Solve(model, solution_printer)
 
         # Output
 
-        if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
-            print()
-            print('Optimal Schedule Length: %i' % solver.ObjectiveValue())
+        solution = {}
+        if self.status in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
 
-            header0 = "Days        ";
-            for d in range(self.num_days):
-                # print '15' in a header
-                # *4, because interval = 15 min
-                header0 += f'Day {d + 1}'.rjust(INTERVALS_PER_HOUR * 24)
-            print(header0)
+            scheduled_breaks = {}
 
-            header = "W\\S         ";
-            for i in range(self.num_days * 24):
-                h = i % 24;
-                header += f'{h + 1}h'.rjust(INTERVALS_PER_HOUR);
-            print(header)
+            for e in self.employee_calendar.keys():
+                emp_breaks = []
+                for (break_id, break_start, break_end) in employee_rest[e]:
+                    start_index = self.solver.Value(break_start)
+                    end_index = self.solver.Value(break_end)
 
-            #onlyRestWithoutWork = 0
-            for e in range(self.num_employees):
-                scheduleRow = [u'-' for _ in range(self.num_intervals)]
+                    emp_breaks.append(
+                        (break_id, start_index, end_index)
+                    )
 
-                for (work_start_index, work_end_index) in self.employee_calendar[e]:
-                    for i in range(work_start_index, work_end_index):
-                        scheduleRow[i] = u'■'
+                scheduled_breaks[e] = emp_breaks
 
-                for (break_start, break_end) in employee_rest[e]:
-                    start_index = solver.Value(break_start)
-                    end_index = solver.Value(break_end)
-                    for i in range(start_index, end_index):
-                        scheduleRow[i] = u'◊'
-
-                scheduleRow = ''.join(scheduleRow)
-                print(f'worker {e:03d}: {scheduleRow}')
-
-            #print(f"Only rest, without work: {onlyRestWithoutWork}")
-            # print('Penalties:')
-            # for i, var in enumerate(obj_bool_vars):
-            #     if solver.BooleanValue(var):
-            #         penalty = obj_bool_coeffs[i]
-            #         if penalty > 0:
-            #             print(f'  {var.Name()} violated, penalty={penalty}')
-            #         else:
-            #             print(f'  {var.Name()} fulfilled, gain={-penalty}')
-
-            # for i, var in enumerate(obj_int_vars):
-            #     if solver.Value(var) > 0:
-            #         print(f'  {var.Name()} violated by {solver.Value(var)}, linear penalty={obj_int_coeffs[i]}')
-
-            print()
-            print('Statistics')
-            print(f'  - status          : {solver.StatusName(status)}')
-            print(f'  - conflicts       : {solver.NumConflicts()}')
-            print(f'  - branches        : {solver.NumBranches()}')
-            print(f'  - booleans        : {solver.NumBooleans()}')
-            print(f'  - wall time       : {solver.WallTime()} s')
+            solution = {
+                "status": self.solver.StatusName(self.status),
+                "cost": self.solver.ObjectiveValue(),
+                "num_branches": self.solver.NumBranches(),
+                "num_conflicts": self.solver.NumConflicts(),
+                "wall_time": self.solver.WallTime(),
+                "num_resources": len(self.employee_calendar),
+                "resource_break_intervals": scheduled_breaks,
+            }
 
         else:
-            print("Solution is not feasible")
+            solution = {
+                "status": self.solver.StatusName(self.status),
+                "cost": -1,
+                "num_branches": -1,
+                "num_conflicts": -1,
+                "wall_time": -1,
+                "num_resources": len(self.employee_calendar.keys()),
+                "resource_break_intervals": {},
+            }
+
+        return solution
