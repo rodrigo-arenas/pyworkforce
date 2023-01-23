@@ -14,6 +14,7 @@ from pyworkforce.utils.shift_spec import get_start_from_shift_short_name, get_st
 from pyworkforce.plotters.scheduling import plot_xy_per_interval
 import math
 from datetime import datetime as dt
+from datetime import datetime, timedelta
 from pyworkforce.utils.common import get_datetime
 from pyworkforce.scheduling import MinAbsDifference
 from pyworkforce.rostering.binary_programming import MinHoursRoster
@@ -192,7 +193,7 @@ class MultiZonePlanner():
         return shift_name
 
     def get_breaks_intervals_per_slot(self, resource_break_intervals: dict):
-        # "resource" ->  [(break_id, start, end)]
+        # "resource" ->  [(day_num, break_id, start, end)]
         _days = 31
         _interval_per_hour = 4
         empty_month = np.zeros(_days * 24 * _interval_per_hour).astype(int)
@@ -203,7 +204,7 @@ class MultiZonePlanner():
 
         for resource_id, bi in resource_break_intervals.items():
             resource_month = empty_month.copy()
-            for (break_id, start, end) in bi:
+            for (day_num, break_id, start, end) in bi:
                 # breaks are calculated with overnights also
                 # => for the last day of month it could plan for a day after that.
                 if start > _eom:
@@ -220,7 +221,7 @@ class MultiZonePlanner():
         return result
 
     def get_breaks_per_day(self, resource_break_intervals: dict):
-        # "resource" ->  [(break_id, start, end)]
+        # "resource" ->  [(day_num, break_id, start, end)]
         _days = 31
         _interval_per_hour = 4
         _full_day = 24*_interval_per_hour
@@ -232,13 +233,14 @@ class MultiZonePlanner():
         result = []
 
         for resource_id, bi in resource_break_intervals.items():
-            for (break_id, start, end) in bi:
+            for (day_num, break_id, start, end) in bi:
                 # breaks are calculated with overnights also
                 # => for the last day of month it could plan for a day after that.
                 if start > _eom:
                     continue
 
-                day_n = int(start/_full_day)
+                # day_n = int(start/_full_day)
+                day_n = day_num
 
                 start_from_day = start - day_n*_full_day
                 # for overnight intervals -> return next day's time
@@ -352,6 +354,16 @@ class MultiZonePlanner():
             shifts_hours = [int(i.split('_')[1]) for i in shifts_info["shifts"]]
             print(shift_names)
 
+            # todo: fix later
+            if shifts_hours[0] == 12:
+                # 12h shifts -> 10.5 * 16 = 176
+                max_shifts_count = 16
+            elif shifts_hours[0] == 9:
+                # 9h shifts -> 8 * 22 = 176
+                max_shifts_count = 22
+            else:
+                max_shifts_count = 0
+
 
             edf = pd.DataFrame(self.meta['employees'])
             edf['shiftId'] = edf.apply(lambda t: self.get_shift_by_schema(t['schemas'][0]), axis=1)
@@ -363,17 +375,33 @@ class MultiZonePlanner():
             resources = list(edf_filtered['id'])
             print(f'Rostering num: {shifts_info["num_resources"]} {len(resources)}')
 
+            # constraint:
+            #   (hard_min, soft_min, penalty, soft_max, hard_max, penalty)
+            constraints = [
+                # minimum 4 day of work, but no more than 6 days of work - theses are hard constraints
+                # 5 -- is an optimal value, it penalize 1 in case of difference from 5
+                # (4, 5, 1, 5, 6, 0),
+
+                # no low bound, optimum - from 5 to 5 without penalty, more than 5 are forbidden
+                (0, 5, 0, 5, 5, 0)
+            ]
+
             solver = MinHoursRoster(num_days=shifts_info["num_days"],
                                     resources=resources,
                                     shifts=shifts_info["shifts"],
-                                    shifts_hours=shifts_hours,
+                                    #shifts_hours=shifts_hours,
+                                    shifts_hours=0,
                                     min_working_hours=shifts_info["min_working_hours"],
-                                    max_resting=shifts_info["max_resting"],
+                                    max_shifts_count = max_shifts_count,
+                                    # max_resting=shifts_info["max_resting"],
+                                    # we don't have constraints on max resting time
+                                    max_resting=0,
                                     non_sequential_shifts=shifts_info["non_sequential_shifts"],
                                     banned_shifts=shifts_info["banned_shifts"],
                                     required_resources=shifts_info["required_resources"],
                                     max_search_time=5*60,
-                                    strict_mode=False
+                                    strict_mode=False,
+                                    shift_constraints=constraints
                                     )
 
             solution = solver.solve()
@@ -398,14 +426,13 @@ class MultiZonePlanner():
             return day*24*4
 
         def get_working_intervals(edf: pd.DataFrame):
-            edf["day_interval"] = edf.apply(lambda row: daily_start_index(row["day"]), axis=1)
+            edf["day_index"] = edf.apply(lambda row: daily_start_index(row["day"]), axis=1)
             edf["start_interval"] = \
-                edf["day_interval"] + edf.apply(lambda row: m[get_start_from_shift_short_name_mo(row["shift"])], axis=1)
+                edf["day_index"] + edf.apply(lambda row: m[get_start_from_shift_short_name_mo(row["shift"])], axis=1)
             edf["duration_interval"] = edf.apply(lambda row: get_duration_from_shift_short_name(row["shift"]), axis=1) * 4  # durations are in hours
             edf["end_interval"] = edf["start_interval"] + edf["duration_interval"]
 
-            return edf[["start_interval", "end_interval"]].to_records(index=False).tolist()
-
+            return edf[["day", "start_interval", "end_interval"]].to_records(index=False).tolist()
 
         # 0. iterate over known shifts, breaks are same for employees within given shift
         for party in self.shift_with_names:
@@ -520,9 +547,9 @@ class MultiZonePlanner():
         return "Done"
 
     def combine_results(self):
-        campainUtc = self.meta['campainUtc']
+        campain_utc = self.meta['campainUtc']
         out = {
-            "campainUtc": campainUtc,
+            "campainUtc": campain_utc,
             "campainSchedule": []
         }
         campainSchedule = out['campainSchedule']
@@ -547,18 +574,26 @@ class MultiZonePlanner():
                 lambda t: get_start_from_shift_short_name(t['shift']), axis=1
             )
 
-            delta = utc - campainUtc
-            from datetime import datetime, timedelta
-            df['shiftTimeStart'] = df.apply(
-                lambda t: format(dt.strptime(t['shiftTimeStartLocal'], "%H:%M:%S") + timedelta(hours=delta), '%H:%M'),
-                axis=1)
+            delta = utc - campain_utc
+
             df['schemaId'] = schema_name
             df['shiftId'] = shift_name
             df['employeeId'] = df['resource']
             df['employeeUtc'] = utc
             min_date = min(self.df.index)
 
-            df['shiftDate'] = df.apply(lambda t: format(min_date + timedelta(days=t['day']), "%d.%m.%y"), axis=1)
+            df['shiftTimeStart'] = df.apply(
+                lambda t: format(dt.strptime(t['shiftTimeStartLocal'], "%H:%M:%S") + timedelta(hours=delta), '%H:%M'),
+                axis=1)
+            df['shiftDate'] = df.apply(lambda t: format(min_date + timedelta(hours=delta) + timedelta(days=t['day']), "%d.%m.%y"), axis=1)
+
+            df_breaks['activityTimeStart'] = df_breaks.apply(
+                lambda t: format(dt.strptime(t['activityTimeStart'], "%H:%M") + timedelta(hours=delta), '%H:%M'),
+                axis=1)
+
+            df_breaks['activityTimeEnd'] = df_breaks.apply(
+                lambda t: format(dt.strptime(t['activityTimeEnd'], "%H:%M") + timedelta(hours=delta), '%H:%M'),
+                axis=1)
 
             df['activities'] = df.apply(
                 lambda t: df_breaks.loc[str(t['employeeId']), t['day']],

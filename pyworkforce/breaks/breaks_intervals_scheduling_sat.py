@@ -47,7 +47,7 @@ class BreaksIntervalsScheduling:
         for e in self.employee_calendar:
             breaks = []
 
-            for (day_work_start_interval, day_work_end_interval) in self.employee_calendar[e]:
+            for (shift_day_num, day_work_start_interval, day_work_end_interval) in self.employee_calendar[e]:
 
                 # Accumulate intervals per working shift, order is not meaningful, hust a bag of intervals
                 # It will guarantee no intervals are intersected
@@ -71,7 +71,7 @@ class BreaksIntervalsScheduling:
                     working = model.NewIntervalVar(end, working_duration, working_end, '')
 
                     breaks.append(
-                        (_id, start, end)
+                        (shift_day_num, _id, start, end)
                     )
 
                     working_day.extend(
@@ -116,12 +116,12 @@ class BreaksIntervalsScheduling:
 
             for e in self.employee_calendar.keys():
                 emp_breaks = []
-                for (break_id, break_start, break_end) in employee_rest[e]:
+                for (shift_day_num, break_id, break_start, break_end) in employee_rest[e]:
                     start_index = self.solver.Value(break_start)
                     end_index = self.solver.Value(break_end)
 
                     emp_breaks.append(
-                        (break_id, start_index, end_index)
+                        (shift_day_num, break_id, start_index, end_index)
                     )
 
                 scheduled_breaks[e] = emp_breaks

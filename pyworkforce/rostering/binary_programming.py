@@ -2,6 +2,102 @@ import numpy as np
 from ortools.sat.python import cp_model
 
 
+# https://github.com/google/or-tools/blob/master/examples/python/shift_scheduling_sat.py
+def negated_bounded_span(works, start, length):
+    """Filters an isolated sub-sequence of variables assined to True.
+  Extract the span of Boolean variables [start, start + length), negate them,
+  and if there is variables to the left/right of this span, surround the span by
+  them in non negated form.
+  Args:
+    works: a list of variables to extract the span from.
+    start: the start to the span.
+    length: the length of the span.
+  Returns:
+    a list of variables which conjunction will be false if the sub-list is
+    assigned to True, and correctly bounded by variables assigned to False,
+    or by the start or end of works.
+  """
+    sequence = []
+    # Left border (start of works, or works[start - 1])
+    if start > 0:
+        sequence.append(works[start - 1])
+    for i in range(length):
+        sequence.append(works[start + i].Not())
+    # Right border (end of works or works[start + length])
+    if start + length < len(works):
+        sequence.append(works[start + length])
+    return sequence
+
+def add_soft_sequence_constraint(model, works, hard_min, soft_min, min_cost,
+                                 soft_max, hard_max, max_cost, prefix):
+    """Sequence constraint on true variables with soft and hard bounds.
+  This constraint look at every maximal contiguous sequence of variables
+  assigned to true. If forbids sequence of length < hard_min or > hard_max.
+  Then it creates penalty terms if the length is < soft_min or > soft_max.
+  Args:
+    model: the sequence constraint is built on this model.
+    works: a list of Boolean variables.
+    hard_min: any sequence of true variables must have a length of at least
+      hard_min.
+    soft_min: any sequence should have a length of at least soft_min, or a
+      linear penalty on the delta will be added to the objective.
+    min_cost: the coefficient of the linear penalty if the length is less than
+      soft_min.
+    soft_max: any sequence should have a length of at most soft_max, or a linear
+      penalty on the delta will be added to the objective.
+    hard_max: any sequence of true variables must have a length of at most
+      hard_max.
+    max_cost: the coefficient of the linear penalty if the length is more than
+      soft_max.
+    prefix: a base name for penalty literals.
+  Returns:
+    a tuple (variables_list, coefficient_list) containing the different
+    penalties created by the sequence constraint.
+  """
+    cost_literals = []
+    cost_coefficients = []
+
+    # Forbid sequences that are too short.
+    for length in range(1, hard_min):
+        for start in range(len(works) - length + 1):
+            model.AddBoolOr(negated_bounded_span(works, start, length))
+
+    # Penalize sequences that are below the soft limit.
+    if min_cost > 0:
+        for length in range(hard_min, soft_min):
+            for start in range(len(works) - length + 1):
+                span = negated_bounded_span(works, start, length)
+                # name = f': under_span({start}, {length})'
+                name = ""
+                lit = model.NewBoolVar(prefix + name)
+                span.append(lit)
+                model.AddBoolOr(span)
+                cost_literals.append(lit)
+                # We filter exactly the sequence with a short length.
+                # The penalty is proportional to the delta with soft_min.
+                cost_coefficients.append(min_cost * (soft_min - length))
+
+    # Penalize sequences that are above the soft limit.
+    if max_cost > 0:
+        for length in range(soft_max + 1, hard_max + 1):
+            for start in range(len(works) - length + 1):
+                span = negated_bounded_span(works, start, length)
+                # name = f': over_span({start}, {length})'
+                name = ""
+                lit = model.NewBoolVar(prefix + name)
+                span.append(lit)
+                model.AddBoolOr(span)
+                cost_literals.append(lit)
+                # Cost paid is max_cost * excess length.
+                cost_coefficients.append(max_cost * (length - soft_max))
+
+    # Just forbid any sequence of true variables with length hard_max + 1
+    for start in range(len(works) - hard_max):
+        model.AddBoolOr(
+            [works[i].Not() for i in range(start, start + hard_max + 1)])
+
+    return cost_literals, cost_coefficients
+
 class MinHoursRoster:
     """
 
@@ -62,7 +158,9 @@ class MinHoursRoster:
                  resources_prioritization: list = None,
                  max_search_time: float = 540,
                  num_search_workers=2,
-                 strict_mode = True):
+                 strict_mode = True,
+                 shift_constraints = [],
+                 max_shifts_count: int = 0):
 
         self._num_days = num_days
         self.resources = resources
@@ -71,6 +169,7 @@ class MinHoursRoster:
         self.num_shifts = len(shifts)
         self.shifts_hours = shifts_hours
         self.min_working_hours = min_working_hours
+        self.max_shifts_count = max_shifts_count
         self.banned_shifts = banned_shifts
         self.max_resting = max_resting
         self.required_resources = required_resources
@@ -85,6 +184,7 @@ class MinHoursRoster:
 
         self.strict_mode = strict_mode
         self.__deficit_weight = 1
+        self.shift_constraints = shift_constraints
 
         self._status = None
         self.solver = None
@@ -115,10 +215,12 @@ class MinHoursRoster:
 
         objective_int_vars = []
         objective_int_coeffs = []
+        objective_bool_vars = []
+        objective_bool_coeffs = []
 
-        # The number of shifted resource must be ge that required resource, for each day and shift
+        # The number of shifted resource must be >= that required resource, for each day and shift
         # For strict mode - wants resource presence in the required quantity
-        # For non strict mode - minimize deficit (=delta) penalty for the missed resources
+        # For non-strict mode - minimize deficit (=delta) penalty for the missed resources
         for d in range(self._num_days):
             for s in range(self.num_shifts):
                 works = sum(shifted_resource[n][d][s] for n in range(self.num_resource))
@@ -139,17 +241,19 @@ class MinHoursRoster:
                     objective_int_coeffs.append(self.__deficit_weight)
 
 
-        # A resource can at most, work 1 shift per day
+        # # A resource can at most, work 1 shift per day
+        # AD: this is to be covered by shift constraint and dedicated IntVar (0,1)
         for n in range(self.num_resource):
             for d in range(self._num_days):
                 sch_model.Add(sum(shifted_resource[n][d][s] for s in range(self.num_shifts)) <= 1)
 
         # The number of days that an resource rest is not greater that the max allowed
-        working_days = self._num_days - self.max_resting
-        for n in range(self.num_resource):
-            sch_model.Add(
-                sum(shifted_resource[n][d][s] for d in range(self._num_days) for s in range(self.num_shifts))
-                >= working_days)
+        if self.max_resting > 0:
+            working_days = self._num_days - self.max_resting
+            for n in range(self.num_resource):
+                sch_model.Add(
+                    sum(shifted_resource[n][d][s] for d in range(self._num_days) for s in range(self.num_shifts))
+                    >= working_days)
 
         # Create bool matrix of shifts dependencies
         self.non_sequential_shifts_indices = np.zeros(shape=(self.num_shifts, self.num_shifts), dtype='object')
@@ -178,10 +282,19 @@ class MinHoursRoster:
                 sch_model.Add(shifted_resource[resource_idx][day_idx][shift_idx] == 0)
 
         # Minimum working hours per resource in the horizon
-        for n in range(self.num_resource):
-            sch_model.Add(
-                sum(shifted_resource[n][d][s] * self.shifts_hours[s]
-                    for d in range(self._num_days) for s in range(self.num_shifts)) >= self.min_working_hours)
+        # AD: this is replaced by max_shifts_count
+        if self.min_working_hours > 0:
+            for n in range(self.num_resource):
+                sch_model.Add(
+                    sum(shifted_resource[n][d][s] * self.shifts_hours[s]
+                        for d in range(self._num_days) for s in range(self.num_shifts)) >= self.min_working_hours)
+
+        # max number of shifts, todo: fix it
+        if self.max_shifts_count > 0:
+            for n in range(self.num_resource):
+                works = [shifted_resource[n][d][s] for d in range(self._num_days) for s in range(self.num_shifts)]
+                sch_model.Add(
+                    sum(works) == self.max_shifts_count)
 
         # resource shifts preferences
 
@@ -200,6 +313,36 @@ class MinHoursRoster:
                 resource_idx = self.resources.index(prioritization['resource'])
                 self.resources_shifts_weight[resource_idx] = prioritization['weight']
 
+        # Resource shift constraints -- for all employees are same (per day)
+        # 1. First we create a new matrix which represents resource working per day
+
+        # daily_resource: 1 if resource is working on day d (sum(shifts) == 1)
+        daily_resource = np.empty(shape=(self.num_resource, self._num_days), dtype='object')
+        for n in range(self.num_resource):
+            for d in range(self._num_days):
+                daily_resource[n][d] = sch_model.NewIntVar(0, 1, f'resource_day_n{n}d{d}')
+
+        # 2. Apply constraint on daily work - no more than 1 shift per day
+        for n in range(self.num_resource):
+            for d in range(self._num_days):
+                sch_model.Add(
+                    sum(shifted_resource[n][d][s] for s in range(self.num_shifts)) == daily_resource[n][d]
+                )
+
+        # 3. Apply sequence constraints of resource daily work
+        for ct in self.shift_constraints:
+            (hard_min, soft_min, min_cost, soft_max, hard_max, max_cost) = ct
+            for n in range(self.num_resource):
+                works = [daily_resource[n,d] for d in range(self._num_days)]
+                variables, coeffs = add_soft_sequence_constraint(
+                    sch_model, works,
+                    hard_min, soft_min, min_cost, soft_max, hard_max, max_cost,
+                    f'resource_shifts_constraint_n{n}'
+                )
+                objective_bool_vars.extend(variables)
+                objective_bool_coeffs.extend(coeffs)
+
+
         # Objective function: Minimize the total number of shifted hours rewarded by resource preferences
 
         sch_model.Minimize(
@@ -211,7 +354,8 @@ class MinHoursRoster:
                 for s in range(self.num_shifts))
             +
             sum(objective_int_vars[i] * objective_int_coeffs[i] for i in range(len(objective_int_vars)))
-
+            +
+            sum(objective_bool_vars[i] * objective_bool_coeffs[i] for i in range(len(objective_bool_vars)))
         )
 
         self.solver = cp_model.CpSolver()
