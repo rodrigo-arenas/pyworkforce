@@ -389,9 +389,9 @@ class MultiZonePlanner():
             solver = MinHoursRoster(num_days=shifts_info["num_days"],
                                     resources=resources,
                                     shifts=shifts_info["shifts"],
-                                    #shifts_hours=shifts_hours,
-                                    shifts_hours=0,
-                                    min_working_hours=shifts_info["min_working_hours"],
+                                    shifts_hours=shifts_hours,
+                                    min_working_hours=0,
+                                    # min_working_hours=shifts_info["min_working_hours"],
                                     max_shifts_count = max_shifts_count,
                                     # max_resting=shifts_info["max_resting"],
                                     # we don't have constraints on max resting time
