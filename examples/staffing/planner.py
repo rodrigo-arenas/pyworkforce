@@ -22,7 +22,7 @@ eastern = pytz.timezone('US/Eastern')
 
 input_csv_path = '../scheduling_input.csv'
 input_meta_path = '../scheduling_meta_input.json'
-output_dir = '..'
+output_dir = '../out'
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 df = pd.read_csv(input_csv_path, parse_dates=[0], index_col=0)
@@ -31,12 +31,12 @@ with open(input_meta_path, 'r', encoding='utf-8') as f:
     meta = json.load(f)
 
 mzp = MultiZonePlanner(df, meta, output_dir)
-# mzp.solve()
+mzp.solve()
 
 # mzp.schedule()
-mzp.roster()
-mzp.roster_breaks()
-mzp.roster_postprocess()
-mzp.combine_results()
+# mzp.roster()
+# mzp.roster_breaks()
+# mzp.roster_postprocess()
+# mzp.combine_results()
 # mzp.recalculate_stats()
 

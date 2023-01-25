@@ -2,184 +2,702 @@
   "campainUtc": 3,
   "activities": [
     {
-      "id": "9 часов день обед",
-      "duration": "00:30",
-      "timeStart": "03:00",
-      "timeEndStart": "05:30",
-      "isPaid": false
-    },
-    {
-      "id": "9 часов день перерыв 1",
-      "duration": "00:15",
-      "timeStart": "02:00",
-      "timeEndStart": "07:00",
-      "isPaid": true
-    },
-    {
-      "id": "9 часов день перерыв 2",
-      "duration": "00:15",
-      "timeStart": "05:30",
-      "timeEndStart": "08:00",
-      "isPaid": true
-    },
-    {
-      "id": "9 часов ночь обед",
-      "duration": "00:30",
-      "timeStart": "03:00",
-      "timeEndStart": "05:30",
-      "isPaid": false
-    },
-    {
-      "id": "9 часов ночь перерыв 1",
-      "duration": "00:15",
-      "timeStart": "02:00",
-      "timeEndStart": "07:00",
-      "isPaid": true
-    },
-    {
-      "id": "9 часов ночь перерыв 2",
-      "duration": "00:15",
-      "timeStart": "05:30",
-      "timeEndStart": "08:00",
-      "isPaid": true
-    },
-    {
-      "id": "9 часов ночь перерыв 3 личн",
+      "id": "e1292e05-d94b-4ea1-b6db-b41e6507c61d",
       "duration": "00:15",
       "timeStart": "01:00",
-      "timeEndStart": "08:00",
-      "isPaid": false
-    },
-    {
-      "id": "12 часов день обед 1",
-      "duration": "00:30",
-      "timeStart": "03:00",
       "timeEndStart": "05:30",
-      "isPaid": false
-    },
-    {
-      "id": "12 часов день обед 2",
-      "duration": "00:30",
-      "timeStart": "05:30",
-      "timeEndStart": "09:00",
-      "isPaid": false
-    },
-    {
-      "id": "12 часов день перерыв 1",
-      "duration": "00:15",
-      "timeStart": "05:30",
-      "timeEndStart": "11:00",
       "isPaid": true
     },
     {
-      "id": "12 часов день перерыв 2",
-      "duration": "00:15",
-      "timeStart": "01:00",
-      "timeEndStart": "10:00",
-      "isPaid": true
-    },
-    {
-      "id": "12 часов ночь обед",
-      "duration": "01:00",
-      "timeStart": "04:00",
-      "timeEndStart": "06:00",
-      "isPaid": false
-    },
-    {
-      "id": "12 часов ночь перерыв 1",
-      "duration": "00:15",
-      "timeStart": "01:00",
-      "timeEndStart": "04:00",
-      "isPaid": true
-    },
-    {
-      "id": "12 часов ночь перерыв 2",
-      "duration": "00:15",
-      "timeStart": "05:30",
-      "timeEndStart": "11:00",
-      "isPaid": true
-    },
-    {
-      "id": "12 часов ночь перерыв 3",
+      "id": "6a56c456-8b18-44d8-ab51-78683ad42ad7",
       "duration": "00:15",
       "timeStart": "08:00",
       "timeEndStart": "11:00",
       "isPaid": true
     },
     {
-      "id": "12 часов ночь перерыв 4",
+      "id": "cf136f45-d6c0-483d-896c-adbc11bf59ce",
+      "duration": "01:00",
+      "timeStart": "04:00",
+      "timeEndStart": "06:00",
+      "isPaid": false
+    },
+    {
+      "id": "2022dfc6-ff03-4cb4-8c68-13c7b1867932",
       "duration": "00:15",
       "timeStart": "01:00",
       "timeEndStart": "10:00",
       "isPaid": true
+    },
+    {
+      "id": "b4e85d05-c594-40c7-a972-8d16fd4a450a",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "335dfbc3-19f9-42a4-b39d-78c9edaee87a",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "08:00",
+      "isPaid": false
+    },
+    {
+      "id": "c071c61f-044b-40fc-857a-d021a57eaa95",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "04:00",
+      "isPaid": false
+    },
+    {
+      "id": "3fee1f29-66d8-4f7e-9ae4-a91ceb47f582",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "a7d9f9ce-aa20-4764-9175-214c3099803f",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "cb46dc7c-08ba-4924-ad16-9da30f265d07",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "10:00",
+      "isPaid": true
+    },
+    {
+      "id": "ada23a50-3e48-4e2e-95b7-00f0f937caec",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "05:30",
+      "isPaid": true
+    },
+    {
+      "id": "c1bf31c1-c42c-4294-8173-8c5f8bb1a8d7",
+      "duration": "01:00",
+      "timeStart": "04:00",
+      "timeEndStart": "06:00",
+      "isPaid": false
+    },
+    {
+      "id": "30bab214-45b7-4bdf-bd46-64ac27a904c8",
+      "duration": "00:15",
+      "timeStart": "08:00",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "f697b150-c6f8-4f43-b9e5-353f8024788f",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "44e4c615-6bfb-49c8-8574-e1903720952b",
+      "duration": "00:30",
+      "timeStart": "05:30",
+      "timeEndStart": "09:00",
+      "isPaid": false
+    },
+    {
+      "id": "2ecb1eb3-642d-412e-b6b5-995bb3cdfe70",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "10:00",
+      "isPaid": true
+    },
+    {
+      "id": "07c62ff5-6dad-40c7-ab8c-aac37c9027b3",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "24fd6b78-66dc-4014-abc0-f10dd496e4d1",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "08:00",
+      "isPaid": false
+    },
+    {
+      "id": "7fac9b86-2472-4b9e-90f7-5fbc62b3c5f8",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "04:00",
+      "isPaid": false
+    },
+    {
+      "id": "da8fe34e-cc28-4e2f-9b2e-6f0bb4236e8d",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "7df26858-9d66-48e7-8fee-526fa1481fbc",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "14d533da-3f50-440e-8e5c-1f1446ff3e40",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "10:00",
+      "isPaid": true
+    },
+    {
+      "id": "338bde9f-cf4f-4d3b-b95c-f723e23f9567",
+      "duration": "00:30",
+      "timeStart": "05:30",
+      "timeEndStart": "09:00",
+      "isPaid": false
+    },
+    {
+      "id": "e6d98846-229a-49dc-a4d3-aa267014c7c8",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "a5b3b5cc-50a5-427e-94a3-f7cac28a1277",
+      "duration": "00:15",
+      "timeStart": "02:00",
+      "timeEndStart": "07:00",
+      "isPaid": true
+    },
+    {
+      "id": "df4b9fca-f5ad-4f8a-ae47-eaa8e49df3d9",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "08:00",
+      "isPaid": false
+    },
+    {
+      "id": "2aa89a52-94b7-42b8-b915-037e679c5b96",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "26a2e6b7-7093-4487-b287-ee57e452bd5a",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "04:00",
+      "isPaid": false
+    },
+    {
+      "id": "ecd73f4e-ae6d-472c-99f4-cf59f9bd0f61",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "04:00",
+      "isPaid": false
+    },
+    {
+      "id": "dcf8a059-4ec4-4ad0-9ca9-7b13b9c201d6",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "08:00",
+      "isPaid": false
+    },
+    {
+      "id": "2fac44bc-a114-4888-b50f-c33871ff0203",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "9f9ec6e9-23c3-4731-b216-eae75ae543d7",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "05:30",
+      "isPaid": true
+    },
+    {
+      "id": "6270b486-3fc1-471d-ba97-4fd346cf4fe6",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "10:00",
+      "isPaid": true
+    },
+    {
+      "id": "c8645ffd-19ae-470a-98d1-444cf58a0226",
+      "duration": "01:00",
+      "timeStart": "04:00",
+      "timeEndStart": "06:00",
+      "isPaid": false
+    },
+    {
+      "id": "eee8ccef-45e6-4fe2-802b-6fa7538ad168",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "f751e787-25aa-4de0-adf2-33ae30866f10",
+      "duration": "00:15",
+      "timeStart": "08:00",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "5bc507a9-63c5-4eab-b97e-a8b8d615dc71",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "13b09227-0b67-47bd-836c-5fa0588accb6",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "08:00",
+      "isPaid": false
+    },
+    {
+      "id": "16d13080-bcc2-4c00-9c98-d1e3fdc89d88",
+      "duration": "00:15",
+      "timeStart": "02:00",
+      "timeEndStart": "07:00",
+      "isPaid": true
+    },
+    {
+      "id": "76ad807a-60f7-4d4e-b43b-0285bfed2da5",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "04:00",
+      "isPaid": false
+    },
+    {
+      "id": "e7b74cba-dbe8-4479-9fe8-c36114cd6b46",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "04:00",
+      "isPaid": false
+    },
+    {
+      "id": "9c6d93e8-b645-45d9-b390-4745107c4251",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "08:00",
+      "isPaid": false
+    },
+    {
+      "id": "65f137c5-9ebd-4704-b03a-c2a2fb57f6ce",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "ee7b7f78-5a1f-4d37-8a56-9900a49a8c30",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "10:00",
+      "isPaid": true
+    },
+    {
+      "id": "858be4e7-3988-4943-b2a2-ac9db1b55e6d",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "02dce1bd-d2fc-403a-9f02-aabbfa0c78c3",
+      "duration": "00:30",
+      "timeStart": "05:30",
+      "timeEndStart": "09:00",
+      "isPaid": false
+    },
+    {
+      "id": "568f65ab-3225-4a1c-92c3-3cd377d48307",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "3d633aa8-18e9-46f0-bb37-4876db38f6b2",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "c4312378-03d1-482e-b7c8-5ee6d5d68f73",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "04:00",
+      "isPaid": false
+    },
+    {
+      "id": "57ef8b0d-1c5c-44b7-8c9c-bc0ec55f9125",
+      "duration": "00:15",
+      "timeStart": "02:00",
+      "timeEndStart": "07:00",
+      "isPaid": true
+    },
+    {
+      "id": "669e3e01-2aa5-48ae-a8b3-d32194db57c0",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "08:00",
+      "isPaid": false
+    },
+    {
+      "id": "657d9cd8-616f-4246-9f4b-0a11d033f456",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "46ec5f61-ec40-42fd-ba6d-131c97bf0634",
+      "duration": "00:30",
+      "timeStart": "05:30",
+      "timeEndStart": "09:00",
+      "isPaid": false
+    },
+    {
+      "id": "5294222b-7ff3-4520-ae53-da39144f3880",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "710d1913-cfb4-40db-b7e7-644e64f92e45",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "10:00",
+      "isPaid": true
+    },
+    {
+      "id": "33980d3d-53fd-466e-a24b-0fce6ea6da96",
+      "duration": "01:00",
+      "timeStart": "04:00",
+      "timeEndStart": "06:00",
+      "isPaid": false
+    },
+    {
+      "id": "7f4c443c-c6ae-4456-8084-1497ec41b5b5",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "77754e3e-aecf-4d84-9cf4-8caa3462a812",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "10:00",
+      "isPaid": true
+    },
+    {
+      "id": "233fd42b-a0b6-4508-b59f-ec4079c832f7",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "05:30",
+      "isPaid": true
+    },
+    {
+      "id": "07edda70-1925-4f67-8c1f-c96fe91c4ef3",
+      "duration": "00:15",
+      "timeStart": "08:00",
+      "timeEndStart": "11:00",
+      "isPaid": true
+    },
+    {
+      "id": "2439a5ad-bdf7-43ce-80a4-ae5c433da1f6",
+      "duration": "00:30",
+      "timeStart": "03:00",
+      "timeEndStart": "05:30",
+      "isPaid": false
+    },
+    {
+      "id": "945b675a-16e7-48bb-be4a-4affd09da3d3",
+      "duration": "00:15",
+      "timeStart": "02:00",
+      "timeEndStart": "07:00",
+      "isPaid": true
+    },
+    {
+      "id": "76288973-e2df-47ae-9cad-5f486aebcc09",
+      "duration": "00:15",
+      "timeStart": "01:00",
+      "timeEndStart": "04:00",
+      "isPaid": false
+    },
+    {
+      "id": "7f4bce7f-e024-44a1-94f4-c7b6a19eb607",
+      "duration": "00:15",
+      "timeStart": "05:30",
+      "timeEndStart": "08:00",
+      "isPaid": false
     }
   ],
   "shifts": [
     {
-      "id": "9часов день",
-      "duration": "09:00",
-      "stepTime": "00:15",
-      "scheduleTimeStart": "06:00",
-      "scheduleTimeEndStart": "13:00",
-      "minIntervalBetweenActivities": "01:30",
-      "maxIntervalBetweenActivities": "03:30",
-      "activities": [
-        "9 часов день обед",
-        "9 часов день перерыв 1",
-        "9 часов день перерыв 2"
-      ]
-    },
-    {
-      "id": "9часов ночь",
-      "duration": "09:00",
-      "stepTime": "00:15",
-      "scheduleTimeStart": "21:00",
-      "scheduleTimeEndStart": "22:00",
-      "minIntervalBetweenActivities": "01:30",
-      "maxIntervalBetweenActivities": "03:30",
-      "activities": [
-        "9 часов ночь обед",
-        "9 часов ночь перерыв 1",
-        "9 часов ночь перерыв 2",
-        "9 часов ночь перерыв 3 личн"
-      ]
-    },
-    {
-      "id": "12часов день",
-      "duration": "12:00",
-      "stepTime": "00:15",
-      "scheduleTimeStart": "06:00",
-      "scheduleTimeEndStart": "11:00",
-      "minIntervalBetweenActivities": "01:30",
-      "maxIntervalBetweenActivities": "03:30",
-      "activities": [
-        "12 часов день обед 1",
-        "12 часов день обед 2",
-        "12 часов день перерыв 1",
-        "12 часов день перерыв 2"
-      ]
-    },
-    {
-      "id": "12часов ночь",
+      "id": "730cc58b-00a4-4003-ac00-5915404ce103",
       "duration": "12:00",
       "stepTime": "00:15",
       "scheduleTimeStart": "18:00",
-      "scheduleTimeEndStart": "22:00",
+      "scheduleTimeEndStart": "21:45",
       "minIntervalBetweenActivities": "01:30",
       "maxIntervalBetweenActivities": "03:30",
       "activities": [
-        "12 часов ночь обед",
-        "12 часов ночь перерыв 1",
-        "12 часов ночь перерыв 2",
-        "12 часов ночь перерыв 3",
-        "12 часов ночь перерыв 4"
+        "e1292e05-d94b-4ea1-b6db-b41e6507c61d",
+        "6a56c456-8b18-44d8-ab51-78683ad42ad7",
+        "cf136f45-d6c0-483d-896c-adbc11bf59ce",
+        "2022dfc6-ff03-4cb4-8c68-13c7b1867932",
+        "b4e85d05-c594-40c7-a972-8d16fd4a450a"
+      ]
+    },
+    {
+      "id": "658ad846-0499-4a66-bc63-6f4739c79fae",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "06:00",
+      "scheduleTimeEndStart": "12:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "335dfbc3-19f9-42a4-b39d-78c9edaee87a",
+        "c071c61f-044b-40fc-857a-d021a57eaa95",
+        "3fee1f29-66d8-4f7e-9ae4-a91ceb47f582"
+      ]
+    },
+    {
+      "id": "09322cad-acfe-4651-ac80-57280c6de2c7",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "18:00",
+      "scheduleTimeEndStart": "21:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "a7d9f9ce-aa20-4764-9175-214c3099803f",
+        "cb46dc7c-08ba-4924-ad16-9da30f265d07",
+        "ada23a50-3e48-4e2e-95b7-00f0f937caec",
+        "c1bf31c1-c42c-4294-8173-8c5f8bb1a8d7",
+        "30bab214-45b7-4bdf-bd46-64ac27a904c8"
+      ]
+    },
+    {
+      "id": "fc8c41e8-807c-496a-a52f-ab7148afb975",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "06:00",
+      "scheduleTimeEndStart": "10:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "f697b150-c6f8-4f43-b9e5-353f8024788f",
+        "44e4c615-6bfb-49c8-8574-e1903720952b",
+        "2ecb1eb3-642d-412e-b6b5-995bb3cdfe70",
+        "07c62ff5-6dad-40c7-ab8c-aac37c9027b3"
+      ]
+    },
+    {
+      "id": "e86be4b7-8bff-4b6e-9b9c-8d4caeaf40a2",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "06:00",
+      "scheduleTimeEndStart": "12:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "24fd6b78-66dc-4014-abc0-f10dd496e4d1",
+        "7fac9b86-2472-4b9e-90f7-5fbc62b3c5f8",
+        "da8fe34e-cc28-4e2f-9b2e-6f0bb4236e8d"
+      ]
+    },
+    {
+      "id": "8ced82d9-87df-4db7-a123-a6a2be3d6a15",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "06:00",
+      "scheduleTimeEndStart": "10:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "7df26858-9d66-48e7-8fee-526fa1481fbc",
+        "14d533da-3f50-440e-8e5c-1f1446ff3e40",
+        "338bde9f-cf4f-4d3b-b95c-f723e23f9567",
+        "e6d98846-229a-49dc-a4d3-aa267014c7c8"
+      ]
+    },
+    {
+      "id": "09548e04-b6c1-4141-92fd-dfb1ac61a0d8",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "21:00",
+      "scheduleTimeEndStart": "21:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "a5b3b5cc-50a5-427e-94a3-f7cac28a1277",
+        "df4b9fca-f5ad-4f8a-ae47-eaa8e49df3d9",
+        "2aa89a52-94b7-42b8-b915-037e679c5b96",
+        "26a2e6b7-7093-4487-b287-ee57e452bd5a"
+      ]
+    },
+    {
+      "id": "c8d82b85-9fec-4486-9888-278d47ceeb1d",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "06:00",
+      "scheduleTimeEndStart": "12:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "ecd73f4e-ae6d-472c-99f4-cf59f9bd0f61",
+        "dcf8a059-4ec4-4ad0-9ca9-7b13b9c201d6",
+        "2fac44bc-a114-4888-b50f-c33871ff0203"
+      ]
+    },
+    {
+      "id": "8d4faf01-a0e1-484a-a015-d937789bd45e",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "18:00",
+      "scheduleTimeEndStart": "21:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "9f9ec6e9-23c3-4731-b216-eae75ae543d7",
+        "6270b486-3fc1-471d-ba97-4fd346cf4fe6",
+        "c8645ffd-19ae-470a-98d1-444cf58a0226",
+        "eee8ccef-45e6-4fe2-802b-6fa7538ad168",
+        "f751e787-25aa-4de0-adf2-33ae30866f10"
+      ]
+    },
+    {
+      "id": "b92e5266-679d-4e58-9c63-cb40361b6fbe",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "21:00",
+      "scheduleTimeEndStart": "21:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "5bc507a9-63c5-4eab-b97e-a8b8d615dc71",
+        "13b09227-0b67-47bd-836c-5fa0588accb6",
+        "16d13080-bcc2-4c00-9c98-d1e3fdc89d88",
+        "76ad807a-60f7-4d4e-b43b-0285bfed2da5"
+      ]
+    },
+    {
+      "id": "0590e004-fe1d-4b1d-9e03-4229d77c7f46",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "06:00",
+      "scheduleTimeEndStart": "12:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "e7b74cba-dbe8-4479-9fe8-c36114cd6b46",
+        "9c6d93e8-b645-45d9-b390-4745107c4251",
+        "65f137c5-9ebd-4704-b03a-c2a2fb57f6ce"
+      ]
+    },
+    {
+      "id": "64dac4cf-4b25-4912-968e-7ebd1593d748",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "06:00",
+      "scheduleTimeEndStart": "10:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "ee7b7f78-5a1f-4d37-8a56-9900a49a8c30",
+        "858be4e7-3988-4943-b2a2-ac9db1b55e6d",
+        "02dce1bd-d2fc-403a-9f02-aabbfa0c78c3",
+        "568f65ab-3225-4a1c-92c3-3cd377d48307"
+      ]
+    },
+    {
+      "id": "a7efd9a8-6f95-4f97-913d-dbfc8cfdc799",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "21:00",
+      "scheduleTimeEndStart": "21:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "3d633aa8-18e9-46f0-bb37-4876db38f6b2",
+        "c4312378-03d1-482e-b7c8-5ee6d5d68f73",
+        "57ef8b0d-1c5c-44b7-8c9c-bc0ec55f9125",
+        "669e3e01-2aa5-48ae-a8b3-d32194db57c0"
+      ]
+    },
+    {
+      "id": "7020ba9d-7aa2-4524-a1b3-5f1356077c94",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "06:00",
+      "scheduleTimeEndStart": "10:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "657d9cd8-616f-4246-9f4b-0a11d033f456",
+        "46ec5f61-ec40-42fd-ba6d-131c97bf0634",
+        "5294222b-7ff3-4520-ae53-da39144f3880",
+        "710d1913-cfb4-40db-b7e7-644e64f92e45"
+      ]
+    },
+    {
+      "id": "95e5eda7-6a91-4d34-b86e-1ce7a4543cd2",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "18:00",
+      "scheduleTimeEndStart": "21:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "33980d3d-53fd-466e-a24b-0fce6ea6da96",
+        "7f4c443c-c6ae-4456-8084-1497ec41b5b5",
+        "77754e3e-aecf-4d84-9cf4-8caa3462a812",
+        "233fd42b-a0b6-4508-b59f-ec4079c832f7",
+        "07edda70-1925-4f67-8c1f-c96fe91c4ef3"
+      ]
+    },
+    {
+      "id": "abcb9ffe-4105-4027-85a5-16642ffa1a18",
+      "duration": "12:00",
+      "stepTime": "00:15",
+      "scheduleTimeStart": "21:00",
+      "scheduleTimeEndStart": "21:45",
+      "minIntervalBetweenActivities": "01:30",
+      "maxIntervalBetweenActivities": "03:30",
+      "activities": [
+        "2439a5ad-bdf7-43ce-80a4-ae5c433da1f6",
+        "945b675a-16e7-48bb-be4a-4affd09da3d3",
+        "76288973-e2df-47ae-9cad-5f486aebcc09",
+        "7f4bce7f-e024-44a1-94f4-c7b6a19eb607"
       ]
     }
   ],
   "schemas": [
     {
-      "id": "MS_9часов день",
+      "id": "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
           1,
           2,
@@ -212,12 +730,13 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "0590e004-fe1d-4b1d-9e03-4229d77c7f46",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 5,
           "days": [
             1,
             2,
@@ -250,16 +769,15 @@
             29,
             30,
             31
-          ],
-          "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "9часов день"
+          ]
         }
       ]
     },
     {
-      "id": "MS_12часов день",
+      "id": "0f3036f4-ac12-4156-9154-0627de575c6a",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
           1,
           2,
@@ -292,12 +810,13 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "64dac4cf-4b25-4912-968e-7ebd1593d748",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 3,
           "days": [
             1,
             2,
@@ -330,16 +849,15 @@
             29,
             30,
             31
-          ],
-          "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "12часов день"
+          ]
         }
       ]
     },
     {
-      "id": "MS_9часов ночь",
+      "id": "068d6829-5023-476a-86d5-97bac6682c8c",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
           1,
           2,
@@ -372,12 +890,13 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "09548e04-b6c1-4141-92fd-dfb1ac61a0d8",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 5,
           "days": [
             1,
             2,
@@ -410,16 +929,15 @@
             29,
             30,
             31
-          ],
-          "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "9часов ночь"
+          ]
         }
       ]
     },
     {
-      "id": "SM_9часов день",
+      "id": "1db3b695-6af7-4bfe-ad2e-61d5c854109c",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
           1,
           2,
@@ -452,12 +970,13 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "658ad846-0499-4a66-bc63-6f4739c79fae",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 5,
           "days": [
             1,
             2,
@@ -490,16 +1009,15 @@
             29,
             30,
             31
-          ],
-          "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "9часов день"
+          ]
         }
       ]
     },
     {
-      "id": "SM_12часов день",
+      "id": "7f586a6c-610a-4ceb-a56e-94db23aa4b92",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
           1,
           2,
@@ -532,12 +1050,13 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "7020ba9d-7aa2-4524-a1b3-5f1356077c94",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 3,
           "days": [
             1,
             2,
@@ -570,16 +1089,15 @@
             29,
             30,
             31
-          ],
-          "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "12часов день"
+          ]
         }
       ]
     },
     {
-      "id": "SM_9часов ночь",
+      "id": "096945d4-b9a7-4acb-a9c3-ddf86b67d382",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
           1,
           2,
@@ -612,12 +1130,13 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "c8d82b85-9fec-4486-9888-278d47ceeb1d",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 5,
           "days": [
             1,
             2,
@@ -650,16 +1169,15 @@
             29,
             30,
             31
-          ],
-          "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "9часов ночь"
+          ]
         }
       ]
     },
     {
-      "id": "SM_12часов ночь",
+      "id": "80732f72-db7d-4bfd-ae19-8a5c4e5b9bea",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
           1,
           2,
@@ -692,12 +1210,13 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "0590e004-fe1d-4b1d-9e03-4229d77c7f46",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 5,
           "days": [
             1,
             2,
@@ -730,18 +1249,16 @@
             29,
             30,
             31
-          ],
-          "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "12часов ночь"
+          ]
         }
       ]
     },
     {
-      "id": "NV_9часов день",
+      "id": "ddc174a8-2b22-416c-911e-1b0e76cf21e6",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
-          1,
           2,
           3,
           4,
@@ -772,14 +1289,14 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "95e5eda7-6a91-4d34-b86e-1ce7a4543cd2",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 3,
           "days": [
-            1,
             2,
             3,
             4,
@@ -810,16 +1327,15 @@
             29,
             30,
             31
-          ],
-          "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "9часов день"
+          ]
         }
       ]
     },
     {
-      "id": "NV_12часов день",
+      "id": "4806a946-50e4-4675-8c5f-4e8ce631e832",
       "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
         "days": [
           1,
           2,
@@ -852,12 +1368,13 @@
           29,
           30,
           31
-        ],
-        "minDaysInRow": 1,
-        "maxDaysInRow": 5
+        ]
       },
       "shifts": [
         {
+          "shiftId": "abcb9ffe-4105-4027-85a5-16642ffa1a18",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 5,
           "days": [
             1,
             2,
@@ -890,3388 +1407,3625 @@
             29,
             30,
             31
-          ],
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fff88ed3-03fa-4537-b06a-fa9f3e88d2d2",
+      "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
+        "days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ]
+      },
+      "shifts": [
+        {
+          "shiftId": "730cc58b-00a4-4003-ac00-5915404ce103",
           "minDaysInRow": 1,
-          "maxDaysInRow": 5,
-          "shiftId": "12часов день"
+          "maxDaysInRow": 3,
+          "days": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31
+          ]
+        }
+      ]
+    },
+    {
+      "id": "632ecc1f-f380-4376-82ff-114be98f5187",
+      "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
+        "days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ]
+      },
+      "shifts": [
+        {
+          "shiftId": "fc8c41e8-807c-496a-a52f-ab7148afb975",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 3,
+          "days": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31
+          ]
+        }
+      ]
+    },
+    {
+      "id": "27713fb6-c8b6-4e9b-81ba-890b0bd93b10",
+      "holidays": {
+        "minDaysInRow": 1,
+        "maxDaysInRow": 3,
+        "days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ]
+      },
+      "shifts": [
+        {
+          "shiftId": "8d4faf01-a0e1-484a-a015-d937789bd45e",
+          "minDaysInRow": 1,
+          "maxDaysInRow": 3,
+          "days": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31
+          ]
         }
       ]
     }
   ],
   "employees": [
     {
-      "id": 685,
+      "id": "0006aabe-0ba4-7a35-c0b0-bf6596f85159",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "0029f088-c57a-d3b6-ec58-9f9ba4f7a057",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "003a8eb4-813b-e2f8-c5ad-692ff1866162",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "00b99e87-221c-9afb-0c0c-23c3fb403307",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "010c4611-3fd1-9c0c-dd74-4d4538e07518",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "0f3036f4-ac12-4156-9154-0627de575c6a"
+      ]
+    },
+    {
+      "id": "01c9d2c5-b3ff-5cbb-a349-ec39a570b5e3",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "02a4f951-55ad-3032-1d3a-88b53b85f2d6",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "02c28f84-c46d-eb0b-9930-10f76fef4c0d",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "068d6829-5023-476a-86d5-97bac6682c8c"
+      ]
+    },
+    {
+      "id": "030869ec-c70e-9978-04fe-ed92f3a8fbdc",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "7f586a6c-610a-4ceb-a56e-94db23aa4b92"
+      ]
+    },
+    {
+      "id": "0314ae78-de42-f6db-7888-cb0aa9e0b80e",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "03b2ceb7-3723-f8b5-3cd5-33e4fba898ee",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "03e4405e-9d70-a335-d331-c3c9b97ae418",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "058d7325-57d3-b439-eb2f-fdd074bbf347",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "05da33ea-b200-f4c5-b5ba-3ed05beb2ec5",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "06997f04-a7db-9246-6a2b-aa6ebc8b872d",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 692,
+      "id": "06b5f621-8cc4-7f55-b40a-9c165b39c10b",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "06d25652-fd4d-2f20-2bff-043f7ae5c504",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "07088553-c7d6-c044-0eaa-1567febda186",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "07c5807d-0d92-7dcd-0980-f86024e5208b",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 694,
+      "id": "08f36fcf-88c0-a84c-19a6-ed437b9cbcc9",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "098f2ddd-79cd-296b-ad7b-7b41c2b68a3b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "0a09b1d6-3341-c622-851a-50e02d48e19c",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "0aaf6172-3a35-2ba7-ea1b-e4502df85765",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "0b42ee75-98a0-141d-fa08-77206df38f9c",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "0d81f8d2-278a-750f-06f9-fd48fe57cef0",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "0f004440-ba0c-8f1c-cc5c-355f3d77207f",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "0f541ecc-c4dc-49cc-19da-7ca4594fad27",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "0f8a6c16-89a5-5493-6774-26059495e532",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "11110cf6-4018-6971-37ca-db77b6aee9f8",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "112a8e92-dced-cda4-237d-e18e9126b2d2",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "80732f72-db7d-4bfd-ae19-8a5c4e5b9bea"
+      ]
+    },
+    {
+      "id": "12b5fc79-04a4-ed8e-390a-03143b2cc10b",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 703,
+      "id": "135be22c-f992-5e82-9549-d95e75bac07a",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "1424b9b9-7976-fd6a-10e4-6c9f8aa72597",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "144c3b42-25a9-a225-90d2-e9b5392007a4",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "14aca739-0e63-1593-dae3-ff39e46e15ad",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 713,
+      "id": "1683c30d-b912-8315-5060-d1b8a7cb807a",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "172188c0-dacb-4870-75bd-c0c9afd757b2",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "17e0ce48-c87a-8885-fe8b-82c21cb17ecf",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "18b67afe-2782-9441-b084-5c36bfbc30d1",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "1aa7690e-43a5-471b-7344-591df7afb611",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "1ac395bb-4e47-9617-b0dd-8fe0d4ad4d82",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "1b421972-0cc0-3460-e2e6-5140f5bad4db",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "ddc174a8-2b22-416c-911e-1b0e76cf21e6"
+      ]
+    },
+    {
+      "id": "1c9fcae7-1462-73d7-443f-5b7eac02d56d",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "1d9e93e7-4dda-5258-e7fe-bd6b52502418",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 756,
+      "id": "1e5e1435-c95e-420a-1cd3-4d3202769c18",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "20d135f0-f281-85b8-4a4c-f7aa51f29500",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "21f08cc6-cfc5-6fdb-eade-7c9d8bd78aa1",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "228bbc2f-87ca-eb21-bb7f-6949fddcb91d",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 762,
+      "id": "2389ceb1-6e2c-c394-1618-a5f9055840d0",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "2425ad56-cc45-acbd-2fc4-4f149d69a9b8",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 797,
+      "id": "24510415-57a2-2145-b370-1b0184109cab",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 822,
+      "id": "247c0a95-3f3a-082b-8344-3b3dfccedffb",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "252e98b1-8570-7e59-5a7c-40e615c0da8c",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "2668a710-5966-cae6-e239-01495176b8f9",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "26c79831-bb09-706f-44a4-e975518b1997",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "26ed695e-9b7b-9f64-63ef-4bc1fd74fc87",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "26fcf9e1-2702-3b55-bc1d-ab3feacf45a8",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "2723ad49-bd0d-27b9-7b73-5e4822085e12",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "7f586a6c-610a-4ceb-a56e-94db23aa4b92"
+      ]
+    },
+    {
+      "id": "27545182-21cf-bc8d-25c1-3a06a4cb8421",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "2823f479-7102-ce1a-1aec-05359cc16dd9",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 960,
+      "id": "285f89b8-02bc-b265-1801-455c86d78f2a",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 980,
+      "id": "2c27a260-f16a-d309-8393-cc529f391f4a",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "2ccec25c-9dd1-4baf-6eef-cf64304fa638",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 997,
+      "id": "2cfa3753-d6a5-2471-1acb-5fce38eeca1a",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "2cfd2232-2a83-2d77-3c42-18f4559fa174",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 1031,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1035,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1055,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1072,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов ночь"
-      ]
-    },
-    {
-      "id": 1073,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1107,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1112,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1128,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1129,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1136,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов ночь"
-      ]
-    },
-    {
-      "id": 1142,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1155,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 1252,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 1264,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 1291,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 1303,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 1334,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 1345,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 1349,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 1420,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 1665,
+      "id": "2d5321f0-8137-7537-0f77-4070cad46fbe",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 1672,
+      "id": "2d6c3e40-2316-5b5a-9951-5b9bf87cb41d",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "2f7eaf16-ecee-c07f-c19c-93090e90033a",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 1683,
+      "id": "2fefc978-e857-3441-bb22-120ecc62ac7d",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 1704,
-      "utc": 4,
+      "id": "3328bdf9-a4b9-504b-9398-284244fe97c2",
+      "utc": 20,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 1759,
+      "id": "3467a9a9-6db4-f23d-5f45-b0f5eaeaff06",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 2185,
-      "utc": 3,
+      "id": "34d63021-8575-caa7-98d3-11dceab39cc9",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 2229,
+      "id": "34f81500-45a9-76a9-5a6a-16248623f28b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "361f984f-f004-0fbc-17be-3547788ad9f3",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 2322,
+      "id": "36dac211-003e-cc5d-d496-ab254f06bba6",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "3765802a-8076-28e3-ece9-dbd30ca00a21",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "37915daf-6e87-2d58-791b-5e5cb144fc4a",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "3895c46a-b7fd-5281-08dc-9da3d3745f88",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "390e9825-18a5-0e28-0d8e-2b535462ec1f",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "3930fd50-d70d-5c2b-3ec0-9a08e2370851",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 2325,
+      "id": "3a98773b-bbf5-7f8f-1901-0e2d754e1cb0",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "3cdacdba-0a3e-4bf9-31fb-e577ee4f94f7",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "3dce18d1-9981-52ee-b1b5-fe47ab64cf1d",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "3e9f7c16-bd1c-dea7-8f8e-2eea72dfdfbe",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 2444,
-      "utc": 4,
+      "id": "3fbb8f37-336f-ad94-af96-e09ac656809a",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 2473,
-      "utc": 4,
+      "id": "3fe78a8a-cf5f-da99-de95-303940a2420c",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 2545,
-      "utc": 4,
+      "id": "415585bd-389b-6965-9223-807d77a96791",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "0f3036f4-ac12-4156-9154-0627de575c6a"
       ]
     },
     {
-      "id": 2559,
-      "utc": 4,
+      "id": "424f7ef1-be19-5c6e-fc2a-19439b152a81",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 2576,
-      "utc": 4,
+      "id": "429b5c14-c4ec-c85d-e798-1da4090eb68f",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 2810,
+      "id": "4375b189-9f2a-38ba-3d4c-7d08793325ec",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "437d7d1d-9791-7cd6-27a3-4a6a0fb41136",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "44b4596c-7a97-9aa7-e4fc-820c07fd78fe",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "460d2456-c49e-58db-b01c-6723f6a3a560",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "46a4378f-835d-c804-0c80-57beb6a2da52",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "46c3b2e8-4687-fd51-1019-29492e53fced",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "47a65822-9eb2-368a-99f1-d032c8848542",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "80732f72-db7d-4bfd-ae19-8a5c4e5b9bea"
+      ]
+    },
+    {
+      "id": "47f5d6b9-ad18-d160-95cd-0d4fc758b168",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "481d462e-46c2-ab97-6294-271a175b8929",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "48af87b5-8703-6693-d6a3-caf03db7dc02",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "48d4167a-0f3b-c106-86a1-ad20a8008c73",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "493c465c-0ff3-13ad-b2a8-164d3cdee573",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "494ad0d2-4e15-c7da-81c7-ea265c7f4cb4",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "49ad9d54-23f3-fcc6-9626-dcbfb7bddb48",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "4c40792e-5998-965f-3002-47b4b43a879b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "4ca987e0-2bbb-f558-114f-8c0633e2c7ac",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "4df14e7b-a7f3-122f-a391-492bdf8d59a7",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "4e246a38-1baf-2ce0-38b3-b0f82c7d6fb4",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "4f0bf7b7-b1ac-a9ad-1531-7a0b4efdca14",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "4f8a3184-0306-3fea-7518-13e0991d5bf6",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "50de294b-9d49-87a3-c89b-4a5cc4bdea62",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "50e1781e-60d7-2536-5a74-d585a2734062",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "0f3036f4-ac12-4156-9154-0627de575c6a"
+      ]
+    },
+    {
+      "id": "51516ca3-355d-dd16-6917-6f3c766ff881",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "523f4369-3bfa-6c60-7d2f-e43b43ba96fd",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "52fb7387-2f43-bca8-9971-14b07211f53b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "53a321a3-dd5f-ec15-174c-52abc7dca46a",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 2963,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 3585,
+      "id": "53c04118-df11-2c13-a8c3-4b38343b9c10",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 3595,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 3705,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 3784,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 3997,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 4045,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 4064,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 4069,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 4413,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 4667,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 4694,
+      "id": "5487315b-1286-f907-1659-07aa8fc96619",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 4873,
+      "id": "5499e632-2460-5f2e-b134-06af0af5b76d",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 4879,
-      "utc": 4,
+      "id": "58b4095f-b533-5282-cc3f-de57c643da38",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 5002,
-      "utc": 4,
+      "id": "58c6ee5f-6908-cd66-1c40-7e3847bc2d6f",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_12часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 5006,
-      "utc": 4,
+      "id": "59623901-3dbd-ab45-91ce-fef9be5a5f58",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 5409,
+      "id": "59b5a32e-f220-91b6-057d-844141c0bafd",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "5a45d7ba-e2d4-d070-61d3-e882475b049b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "5e056558-ced8-fa42-4fac-c20b1ba2369c",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 5477,
-      "utc": 4,
+      "id": "5e4c4233-882f-7f4d-db6e-14d961f31b03",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 5484,
-      "utc": 4,
+      "id": "5e6bd7a6-970c-d432-5e58-7f02667f7f73",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 5575,
-      "utc": 4,
+      "id": "5f13c563-6de3-3b88-2a9e-d872a2985dff",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 5577,
-      "utc": 4,
+      "id": "5f41caa0-7641-b4b1-9aaf-61278a061920",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 5751,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 5756,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 5805,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 6248,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 6273,
+      "id": "5fd513e8-9cc6-56d9-c7ab-2bca4168a4f2",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 6605,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов ночь"
-      ]
-    },
-    {
-      "id": 6807,
+      "id": "5fedcaff-c4ab-a6e5-7a35-63b1c7d60c1d",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_12часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 6821,
+      "id": "606c90a0-6173-d696-82fe-b83037a68fec",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "6070e54f-b696-14dc-e3d0-6d1ae4682d37",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 6924,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 6931,
+      "id": "60bb8062-ea8e-0c7f-f17b-b2e484cd223a",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 6933,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 7053,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_12часов день"
-      ]
-    },
-    {
-      "id": 7177,
+      "id": "61180d33-250a-ddaa-3b07-e23e110c04f4",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_12часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 7361,
+      "id": "614f4f0d-8a78-0ed1-8742-f0193cd31af4",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "61995373-0129-0499-0791-9279f29bd9d7",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "62bf90d9-e45d-aa96-7b5d-68fcc482a0a7",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "6346db6a-68f6-3231-8af0-c2a474b9eb34",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "7f586a6c-610a-4ceb-a56e-94db23aa4b92"
+      ]
+    },
+    {
+      "id": "6432821a-1d5b-2b35-b3c4-7142fbf29a02",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "6483a599-028c-6f20-aa6f-40c3b507420d",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "65b22292-b232-047a-c742-de249504db02",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "663772ea-0883-60f9-5bac-3dc7ffb841be",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 7606,
+      "id": "665ff684-47af-5123-6240-372e4ce5a774",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 7659,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 7702,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_12часов ночь"
-      ]
-    },
-    {
-      "id": 7719,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 7854,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 7859,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 7886,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов ночь"
-      ]
-    },
-    {
-      "id": 7889,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 7942,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 7949,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8082,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8260,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8268,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8269,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8271,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8272,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8297,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8403,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8404,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8406,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_12часов день"
-      ]
-    },
-    {
-      "id": 8453,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 8710,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 8715,
+      "id": "67850e18-42b9-a870-8881-7efe86d05e1d",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 9005,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_12часов день"
-      ]
-    },
-    {
-      "id": 9251,
+      "id": "67ed992a-321b-ccb1-66b8-c25ad190f33c",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 9309,
+      "id": "680ee49e-2883-4678-a71b-b58c41f3ec62",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 9563,
+      "id": "68729376-17af-85db-5a39-a5243e858d1f",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "7f586a6c-610a-4ceb-a56e-94db23aa4b92"
       ]
     },
     {
-      "id": 10078,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 10312,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 10392,
+      "id": "69a5b599-5110-b36a-9a34-7898d97a610e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 10907,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 11105,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 11320,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 11328,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 11330,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 11354,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 11418,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 11535,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_12часов день"
-      ]
-    },
-    {
-      "id": 11590,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 11715,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 11768,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12008,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12013,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12019,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12051,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_12часов день"
-      ]
-    },
-    {
-      "id": 12262,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12514,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12609,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов ночь"
-      ]
-    },
-    {
-      "id": 12734,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12746,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12747,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 12876,
+      "id": "69e6b62c-2088-742a-dd07-e1ea717d68e8",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 12880,
-      "utc": 3,
+      "id": "6c8dba7d-0df1-c4a7-9dd0-7646be9a26c8",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 13162,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13362,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13418,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 13527,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_12часов день"
-      ]
-    },
-    {
-      "id": 13595,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13618,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 13619,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 13624,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13625,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13708,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13774,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13775,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13779,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13785,
+      "id": "6c97cd07-663b-0992-53bc-569fe8d342bb",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 13867,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 13958,
+      "id": "6cd9313e-d34e-f58b-ad3f-dd504355e72c",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_12часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 14192,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 14226,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 14265,
+      "id": "706449df-952e-e5a6-8b92-454ec61a18c4",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 14360,
+      "id": "7071a9c8-7037-26d7-8b0a-3089ce26457b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "71f6278d-140a-f599-e06a-d9bf1ba03cb0",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "7248f120-44a0-790c-d993-3886d17234eb",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_12часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 14376,
+      "id": "73bff383-58ee-f9fa-431a-f325f5eaf8e0",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "74707d06-4c4e-eda1-2c3b-f2f1807a7198",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 14387,
+      "id": "754b8fde-508b-e747-48bb-02907c2409d9",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 14424,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 14473,
+      "id": "761a0c71-4184-cab2-456d-17bdfbb8d550",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 14630,
+      "id": "7658d0dd-31ff-8ec1-2a39-33f064e000a1",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 14722,
+      "id": "776af967-1dbf-a3ac-15c6-e0711001bdea",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 14727,
+      "id": "77bb909a-2d2e-a5c4-2602-592012e43474",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 14766,
+      "id": "77bd061c-0e64-5ca4-2b08-7a6d0d06c019",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 14769,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_12часов день"
-      ]
-    },
-    {
-      "id": 14770,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_12часов день"
-      ]
-    },
-    {
-      "id": 14859,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 14916,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 14922,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 14958,
+      "id": "784ff396-84c7-a23c-fa09-e77719256e20",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 14961,
+      "id": "78b8d662-0afc-d434-a4b7-fb41b22e595b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "7a4d21f4-0402-d068-ec53-69232b395901",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15063,
+      "id": "7a54f013-04f2-b104-69ad-493314ad2b5e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15085,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15088,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15091,
+      "id": "7a7b4862-f2e6-9483-a113-f471c2f98acf",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15164,
+      "id": "7aaba5f3-511f-5612-8e71-30c2973e0503",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15452,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15454,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15480,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15483,
+      "id": "7ad45ac2-157d-7280-1438-b07dffcbbb20",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15486,
+      "id": "7b4848a7-38dc-c0cd-ec27-a76906693b3e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15509,
-      "utc": 4,
+      "id": "7ecd070e-606a-fbf0-7a07-c32e7267051f",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 15512,
+      "id": "7fd80429-5ef7-f6a2-822b-f4c61f9dc4a8",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "7ffe8174-0cad-e70f-9263-a9975441c473",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15544,
+      "id": "809c21ab-eab1-b61f-a578-f1bc473aa3eb",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15550,
+      "id": "813b6a28-cc4a-c72d-2442-66161e3e2eb4",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15569,
+      "id": "821e779c-fa8e-08b2-6602-8c1955cf8ab7",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15630,
+      "id": "8288eb46-2e80-418e-70a3-93d245a984ce",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15632,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 15637,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 15640,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 15643,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 15709,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 15711,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 15726,
+      "id": "8392cfa1-ba85-1b4b-f973-01d6416725ac",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 15738,
-      "utc": 4,
+      "id": "8430b32b-5bac-908e-765d-f8813d4405c5",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15745,
-      "utc": 4,
+      "id": "84b30ffe-622e-26fd-c1e9-2969e4e874cc",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15755,
+      "id": "86109d40-0f0e-d29e-840b-47ed72777c84",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "86cfe916-93a0-0fce-cb6b-093bec3d293f",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "86d5cf1c-d2af-ee60-5557-c297315be15b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "0f3036f4-ac12-4156-9154-0627de575c6a"
+      ]
+    },
+    {
+      "id": "871ee402-e7a9-a1cc-25c0-2e0e0b1bb08c",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 15802,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15805,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15808,
+      "id": "87245f4b-1d0d-12cf-1aaa-77bc289037d4",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15865,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15875,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15880,
+      "id": "872de53a-900f-3250-ae56-49ea19e5c381",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15899,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15903,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 15927,
+      "id": "88c26011-1b63-62d7-2c61-018f03aba757",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15947,
+      "id": "8a16ccb2-68bb-be68-0385-ddccfbe61737",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "8ab9bb97-ce35-0803-38be-74dc6375e0ed",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 15950,
+      "id": "8b78af9b-5b1a-c274-5410-ef836e697a1c",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "80732f72-db7d-4bfd-ae19-8a5c4e5b9bea"
       ]
     },
     {
-      "id": 16112,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 16166,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 16168,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 16313,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 16321,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_12часов день"
-      ]
-    },
-    {
-      "id": 16386,
+      "id": "8ba9f740-1e1f-60f3-024a-d195d4a24d8e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 16389,
+      "id": "8ce6790c-c6a9-4e65-f17f-908f462fae85",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_12часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 16521,
+      "id": "8cf290e6-f48e-f39e-24b2-d88e1dc7b5df",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "8d566a33-8d77-58ba-07b0-fade172590cc",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "8d98ea39-2614-1565-4200-fc3faa058283",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "0f3036f4-ac12-4156-9154-0627de575c6a"
+      ]
+    },
+    {
+      "id": "8e695f42-b94d-9a6c-e647-a0232d1b7c59",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "8e8a773d-bf95-24b9-c37c-127d50ec4d26",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "8e9cd83f-2adc-f2a0-64c2-b35d3564e075",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 16624,
+      "id": "8edd7215-8ccd-2a87-9f79-cb2538568fdc",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "8f7b2d91-0057-7f77-aa8f-bb4f51c0366e",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "8fc4bc38-0e61-85d2-f37a-64f0c8f34a93",
+      "utc": 12,
+      "minWorkingHours": 172,
+      "maxWorkingHours": 172,
+      "schemas": [
+        "0f3036f4-ac12-4156-9154-0627de575c6a"
+      ]
+    },
+    {
+      "id": "9005e22c-1f6a-9126-9cfa-f51aedb6e83b",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "90db9da4-fc54-14ab-55a9-fe495d555c06",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "911b10b7-3d26-005b-82c8-d2b5256f2403",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "920dcd7a-5a8e-7d5c-afb7-ae27f3783966",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "9246ebba-512d-e14e-7628-3df2772bba5c",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "9261dd1b-310a-1949-370f-3ec6e8aa78ea",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "945e01e4-dfc8-3449-d9ed-c77e001e2c0c",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "946af355-5203-afdb-63e5-71b873e419f6",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "94f0b006-108b-4e0b-7024-060797631346",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "969a086e-0717-a9b4-96dd-0e9a50ec8010",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "97cc7b6c-7b91-cf6b-4718-df7341c89d20",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 16832,
+      "id": "97d0e032-9055-e6dd-aaaf-2335a2509231",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_12часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 16850,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_12часов день"
-      ]
-    },
-    {
-      "id": 16890,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 16913,
+      "id": "97d874c5-aaa9-be3f-a256-de891418b0d7",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 16974,
+      "id": "9a093d72-9036-a5bd-4736-e03c5d634501",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17044,
+      "id": "9a9c759a-3bc0-7fef-5eba-f9d2eea33dc1",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "9afa24d3-da74-5fd5-606e-7d710a0763eb",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17058,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 17059,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 17067,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 17150,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 17157,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 17263,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 17297,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 17301,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 17304,
+      "id": "9bf3dbf0-c2ef-d551-ca83-2b9b6800749c",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 17330,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 17336,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 17358,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 17469,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 17509,
+      "id": "9d0fd14c-56f1-5732-cb89-4bec23bd6a13",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 17512,
-      "utc": 4,
+      "id": "9d28de8f-f9bb-6a3f-a41f-ddfdc28f3bc1",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 17541,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 17633,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 17652,
+      "id": "9d5a76df-2515-4ff3-9e70-52fa9c3234a6",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17659,
+      "id": "9d6251bb-a689-4c49-8e50-515528c546df",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17664,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_12часов день"
-      ]
-    },
-    {
-      "id": 17680,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 17682,
+      "id": "a0046ad4-c1ba-fc4e-f04e-41e755f28368",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17694,
+      "id": "a0519cba-56fb-fc7a-dac9-c0a3d313b27d",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17861,
+      "id": "a0f1a068-6c4e-cffb-f795-ea2d2a42817e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17862,
+      "id": "a1255c9d-bdcd-6351-43d1-72dee1b8c0fe",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "a1519de5-b5d4-4b31-a01d-e013b9b51a80",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "80732f72-db7d-4bfd-ae19-8a5c4e5b9bea"
+      ]
+    },
+    {
+      "id": "a1f69f60-00f7-a8b5-883b-7134fcf8d558",
+      "utc": 3,
+      "minWorkingHours": 172,
+      "maxWorkingHours": 172,
+      "schemas": [
+        "ddc174a8-2b22-416c-911e-1b0e76cf21e6"
+      ]
+    },
+    {
+      "id": "a284df11-55ec-3e67-2860-80500df36a9a",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "a2ce8f17-06e5-2936-dfad-516c23904e3e",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 17865,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 17870,
+      "id": "a34bacf8-39b9-2377-0b2c-360eefa26748",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17910,
-      "utc": 4,
+      "id": "a4c42bfd-5f51-30dd-f96e-34a036c75e0a",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 17913,
+      "id": "a54505e6-a589-aa3b-3867-4ef107da13c1",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "068d6829-5023-476a-86d5-97bac6682c8c"
+      ]
+    },
+    {
+      "id": "a584750e-807e-7315-9a3e-c38cf03ec65f",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "a588a619-9fef-f5ba-4840-2883d9b72700",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "a5d4c8d6-8d67-86a7-7956-f96e2cb5f73c",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "a64a1476-544d-b9bd-76a6-d1f024a3a8c6",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "7f586a6c-610a-4ceb-a56e-94db23aa4b92"
+      ]
+    },
+    {
+      "id": "a70a3a17-4938-bdf2-0e7b-87062c015792",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "a73d2d60-ed47-2454-a036-0027aa039bdb",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "a7ef1270-d275-a787-9bf0-1af8385dbd91",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "a8acc287-34d4-fe90-ea24-353d901ae678",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "a8bfe36f-a885-d468-1437-8912f268a8a1",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 17960,
-      "utc": 4,
+      "id": "a8dbb2be-c6ec-3e82-cef9-06b52cebbe7d",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 17992,
-      "utc": 4,
+      "id": "a91edecd-508c-d9e5-b304-9e1918f0c6eb",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 17994,
-      "utc": 4,
+      "id": "a97484e0-7cad-027a-9fb8-28764c1dcf6a",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 17996,
-      "utc": 4,
+      "id": "a98a009d-68ca-d18a-e7b1-d3576bb01924",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18023,
+      "id": "aa36c88c-2765-0af3-b986-8b723ae15dfc",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "abec16f4-83ab-b4f1-810c-a029aadf8446",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "ac53fab4-7b54-7a0d-47b7-7e424cf119ba",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "acc564da-afaa-f26d-45b5-d37c5e68384e",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "ace668d8-45c2-84b9-352d-e506cb046628",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "adc961e9-beb6-7689-b0ee-5d49ee0b711d",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "aea93b39-fbf6-af64-f578-5c9514c1ef39",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "aec3e4a8-bf7a-9a78-686f-7973d4c848b1",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18056,
+      "id": "af3632b9-be2c-1cf9-b507-427e6fd9e9fe",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "af3b0930-d888-e15a-07a3-6b9987b70858",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18057,
+      "id": "afda3322-45e2-af43-1fb7-b672a68b659d",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18083,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18102,
+      "id": "afdec700-5cc9-f143-02cd-0474fd0f3c96",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18103,
+      "id": "b0ba5c44-aaf6-5f6c-a34c-f116e6d82ebf",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "ddc174a8-2b22-416c-911e-1b0e76cf21e6"
       ]
     },
     {
-      "id": 18104,
+      "id": "b0e9b8f9-26e4-2416-6471-bab7d40a686b",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18124,
+      "id": "b16257c9-6b98-44ac-e63d-499838c2b71a",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "b1b207a0-9a44-e6a5-528f-b4c90ae85143",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18125,
+      "id": "b20ab15a-36e8-643d-5204-1a1cbce997e5",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_12часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18133,
-      "utc": 4,
+      "id": "b3f25f67-fa76-62de-c75e-006a97770e6c",
+      "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18137,
+      "id": "b41fa11b-adee-2d79-d4fb-e0a53f8d7a15",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "b458b8fe-bcef-7e8b-854e-bdd7eda80b96",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "b56ecb91-e505-cc30-ffba-96419af1cf19",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18174,
-      "utc": 3,
+      "id": "b5baa9c2-3ac3-e015-ad28-7b17a3d4afa3",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 18176,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18177,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18178,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18180,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18181,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18209,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18210,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18214,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18224,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18228,
+      "id": "b5c70374-930b-7333-790c-fef5c80f3bd8",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18277,
+      "id": "b64bd4b2-d025-a763-5eab-f84b086f65fe",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18284,
+      "id": "b6c8cf4c-587f-2ead-0c08-955ee6e2502b",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18285,
+      "id": "b7f91ee1-b94f-1ed3-dbb2-959607f4b784",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "b820fc86-8475-ef54-4228-c3c8fa6a685e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18286,
+      "id": "b887d8d5-e65a-c4de-c393-4028fe23ad72",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "b9e4093f-9702-51d5-bcf8-88b76944a4bc",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18294,
+      "id": "ba01738f-996a-524b-d59e-9a05c929ac06",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18295,
+      "id": "ba0a4d6e-cea3-e9e1-26dd-3b6d77291c97",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18309,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18310,
+      "id": "ba1b3eba-322e-ab5d-895a-a3023fe78b9c",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18311,
+      "id": "ba32ac47-8109-9e7f-fe65-f42e3cdf3d34",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18324,
-      "utc": 4,
+      "id": "bacdf41f-d247-d01b-0203-e599892f99ba",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 18332,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18333,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18336,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18362,
+      "id": "bb319a95-4eef-4a99-b72e-60f9b295f123",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18363,
+      "id": "bb43b255-f1e4-020e-7ad8-f6cd9d39fa9d",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18364,
+      "id": "bb44c2e2-4438-b59f-0d21-09fec67f6b20",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18371,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов ночь"
-      ]
-    },
-    {
-      "id": 18374,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18375,
+      "id": "bc02850c-eec6-4042-2e0c-d11a6a4b827e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18376,
-      "utc": 3,
+      "id": "bcc0d400-2887-93e8-bdcd-7c19a8ac0c2b",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 18410,
-      "utc": 3,
+      "id": "be1bfa4e-216c-c405-ab97-94353bdbe655",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 18458,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18459,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18462,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18464,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18467,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18502,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18562,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18564,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18571,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18573,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18622,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18642,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18648,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18662,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18670,
+      "id": "beb22fb6-94d5-13ed-cf55-33cf006dfeae",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18674,
+      "id": "bf477629-0aaf-c806-f1c8-92156a3a9d52",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "c064251d-2c99-adbe-e465-c50f05bda944",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "c0db9e6e-2275-1932-5ef2-007b71cef88e",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "c0e8517b-1fe0-b527-0f3f-41d4b56d6118",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "c1fcffd5-1eb7-c38b-7209-a6106d66cc84",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "c2040acf-fc30-ed5c-6145-ba880466705f",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "c2b8ebbd-e383-625a-81ba-05a0f7b7192d",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "c2de2e6b-bf07-cd38-7733-66898f06f3d5",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "c31de864-11f6-43ec-08e0-4b38ae397efc",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "c53eb508-9337-7ca2-87be-8ce398855353",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18689,
+      "id": "c5b3966b-d2d4-c690-da36-8b3ecbece868",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18704,
+      "id": "c64c1dc4-0ade-60a3-aba8-332e10260c93",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "7f586a6c-610a-4ceb-a56e-94db23aa4b92"
+      ]
+    },
+    {
+      "id": "c6b7a3f8-83eb-dc29-cbe6-17ea59b74987",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "c70341de-2c11-2a6b-3496-aec1f631dddd",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18713,
+      "id": "c80bcf42-c220-b8f5-c41f-85344242f1b0",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18714,
+      "id": "c9fa5a72-863b-86fe-0c7d-c5902e21fb17",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "cb5e1674-92be-00a8-d04f-ff1532fd0ec4",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18715,
-      "utc": 4,
+      "id": "cbeed2b0-64ab-e2fb-4b0e-a8b769027bee",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 18720,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18730,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18731,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18732,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18739,
+      "id": "cd50a664-0d62-8499-2905-dc447fd7701d",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "632ecc1f-f380-4376-82ff-114be98f5187"
       ]
     },
     {
-      "id": 18741,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18743,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18744,
+      "id": "d00dd56b-0a7e-8080-6566-4f82c16eb658",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18746,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18750,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18785,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18824,
+      "id": "d01ae29d-5449-df16-318a-a3760c9665b3",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18828,
+      "id": "d0aaf39f-31ae-d7d7-bec1-137e15d335b6",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18829,
+      "id": "d1d5923f-c822-531b-bfd9-d87d4760914b",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18830,
+      "id": "d2674b94-792c-7f0a-fc26-b56eabc95b30",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18831,
-      "utc": 3,
+      "id": "d282ef26-3719-ab84-2e05-382dc235f69e",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 18861,
-      "utc": 3,
+      "id": "d29af1fd-577b-0370-33dd-1149e816d521",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 18862,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18863,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18864,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 18867,
+      "id": "d6c651dd-cd97-183b-2e40-bc464231c962",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 18871,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18875,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18880,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 18909,
+      "id": "d79aac07-5930-c83c-2f1e-369a511148fe",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 18911,
-      "utc": 4,
+      "id": "d801eb0f-d6c4-a9a6-d5f7-e5c76c6a60fc",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 19012,
-      "utc": 4,
+      "id": "d81f29a9-985d-0eb4-adc0-279e79a9ec75",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 19059,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 19063,
+      "id": "d8cda2f3-5a02-ca45-9421-ded6f9a5e868",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19114,
-      "utc": 4,
+      "id": "d9376cb8-4f00-869b-10eb-6203c61e705c",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 19116,
+      "id": "da441fc2-59be-c560-a674-60b17f4b657e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19120,
+      "id": "daea32ad-cae6-abcb-5481-34fa98f139f9",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "db0cf003-e7db-9592-288d-809665cfeb2a",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "dd2bdf6c-b881-176b-c2c0-c568e1a180fa",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19123,
+      "id": "dd3765ac-4f23-d2cc-861b-8dbff12de05e",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19125,
-      "utc": 4,
+      "id": "dfa54381-225d-763c-c2e6-b12d2d6c64ac",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 19130,
-      "utc": 4,
+      "id": "dfc69ee4-c48a-622e-2bcd-a2c3d2a219d0",
+      "utc": 12,
+      "minWorkingHours": 172,
+      "maxWorkingHours": 172,
+      "schemas": [
+        "068d6829-5023-476a-86d5-97bac6682c8c"
+      ]
+    },
+    {
+      "id": "e08dfc13-a6d1-06f0-32f4-9aca8caa4f2f",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "SM_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 19131,
-      "utc": 3,
+      "id": "e16e74a6-3567-ecb4-4ade-5c87002bb1d9",
+      "utc": 12,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
       ]
     },
     {
-      "id": 19136,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 19168,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 19209,
-      "utc": 3,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "MS_9часов день"
-      ]
-    },
-    {
-      "id": 19258,
+      "id": "e17a886e-fc21-fa45-b9dc-49a17c29dcf1",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 19260,
+      "id": "e30c5701-e13a-4e6e-137d-71eb71c416b4",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "e3292c4c-18ea-e706-134c-3a5874c6384e",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "e35026a2-b91f-352d-b22b-fef0e693c2e3",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "e417baa9-cdf3-4202-f71b-55a27da899e8",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "e52c9599-ea82-e008-7458-96110ba2804a",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "e555ebe0-ce42-6f7f-9b2b-ef0706315e0c",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 19265,
+      "id": "e58cc5ca-9427-0aca-ceed-13bc82dfedf7",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19267,
+      "id": "e6a4f65e-7355-bb8b-7671-c3a18003b146",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "e6e97acf-ea8d-0d3b-34ff-d456ab9f665c",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "e7c09382-9bea-4de0-7b0b-8f7ed4f8cbb4",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "e832d017-3156-75c7-9731-378fad5c15e6",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19309,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 19310,
+      "id": "e8a079d6-a3db-abc7-bcfa-0047f63e475c",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19312,
+      "id": "e8d92f99-edd2-5e2c-ef48-eca48320a1a5",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 19338,
+      "id": "e900ad3b-2019-268e-3182-123407fda545",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19365,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 19366,
-      "utc": 4,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "SM_9часов день"
-      ]
-    },
-    {
-      "id": 19410,
-      "utc": 7,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "NV_9часов день"
-      ]
-    },
-    {
-      "id": 19416,
-      "utc": 7,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "NV_9часов день"
-      ]
-    },
-    {
-      "id": 19417,
-      "utc": 7,
-      "minWorkingHours": 176,
-      "maxWorkingHours": 176,
-      "schemas": [
-        "NV_9часов день"
-      ]
-    },
-    {
-      "id": 19466,
+      "id": "ebf4a67a-d8e6-4265-c877-7f8c0fe5c1c4",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19467,
+      "id": "ec5aa0b7-8460-82a2-415f-0902f0da88f2",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     },
     {
-      "id": 19558,
+      "id": "ed582716-bfb4-738c-cd92-405301122e66",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "ee0e9524-9268-b86f-f205-3bef214bfeda",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "ee3e2bda-9df6-2dc0-c091-db891154cf34",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "eeee5e57-59e8-8c42-b584-6f5f06094dc3",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "ef1e491a-766c-e312-7556-063d49bc2f98",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "ef2ee09e-a955-1de8-8bc1-1fd7eeea93b0",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "ef58947d-c33e-8fc8-5af0-f246352112f7",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "efee1278-c617-2f73-61d1-900617faede2",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "0f3036f4-ac12-4156-9154-0627de575c6a"
+      ]
+    },
+    {
+      "id": "f0b875eb-6cff-6fd5-f491-e6b6521c7510",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "f0f07e68-0de4-07b0-f12a-bf15bd520097",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "f12ee973-4e1e-df70-ed02-d9829018b3d9",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "f1f3fa16-a9b4-0415-6622-b361d6a39ef5",
       "utc": 7,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "NV_9часов день"
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
       ]
     },
     {
-      "id": 19611,
+      "id": "f2691acb-7745-bc99-f901-5f0953200cf1",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "f2853e5d-e732-df8a-70c4-ca081fc81119",
       "utc": 3,
       "minWorkingHours": 176,
       "maxWorkingHours": 176,
       "schemas": [
-        "MS_9часов день"
+        "7f586a6c-610a-4ceb-a56e-94db23aa4b92"
+      ]
+    },
+    {
+      "id": "f2ee555e-877c-9bd7-239e-2a2d4e5c4f25",
+      "utc": 7,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
+      ]
+    },
+    {
+      "id": "f300f602-b2d8-1630-7064-2579d398466b",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "f357918b-9afb-be4c-2913-6d76033fc2ea",
+      "utc": 7,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "096945d4-b9a7-4acb-a9c3-ddf86b67d382"
+      ]
+    },
+    {
+      "id": "f39f6f54-273c-c68d-91eb-7443932a64ad",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "f3d205b3-f8c2-bb28-c46e-204c6f1b499d",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "80732f72-db7d-4bfd-ae19-8a5c4e5b9bea"
+      ]
+    },
+    {
+      "id": "f4beeba0-dd6c-190c-6ac0-2f85e7b3691c",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "f678a3b7-005a-6251-cb0c-f3a28f523cb3",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "fb4c4860-8ce8-825b-558c-cf07169a3421",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "fb8e9511-71a9-61a8-23a8-f4081a5d8c08",
+      "utc": 12,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "1db3b695-6af7-4bfe-ad2e-61d5c854109c"
+      ]
+    },
+    {
+      "id": "fbad540b-2f3b-5638-a9be-9aa6a4d8e450",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "fbf6e9ff-ad68-f73e-4661-98206987dedc",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "fca758e5-2635-df5a-640f-7063ddb9cdcb",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "7f586a6c-610a-4ceb-a56e-94db23aa4b92"
+      ]
+    },
+    {
+      "id": "fd37f7a1-dfa1-da55-6ff4-2338d7f27186",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
+      ]
+    },
+    {
+      "id": "fddd7938-a71d-b5f8-1fcc-621673ab67b7",
+      "utc": 3,
+      "minWorkingHours": 176,
+      "maxWorkingHours": 176,
+      "schemas": [
+        "c1cf4287-8542-4f4b-b54b-0a05aa8ad04c"
       ]
     }
   ]

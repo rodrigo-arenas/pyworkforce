@@ -31,8 +31,8 @@ def get_duration_from_shift_short_name(name):
 
 def get_shift_short_name(t, utc):
     duration = dt.strptime(t['duration'], "%H:%M").hour
-    start = dt.strptime(t['scheduleTimeStart'], "%H:%M").hour
-    end = dt.strptime(t['scheduleTimeEndStart'], "%H:%M").hour
+    start = t['scheduleTimeStart']
+    end = t['scheduleTimeEndStart']
     stepTime = dt.strptime(t['stepTime'], "%H:%M").minute
     return f'x_{utc}_{duration}_{start}_{end}_{stepTime}'
 
@@ -75,14 +75,24 @@ def upscale_and_shift(a, time_scale, shift_right_pos):
   return list(items)
 
 
-def genereate_shifts_coverage(shift_hours, name, horizon_in_hours, start_hour, end_hour, step_mins):
+def genereate_shifts_coverage(shift_hours, name, horizon_in_hours, start_hour, start_txt, end_hour, end_txt, step_mins):
   time_scale = int(HMin / step_mins)
-  slots = time_scale * (end_hour - start_hour)
-  res = {}
-  for i in range(slots):
-    s_name = f'{name}_{horizon_in_hours}_{start_hour + (i * step_mins // HMin)}_{i * step_mins % HMin}'
-    res[s_name] = upscale_and_shift(shift_hours, time_scale, i) 
-  return res
+  if (start_hour == end_hour):
+    start_min = int(start_txt.split(":")[1])
+    end_min = int(end_txt.split(":")[1])
+    slots = (end_min - start_min) // step_mins
+    res = {}
+    for i in range(slots):
+        s_name = f'{name}_{horizon_in_hours}_{start_hour}_{i * step_mins}'
+        res[s_name] = upscale_and_shift(shift_hours, time_scale, i) 
+    return res
+  else:
+    slots = time_scale * (end_hour - start_hour)
+    res = {}
+    for i in range(slots):
+        s_name = f'{name}_{horizon_in_hours}_{start_hour + (i * step_mins // HMin)}_{i * step_mins % HMin}'
+        res[s_name] = upscale_and_shift(shift_hours, time_scale, i) 
+    return res
 
 
 def unwrap_shift(encoded_shift_name, with_breaks = False):
@@ -123,14 +133,16 @@ def decode_shift_spec(encoded_shift_name):
         t.step = int(step)
     elif cx == 5:
         utc, name, duration, start, end, step = encoded_shift_name.split('_')
-        t.end = int(end)
+        t.end = int(end.split(":")[0])
+        t.end_txt = end
         t.step = int(step)
     else:
         raise "Shift spec not supported"
 
     t.name = name
     t.duration = int(duration)
-    t.start = int(start)
+    t.start = int(start.split(":")[0])
+    t.start_txt = start
     return t
 
 
@@ -147,7 +159,7 @@ def get_shift_coverage(shifts, with_breaks = False):
         base_spec = deque(base_spec)
         base_spec.rotate(a.start)
         base_spec = list(base_spec)
-        res = genereate_shifts_coverage(base_spec, a.name, a.duration, a.start, a.end, a.step)
+        res = genereate_shifts_coverage(base_spec, a.name, a.duration, a.start, a.start_txt, a.end, a.end_txt, a.step)
         shift_cover = shift_cover | res
 
     return shift_cover
