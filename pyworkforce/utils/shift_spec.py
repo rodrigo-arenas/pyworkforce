@@ -8,7 +8,7 @@ from datetime import datetime as dt
 
 HMin = 60
 DayH = 24
-
+HMDELIMITER = '-'
 
 def get_start_from_shift_short_name(name):
     # 3_12_7_45
@@ -31,8 +31,8 @@ def get_duration_from_shift_short_name(name):
 
 def get_shift_short_name(t, utc):
     duration = dt.strptime(t['duration'], "%H:%M").hour
-    start = t['scheduleTimeStart']
-    end = t['scheduleTimeEndStart']
+    start = t['scheduleTimeStart'].replace(':', HMDELIMITER)
+    end = t['scheduleTimeEndStart'].replace(':', HMDELIMITER)
     stepTime = dt.strptime(t['stepTime'], "%H:%M").minute
     return f'x_{utc}_{duration}_{start}_{end}_{stepTime}'
 
@@ -78,8 +78,8 @@ def upscale_and_shift(a, time_scale, shift_right_pos):
 def genereate_shifts_coverage(shift_hours, name, horizon_in_hours, start_hour, start_txt, end_hour, end_txt, step_mins):
   time_scale = int(HMin / step_mins)
   if (start_hour == end_hour):
-    start_min = int(start_txt.split(":")[1])
-    end_min = int(end_txt.split(":")[1])
+    start_min = int(start_txt.split(HMDELIMITER)[1])
+    end_min = int(end_txt.split(HMDELIMITER)[1])
     slots = (end_min - start_min) // step_mins
     res = {}
     for i in range(slots):
@@ -133,7 +133,7 @@ def decode_shift_spec(encoded_shift_name):
         t.step = int(step)
     elif cx == 5:
         utc, name, duration, start, end, step = encoded_shift_name.split('_')
-        t.end = int(end.split(":")[0])
+        t.end = int(end.split(HMDELIMITER)[0])
         t.end_txt = end
         t.step = int(step)
     else:
@@ -141,7 +141,7 @@ def decode_shift_spec(encoded_shift_name):
 
     t.name = name
     t.duration = int(duration)
-    t.start = int(start.split(":")[0])
+    t.start = int(start.split(HMDELIMITER)[0])
     t.start_txt = start
     return t
 
