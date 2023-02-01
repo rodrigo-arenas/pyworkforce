@@ -54,11 +54,11 @@ class BreaksPrinter:
             for e in range(self.num_employees):
                 schedule_row = [u'-' for _ in range(self.num_intervals)]
 
-                for (work_start_index, work_end_index) in self.employee_calendar[e]:
+                for (*_, work_start_index, work_end_index) in self.employee_calendar[e]:
                     for i in range(work_start_index, work_end_index):
                         schedule_row[i] = u'■'
 
-                for (picture_id, break_start, break_end) in self.solution["resource_breaks"][e]:
+                for (_, picture_id, break_start, break_end) in self.solution["resource_break_intervals"][e]:
                     for i in range(break_start, break_end):
                         schedule_row[i] = self.break_symbols[picture_id]
 

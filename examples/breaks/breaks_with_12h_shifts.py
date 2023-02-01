@@ -13,7 +13,7 @@ schedule = {}
 # workers
 for w in range(20):
     _start = randrange(6 * _1h_interval, 12 * _1h_interval)
-    schedule[w] = [(d * _1d_intervals + _start, d * _1d_intervals + _start + 12 * _1h_interval) for d in range(_days)]
+    schedule[w] = [(d, d * _1d_intervals + _start, d * _1d_intervals + _start + 12 * _1h_interval) for d in range(_days)]
 
 # Configuration of breaks
 # 1. Delays between breaks
