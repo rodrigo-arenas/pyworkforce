@@ -1,7 +1,16 @@
+import enum
 import math
 from collections import defaultdict
 
 from ortools.sat.python import cp_model
+
+from pyworkforce.breaks.breaks_coverage import calculate_coverage
+
+
+class AdjustmentMode(enum.Enum):
+
+    NoAdjustments = 1
+    ByExpectedAverage = 2
 
 
 INTERVALS_PER_HOUR = 4
@@ -13,18 +22,91 @@ class BreaksIntervalsScheduling:
                  breaks: list,
                  break_min_delay: int,
                  break_max_delay: int,
+                 make_adjustments: AdjustmentMode = AdjustmentMode.NoAdjustments,
+                 num_days: int = 31, # TODO: remove days, should calculate on the fly
                  *args, **kwargs):
 
+        # 'emp' -> [(shift_day_num, work_start_interval, work_end_interval)]
         self.employee_calendar = employee_calendar
         self.breaks = breaks
         self.break_min_delay = break_min_delay
         self.break_max_delay = break_max_delay
+        self.adjustment_mode = make_adjustments
+        self.num_days = num_days
+        self.num_employees = len(self.employee_calendar)
+
+        self.break_optimums = self.get_expected_breaks_coverage()
 
         # not using it now
         # self.intervals_demand = intervals_demand
 
         self.solver = None
         self.status = None
+
+    def get_expected_breaks_coverage(self):
+
+        breaks_duration = sum(
+            [break_duration for (*_, break_duration) in self.breaks]
+        )
+
+        first_employee_shifts = next(iter(self.employee_calendar.values()))
+        (_, start, end) = first_employee_shifts[0]
+        shift_duration_per_day = end - start
+
+        employee_coverage = calculate_coverage(self.employee_calendar, self.num_days*24*INTERVALS_PER_HOUR)
+
+        optimums = list(map(
+            lambda x: x*breaks_duration/shift_duration_per_day,
+            employee_coverage
+        ))
+
+        return optimums
+
+    def add_overlap_excess_penalty(self, model: cp_model.CpModel, employee_rest_intervals):
+        num_intervals = len(self.break_optimums)
+        num_employees = len(employee_rest_intervals)
+
+        # overlaps [e, b, i] -> employees x breaks x intervals
+        overlaps = {}
+
+        # TODO: optimize intervals - don't compare unmatchable by design intervals
+
+        for (e, breaks) in employee_rest_intervals.items():
+            for b, br in enumerate(breaks):
+                (*_, start, end) = br
+
+                # Create overlap matrix
+                for i in range(num_intervals):
+                    overlap_i = model.NewBoolVar(f'overlap_e{e}_b{b}_i{i}')
+                    before_i = model.NewBoolVar(f'before_e{e}_b{b}_i{i}')
+                    after_i = model.NewBoolVar(f'after_e{e}_b{b}_i{i}')
+
+                    model.Add(start <= i).OnlyEnforceIf(overlap_i)
+                    model.Add(end > i).OnlyEnforceIf(overlap_i)  # Intervals are open ended on the right
+
+                    model.Add(end <= i).OnlyEnforceIf(before_i)
+                    model.Add(start > i).OnlyEnforceIf(after_i)
+
+                    model.Add(overlap_i + before_i + after_i == 1)
+                    overlaps[e, b, i] = overlap_i
+                    # l. perron solution - end
+
+        obj_vars = []
+
+        for i in range(num_intervals):
+
+            if self.break_optimums[i] > 0:
+
+                rest = [overlaps[e, b, i] for (e, breaks) in employee_rest_intervals.items() for (b, _) in enumerate(breaks)]
+
+                epsilon = model.NewIntVar(0, num_employees, f'delta_i{i}')
+
+                model.Add(sum(rest) >= int(self.break_optimums[i]) - epsilon)
+                model.Add(sum(rest) <= int(self.break_optimums[i]) + epsilon)
+
+                obj_vars.append(epsilon)
+
+        return obj_vars
 
     def solve(self):
 
@@ -49,7 +131,7 @@ class BreaksIntervalsScheduling:
 
             for (shift_day_num, day_work_start_interval, day_work_end_interval) in self.employee_calendar[e]:
 
-                # Accumulate intervals per working shift, order is not meaningful, hust a bag of intervals
+                # Accumulate intervals per working shift, order is not meaningful, hosts a bag of intervals
                 # It will guarantee no intervals are intersected
                 working_day = []
 
@@ -89,6 +171,11 @@ class BreaksIntervalsScheduling:
             # Remember what breaks were assigned to worker per shift
             employee_rest[e] = breaks
 
+        penalties = []
+        if self.adjustment_mode == AdjustmentMode.ByExpectedAverage:
+            # 2. Minimize number of concurrent breaks
+            penalties = self.add_overlap_excess_penalty(model, employee_rest)
+            model.Minimize(sum(penalties))
 
         # Objective
         # model.Minimize(
@@ -103,6 +190,7 @@ class BreaksIntervalsScheduling:
 
         # Solve the model.
         self.solver = cp_model.CpSolver()
+        # self.solver.parameters.log_search_progress = True
         solution_printer = cp_model.ObjectiveSolutionPrinter()
 
         self.status = self.solver.Solve(model, solution_printer)
@@ -111,6 +199,9 @@ class BreaksIntervalsScheduling:
 
         solution = {}
         if self.status in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
+
+            for p in penalties:
+                print(f'{p.Name()}: {self.solver.Value(p)}')
 
             scheduled_breaks = {}
 
