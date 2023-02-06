@@ -122,3 +122,47 @@ def test_what_asa():
     print(results)
 
     assert results > 0
+
+def test_what_asa_mvp():
+
+    #  {
+#     "tc": "2022-12-28 18:15:00+03:00",
+#     "call_volume": 231,
+#     "aht": 447.4,
+#     "service_level": 80,
+#     "art": 30,
+#     "positions": 124,
+#     "scheduled_positions": 81,
+#     "scheduled_service_level": 0.0,
+#     "scheduled_asa": -163.44
+#   },
+
+    erlang = ErlangC(transactions=231, asa=30, aht=447.4, interval=15 * 60, shrinkage=0.0)
+    positive_asa = erlang.what_asa(positions=124)
+    print(positive_asa)
+    assert positive_asa > 0
+
+    scheduled_asa = erlang.what_asa(positions=81)
+    print(scheduled_asa)
+    assert scheduled_asa > 0
+
+def test_service_level_mvp():
+
+    #  {
+#     "tc": "2022-12-28 18:15:00+03:00",
+#     "call_volume": 231,
+#     "aht": 447.4,
+#     "service_level": 80,
+#     "art": 30,
+#     "positions": 124,
+#     "scheduled_positions": 81,
+#     "scheduled_service_level": 0.0,
+#     "scheduled_asa": -163.44
+#   },
+
+    erlang = ErlangC(transactions=231, asa=30, aht=447.4, interval=15 * 60, shrinkage=0.0)
+    asa = erlang.what_asa(81)
+    print(asa)
+
+    service_level = erlang.service_level(81, scale_positions=False, asa=asa) * 100
+    print(service_level)
