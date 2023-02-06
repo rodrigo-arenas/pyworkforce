@@ -5,7 +5,8 @@ import json
 import pandas as pd
 import numpy as np
 
-from pyworkforce.breaks.breaks_intervals_scheduling_sat import BreaksIntervalsScheduling
+from pyworkforce.breaks.breaks_intervals_scheduling_sat import BreaksIntervalsScheduling, AdjustmentMode
+from pyworkforce.solver_params import SolverParams
 from pyworkforce.staffing.stats.calculate_stats import calculate_stats
 from pyworkforce.utils.breaks_spec import build_break_spec, build_intervals_map
 from pyworkforce.utils.shift_spec import get_start_from_shift_short_name, get_start_from_shift_short_name_mo, \
@@ -35,9 +36,10 @@ class Statuses(StrEnum):
 
 class MultiZonePlanner():
     def __init__(self,
-        df: pd.DataFrame,
-        meta: any,
-        output_dir: str):
+                 df: pd.DataFrame,
+                 meta: any,
+                 output_dir: str,
+                 solver_params: SolverParams = SolverParams.default()):
 
         Path(output_dir).mkdir(parents=True, exist_ok=True)
         self.output_dir = output_dir
@@ -60,6 +62,8 @@ class MultiZonePlanner():
         self.shift_activities = self.build_shift_with_activities()
 
         self.status = Statuses.NOT_STARTED
+
+        self.solver_params = solver_params
 
     def build_shifts(self):
         edf = pd.DataFrame(self.meta['employees'])
@@ -458,7 +462,9 @@ class MultiZonePlanner():
                 employee_calendar=employee_schedule,
                 breaks=breaks_specs,
                 break_min_delay=min_delay,
-                break_max_delay=max_delay
+                break_max_delay=max_delay,
+                make_adjustments=AdjustmentMode.ByExpectedAverage,
+                solver_params=self.solver_params
             )
 
             solution = model.solve()

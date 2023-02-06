@@ -1,10 +1,13 @@
 import enum
+import itertools
 import math
+import operator
 from collections import defaultdict
 
 from ortools.sat.python import cp_model
 
 from pyworkforce.breaks.breaks_coverage import calculate_coverage
+from pyworkforce.solver_params import SolverParams
 
 
 class AdjustmentMode(enum.Enum):
@@ -24,6 +27,7 @@ class BreaksIntervalsScheduling:
                  break_max_delay: int,
                  make_adjustments: AdjustmentMode = AdjustmentMode.NoAdjustments,
                  num_days: int = 31, # TODO: remove days, should calculate on the fly
+                 solver_params: SolverParams = SolverParams.default(),
                  *args, **kwargs):
 
         # 'emp' -> [(shift_day_num, work_start_interval, work_end_interval)]
@@ -36,6 +40,8 @@ class BreaksIntervalsScheduling:
         self.num_employees = len(self.employee_calendar)
 
         self.break_optimums = self.get_expected_breaks_coverage()
+
+        self.solver_params = solver_params
 
         # not using it now
         # self.intervals_demand = intervals_demand
@@ -63,44 +69,83 @@ class BreaksIntervalsScheduling:
         return optimums
 
     def add_overlap_excess_penalty(self, model: cp_model.CpModel, employee_rest_intervals):
+
+        assert len(employee_rest_intervals) == len(self.employee_calendar)
+
         num_intervals = len(self.break_optimums)
         num_employees = len(employee_rest_intervals)
+        num_breaks = len(self.breaks)
+
+        _FALSE = model.NewConstant(False)
 
         # overlaps [e, b, i] -> employees x breaks x intervals
-        overlaps = {}
+        # overlaps = {}
+        overlaps = defaultdict(lambda: _FALSE)
 
         # TODO: optimize intervals - don't compare unmatchable by design intervals
 
-        for (e, breaks) in employee_rest_intervals.items():
-            for b, br in enumerate(breaks):
-                (*_, start, end) = br
+        for (ei, ekey) in enumerate(self.employee_calendar):
 
-                # Create overlap matrix
-                for i in range(num_intervals):
-                    overlap_i = model.NewBoolVar(f'overlap_e{e}_b{b}_i{i}')
-                    before_i = model.NewBoolVar(f'before_e{e}_b{b}_i{i}')
-                    after_i = model.NewBoolVar(f'after_e{e}_b{b}_i{i}')
+            # the idea is to match breaks only by corresponding shifts by days to minimize iterations,
+            # because breaks from Tue can't overlap with breaks on Mon
 
-                    model.Add(start <= i).OnlyEnforceIf(overlap_i)
-                    model.Add(end > i).OnlyEnforceIf(overlap_i)  # Intervals are open ended on the right
+            # for (day_num, work_start_int, work_end_int) in self.employee_calendar[ekey]:
+            #     pass
+            #
+            # for (day_num, break_id, break_start_var, break_end_var) in employee_rest_intervals[ekey]:
+            #     pass
 
-                    model.Add(end <= i).OnlyEnforceIf(before_i)
-                    model.Add(start > i).OnlyEnforceIf(after_i)
+            # rest_by_day_it = itertools.groupby(employee_rest_intervals[ekey], operator.itemgetter(0))  # 0 = day_num
+            emp_rests_by_day = {}
+            for (day_num, break_id, break_start_var, break_end_var) in employee_rest_intervals[ekey]:
+                emp_rests_by_day.setdefault(day_num, []).append((break_start_var, break_end_var))
 
-                    model.Add(overlap_i + before_i + after_i == 1)
-                    overlaps[e, b, i] = overlap_i
-                    # l. perron solution - end
+            for (day, work_start, work_end) in self.employee_calendar[ekey]:
+                for bi, (*_, start, end) in enumerate(emp_rests_by_day[day]):
+                    # Create overlap matrix only for intersected intervals!
+                    for i in range(work_start, work_end):
+                        overlap_i = model.NewBoolVar(f'overlap_e{ei}_b{bi}_i{i}')
+                        before_i = model.NewBoolVar(f'before_e{ei}_b{bi}_i{i}')
+                        after_i = model.NewBoolVar(f'after_e{ei}_b{bi}_i{i}')
+
+                        model.Add(start <= i).OnlyEnforceIf(overlap_i)
+                        model.Add(end > i).OnlyEnforceIf(overlap_i)  # Intervals are open ended on the right
+
+                        model.Add(end <= i).OnlyEnforceIf(before_i)
+                        model.Add(start > i).OnlyEnforceIf(after_i)
+
+                        model.Add(overlap_i + before_i + after_i == 1)
+                        overlaps[ei, bi, i] = overlap_i
+                        # l. perron solution - end
+
+        # for (e, breaks) in employee_rest_intervals.items():
+        #     for b, br in enumerate(breaks):
+        #         (*_, start, end) = br
+        #
+        #         # Create overlap matrix
+        #         for i in range(num_intervals):
+        #             overlap_i = model.NewBoolVar(f'overlap_e{e}_b{b}_i{i}')
+        #             before_i = model.NewBoolVar(f'before_e{e}_b{b}_i{i}')
+        #             after_i = model.NewBoolVar(f'after_e{e}_b{b}_i{i}')
+        #
+        #             model.Add(start <= i).OnlyEnforceIf(overlap_i)
+        #             model.Add(end > i).OnlyEnforceIf(overlap_i)  # Intervals are open ended on the right
+        #
+        #             model.Add(end <= i).OnlyEnforceIf(before_i)
+        #             model.Add(start > i).OnlyEnforceIf(after_i)
+        #
+        #             model.Add(overlap_i + before_i + after_i == 1)
+        #             overlaps[e, b, i] = overlap_i
+        #             # l. perron solution - end
 
         obj_vars = []
 
         for i in range(num_intervals):
 
             if self.break_optimums[i] > 0:
-
-                rest = [overlaps[e, b, i] for (e, breaks) in employee_rest_intervals.items() for (b, _) in enumerate(breaks)]
-
                 epsilon = model.NewIntVar(0, num_employees, f'delta_i{i}')
 
+                rest = [overlaps[e, b, i] for e in range(num_employees) for b in range(num_breaks)]
                 model.Add(sum(rest) >= int(self.break_optimums[i]) - epsilon)
                 model.Add(sum(rest) <= int(self.break_optimums[i]) + epsilon)
 
@@ -115,12 +160,6 @@ class BreaksIntervalsScheduling:
         print("Model building...")
 
         model = cp_model.CpModel()
-
-        # Linear terms of the objective in a minimization context.
-        # obj_int_vars = []
-        # obj_int_coeffs = []
-        # obj_bool_vars = []
-        # obj_bool_coeffs = []
 
         # 1. Remember employees' rest/breaks intervals
         # Will use it to get results per employee
@@ -160,9 +199,8 @@ class BreaksIntervalsScheduling:
                         [rest, working]
                     )
 
-
                 # This will require no overlaps of intervals during the shift.
-                # Hence, will have a form ideally:
+                # Hence, will have a form ideally (w - work interval, n - break interval):
                 #
                 # employee calendar : ------------------■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■------------------
                 # assigned breaks   : ------------------wwwwbwwwwwwwbbwwwwwwwwwwwwbwwwwwwwww------------------
@@ -177,20 +215,12 @@ class BreaksIntervalsScheduling:
             penalties = self.add_overlap_excess_penalty(model, employee_rest)
             model.Minimize(sum(penalties))
 
-        # Objective
-        # model.Minimize(
-        #     sum(obj_bool_vars[i] * obj_bool_coeffs[i] for i in range(len(obj_bool_vars))) +
-        #     sum(obj_int_vars[i] * obj_int_coeffs[i] for i in range(len(obj_int_vars)))
-        # )
-
-        # print(f'Model bool vars: {len(obj_bool_vars)}')
-        # print(f'Model int vars: {len(obj_int_vars)}')
-
         print("Solving started...")
 
         # Solve the model.
         self.solver = cp_model.CpSolver()
-        # self.solver.parameters.log_search_progress = True
+        self.solver.parameters.log_search_progress = self.solver_params.do_logging
+        self.solver.parameters.max_time_in_seconds = self.solver_params.max_iteration_search_time
         solution_printer = cp_model.ObjectiveSolutionPrinter()
 
         self.status = self.solver.Solve(model, solution_printer)
@@ -200,8 +230,9 @@ class BreaksIntervalsScheduling:
         solution = {}
         if self.status in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
 
-            for p in penalties:
-                print(f'{p.Name()}: {self.solver.Value(p)}')
+            if self.solver_params.do_logging:
+                for p in penalties:
+                    print(f'{p.Name()}: {self.solver.Value(p)}')
 
             scheduled_breaks = {}
 
