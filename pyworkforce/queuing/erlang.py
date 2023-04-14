@@ -1,13 +1,18 @@
-from math import exp, floor
+from math import exp, ceil, floor
 from pyworkforce.utils import ParameterGrid
 from joblib import Parallel, delayed
 
+
+import numpy as np
+from math import exp, gamma
 
 class ErlangC:
     """
     Computes the number of positions required to attend a number of transactions in a
     queue system based on erlangc.rst. Implementation inspired on:
-    https://lucidmanager.org/data-science/call-centre-workforce-planning-erlang-c-in-r/
+    https://lucidmanager.org/data-science/call-centre-workforce-planning-erlang-c-in-r/ and 
+    https://www.callcentrehelper.com/erlang-c-formula-example-121281.htm
+    Adaptiation to use gamma for non interger factorial usage.
 
     Parameters
     ----------
@@ -49,7 +54,7 @@ class ErlangC:
         self.intensity = (self.n_transactions / self.interval) * self.aht
         self.shrinkage = shrinkage
 
-    def waiting_probability(self, positions: int, scale_positions: bool = False):
+    def waiting_probability(self, positions: float):
         """
         Returns the probability of waiting in the queue
 
@@ -57,24 +62,19 @@ class ErlangC:
         ----------
         positions: int,
             The number of positions to attend the transactions.
-        scale_positions: bool, default=False
-            Set it to True if the positions were calculated using shrinkage.
 
         """
+        # Gamma distribution is extended to treat floats with factorials with n+1, this is the upper part of the erlang C equation
+        substitution_position_estimate = (self.intensity**positions / gamma(positions+1)) * (positions / (positions-self.intensity) )
 
-        if scale_positions:
-            productive_positions = floor((1 - self.shrinkage) * positions)
-        else:
-            productive_positions = positions
+        #Sum of erlang series
+        erlang_b = 1
+        for position in np.arange(1, positions, 1):
+            erlang_b += (self.intensity**position) / gamma(position+1)
+        
+        return substitution_position_estimate / (erlang_b + substitution_position_estimate)
 
-        erlang_b_inverse = 1
-        for position in range(1, productive_positions + 1):
-            erlang_b_inverse = 1 + (erlang_b_inverse * position / self.intensity)
-
-        erlang_b = 1 / erlang_b_inverse
-        return productive_positions * erlang_b / (productive_positions - self.intensity * (1 - erlang_b))
-
-    def service_level(self, positions: int, scale_positions: bool = False):
+    def service_level(self, positions: float):
         """
         Returns the expected service level given a number of positions
 
@@ -87,16 +87,13 @@ class ErlangC:
             Set it to True if the positions were calculated using shrinkage.
 
         """
-        if scale_positions:
-            productive_positions = floor((1 - self.shrinkage) * positions)
-        else:
-            productive_positions = positions
 
-        probability_wait = self.waiting_probability(productive_positions, scale_positions=False)
-        exponential = exp(-(productive_positions - self.intensity) * (self.asa / self.aht))
-        return max(0, 1 - (probability_wait * exponential))
+        probability_wait = self.waiting_probability(positions)
+        exponential = exp(-(positions - self.intensity) * (self.asa / self.aht))
 
-    def achieved_occupancy(self, positions: int, scale_positions: bool = False):
+        return max(0, 1-(probability_wait * exponential))
+
+    def achieved_occupancy(self, positions: int):
         """
         Returns the expected occupancy of positions
 
@@ -105,16 +102,10 @@ class ErlangC:
 
         positions: int,
             The number of raw positions
-        scale_positions: bool, default=False
-            Set it to True if the positions were calculated using shrinkage.
 
         """
-        if scale_positions:
-            productive_positions = floor((1 - self.shrinkage) * positions)
-        else:
-            productive_positions = positions
 
-        return self.intensity / productive_positions
+        return self.intensity / positions
 
     def required_positions(self, service_level: float, max_occupancy: float = 1.0):
         """
@@ -149,27 +140,29 @@ class ErlangC:
 
         if max_occupancy < 0 or max_occupancy > 1:
             raise ValueError("max_occupancy must be between 0 and 1")
-
-        positions = round(self.intensity + 1)
-        achieved_service_level = self.service_level(positions, scale_positions=False)
+        
+        # set positions is intensity + 1 for initalisation, otherwise equations will return 1 for SL.
+        raw_positions = self.intensity + 1
+        achieved_service_level = self.service_level(raw_positions)
+        # Incremental increase of position estimate to reach service level
         while achieved_service_level < service_level:
-            positions += 1
-            achieved_service_level = self.service_level(positions, scale_positions=False)
+            raw_positions += .1
+            achieved_service_level = self.service_level(raw_positions)
 
-        achieved_occupancy = self.achieved_occupancy(positions, scale_positions=False)
-
-        raw_positions = positions
-
+        # Adjust estimate when max occopancy is reached
+        achieved_occupancy = self.achieved_occupancy(raw_positions)
         if achieved_occupancy > max_occupancy:
             raw_positions = self.intensity / max_occupancy
             achieved_occupancy = self.achieved_occupancy(raw_positions)
             achieved_service_level = self.service_level(raw_positions)
 
         waiting_probability = self.waiting_probability(positions=raw_positions)
+        raw_positions = raw_positions * .9 # compensation for erlang C overestimations of capacity.
+        #Compensate calculated positions for shrinkage factor used.
         positions = raw_positions / (1 - self.shrinkage)
 
-        return {"raw_positions": raw_positions,
-                "positions": positions,
+        return {"raw_positions": round(raw_positions, 2),
+                "positions": round(positions, 2),
                 "service_level": achieved_service_level,
                 "occupancy": achieved_occupancy,
                 "waiting_probability": waiting_probability}
