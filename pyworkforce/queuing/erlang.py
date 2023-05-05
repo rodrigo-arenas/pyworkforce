@@ -1,7 +1,7 @@
 import warnings
 import pandas as pd
 import numpy as np
-from math import exp, gamma
+from math import exp, gamma, ceil
 from pyworkforce.utils import ParameterGrid
 from collections.abc import Iterable
 from pydantic import BaseModel, ValidationError, validator, Field, root_validator
@@ -83,7 +83,7 @@ class Erlang_c_data(BaseModel):
         for position in np.arange(1, self.raw_positions, 1):
             erlang_b += (self.intensity**position) / gamma(position+1)
         
-        self.waiting_probability = round(substitution_position_estimate / (erlang_b + substitution_position_estimate), 2)
+        self.waiting_probability = substitution_position_estimate / (erlang_b + substitution_position_estimate)
 
     def calculate_service_level(self):
         """
@@ -99,7 +99,7 @@ class Erlang_c_data(BaseModel):
         self.calculate_waiting_probability()
         exponential = exp(-(self.raw_positions - self.intensity) * (self.asa / self.aht))
 
-        self.achieved_service_level = round(max(0, 1-(self.waiting_probability * exponential)), 3)
+        self.achieved_service_level = max(0, 1-(self.waiting_probability * exponential))
 
     def calculate_achieved_occupancy(self):
         """
@@ -113,9 +113,9 @@ class Erlang_c_data(BaseModel):
 
         """
 
-        self.achieved_occupancy = round(self.intensity / self.raw_positions, 3)
+        self.achieved_occupancy = self.intensity / self.raw_positions
 
-    def calculate_required_positions(self):
+    def calculate_required_positions(self, enforce_trafficking_requirements:bool = True):
         """
         Computes the requirements using erlangc.rst
 
@@ -150,16 +150,23 @@ class Erlang_c_data(BaseModel):
             self.raw_positions += .1
             self.calculate_service_level()
 
+        #Compensate calculated positions for shrinkage factor used.
+        self.positions = self.raw_positions / (1 - self.shrinkage)
+
+        #Update parameters if legacy settings are required
+        if enforce_trafficking_requirements:
+            self.raw_positions = ceil(self.raw_positions)
+            self.positions = ceil(self.positions)
+            self.calculate_service_level()
+
         # Set resulting parameters based on final position estimate
         self.calculate_achieved_occupancy() 
         # Adjust estimate when max occopancy is reached
         if self.achieved_occupancy > self.maximum_occupancy:
             self.raw_positions = self.intensity / self.maximum_occupancy
+            self.raw_positions = ceil(self.raw_positions) if enforce_trafficking_requirements else self.raw_positions
 
         self.calculate_waiting_probability() 
-        
-        #Compensate calculated positions for shrinkage factor used.
-        self.positions = round(self.raw_positions / (1 - self.shrinkage), 2)
     
 class ErlangC(BaseModel):
     """
@@ -194,8 +201,8 @@ class ErlangC(BaseModel):
 
         # Transform all classes of Erlang C towards dictionaries
         results = {main_scenario: {subscenario_name: dict(subscenario) for subscenario_name, subscenario in sub_scenarios.items()} for  main_scenario, sub_scenarios in self.erlang_scenarios.items()}
+        
         # Transform nested dictionaries towards a dataframe
-
         scenario_frames = []
         for scenario_name, scenario in results.items():
             scenario_frame = pd.DataFrame.from_dict(scenario, orient='index').reset_index().rename(columns={'index':'subscenario'})
@@ -204,23 +211,17 @@ class ErlangC(BaseModel):
             
         return pd.concat(scenario_frames)
     
-    def calculate_required_positions(self):
+    def calculate_required_positions(self, enforce_trafficking_requirements: bool = True):
         """
         Calculate the required positions for handeling transactions according to Erlang C methodology
         """
        
-        result = {main_scenario: {subscenario_name: subscenario.calculate_required_positions() for subscenario_name, subscenario in sub_scenarios.items()} for  main_scenario, sub_scenarios in self.erlang_scenarios.items()}
+        result = {main_scenario: {subscenario_name: subscenario.calculate_required_positions(enforce_trafficking_requirements) for subscenario_name, subscenario in sub_scenarios.items()} for  main_scenario, sub_scenarios in self.erlang_scenarios.items()}
         
 
     def calculate_waiting_probability(self):
         """
         Returns the probability of waiting in the queue
-
-        Parameters
-        ----------
-        positions: int,
-            The number of positions to attend the transactions.
-
         """
         
         results = {main_scenario: {subscenario_name: subscenario.calculate_waiting_probability() for subscenario_name, subscenario in sub_scenarios.items()} for  main_scenario, sub_scenarios in self.erlang_scenarios.items()}
@@ -229,15 +230,6 @@ class ErlangC(BaseModel):
     def calculate_service_level(self):
         """
         Returns the expected service level given a number of positions
-
-        Parameters
-        ----------
-
-        positions: int,
-            The number of positions attending.
-        scale_positions: bool, default = False
-            Set it to True if the positions were calculated using shrinkage.
-
         """
 
         results = {main_scenario: {subscenario_name: subscenario.calculate_service_level() for subscenario_name, subscenario in sub_scenarios.items()} for  main_scenario, sub_scenarios in self.erlang_scenarios.items()}
@@ -246,13 +238,6 @@ class ErlangC(BaseModel):
     def calculate_achieved_occupancy(self):
         """
         Returns the expected occupancy of positions
-
-        Parameters
-        ----------
-
-        positions: int,
-            The number of raw positions
-
         """
 
-        results = {main_scenario: {subscenario_name: subscenario.calculate_achieved_occupancy() for subscenario_name, subscenario in sub_scenarios.items()} for  main_scenario, sub_scenarios in self.erlang_scenarios.items()}        
+        results = {main_scenario: {subscenario_name: subscenario.calculate_achieved_occupancy() for subscenario_name, subscenario in sub_scenarios.items()} for  main_scenario, sub_scenarios in self.erlang_scenarios.items()}
