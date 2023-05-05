@@ -6,6 +6,7 @@ numpy~=1.18.1
 ortools>=7.8.7959
 pandas~=1.0.0
 joblib~=0.11
+pydantic==1.10.7
 sphinx
 sphinx_gallery
 sphinx_rtd_theme
