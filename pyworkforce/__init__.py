@@ -1,11 +1,10 @@
-from .queuing import ErlangC, MultiErlangC
+from .queuing import ErlangC
 from .scheduling import MinRequiredResources, MinAbsDifference
 from .rostering import MinHoursRoster
 from ._version import __version__
 
 __all__ = [
     "ErlangC",
-    "MultiErlangC",
     "MinRequiredResources",
     "MinAbsDifference",
     "MinHoursRoster",
