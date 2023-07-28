@@ -27,9 +27,10 @@ setup(
     classifiers=[
         'License :: OSI Approved :: MIT License',
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     project_urls={
         "Documentation": "https://pyworkforce.readthedocs.io/en/stable/",
@@ -38,11 +39,11 @@ setup(
     },
     packages=find_packages(include=['pyworkforce', 'pyworkforce.*']),
     install_requires=[
-        'numpy',
+        'numpy>=1.23.0',
         'ortools>=9.2.9972',
-        'pandas',
-        'joblib>=0.11'
+        'pandas>=1.3.5',
+        'joblib>0.17'
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     include_package_data=True,
 )

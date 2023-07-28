@@ -82,7 +82,8 @@ def test_expected_multierlangc_wrong_arguments():
 
     with pytest.raises(Exception) as excinfo:
         results = erlang.required_positions(arguments_grid=arguments_grid)[0]
-    assert str(excinfo.value) == "required_positions() missing 1 required positional argument: 'service_level'"
+    assert str(excinfo.value) in ["required_positions() missing 1 required positional argument: 'service_level'",
+                                  "ErlangC.required_positions() missing 1 required positional argument: 'service_level'"]
 
 
 def test_multierlangc_wrong_grid():
