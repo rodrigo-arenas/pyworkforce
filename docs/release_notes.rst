@@ -3,6 +3,16 @@ Release Notes
 
 Some notes on new features in various releases
 
+What's new in 0.5.1dev0
+-----------------------
+
+^^^^^^^^^
+Features:
+^^^^^^^^^
+
+* Update the project dependencies
+* Remove support for python 3.7 and add support for python up to 3.11
+
 What's new in 0.5.0
 -------------------
 
