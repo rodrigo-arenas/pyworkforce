@@ -43,6 +43,7 @@ setup(
         'ortools>=9.2.9972',
         'pandas>=1.3.5',
         'joblib>0.17'
+        'pydantic==1.10.7'
     ],
     python_requires=">=3.8",
     include_package_data=True,

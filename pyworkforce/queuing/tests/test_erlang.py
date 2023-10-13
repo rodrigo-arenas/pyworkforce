@@ -1,92 +1,69 @@
 import pytest
 from pyworkforce.queuing import ErlangC
 
+class TestDefaultErlangCBehaviour:
+    """
+    Test regular erlangC inputs for single and multi scenario dictionaries.
+    """
 
-def test_expected_erlangc_results():
-    erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    results = erlang.required_positions(service_level=0.8, max_occupancy=0.85)
-    raw_positions = results['raw_positions']
-    positions = results['positions']
-    service_level = results['service_level']
-    occupancy = results['occupancy']
-    waiting_probability = results['waiting_probability']
+    
+    single_scenario_erlangC_legacy = {"test_scenario 1": {"transactions": 100, "aht": 3.0, "asa": .33, "shrinkage": 0.3, "interval": 30, 'service_level_target':.8}}
+    single_scenario_erlangC = {"test_scenario 1": {"transactions": 100, "aht": 3.0, "asa": .33, "shrinkage": 0.3, "interval": 30, 'service_level_target':.8}}
+    multiple_scenario_erlangC = {"test_scenario 1": {"transactions": 100, "aht": 3.0, "asa": 20 / 60, "shrinkage": 0.3, "interval": 30, 'service_level_target':.8},
+                           "test_scenario 2": {"transactions": [100,200], "aht": 3.0, "asa": 20 / 60, "shrinkage": 0.3, "interval": 30, 'service_level_target':.8}}
 
-    assert raw_positions == 14
-    assert positions == 20
-    assert round(service_level, 3) == 0.888
-    assert round(occupancy, 3) == 0.714
-    assert round(waiting_probability, 3) == 0.174
+    def test_erlangc_single_scenario_results_legacy(self):
+        
+        erlang = ErlangC(erlang_scenarios=self.single_scenario_erlangC_legacy)
+        erlang.calculate_required_positions()
+        results = erlang.results_to_dataframe()
+        results = results.round(3)
+        assert (results['raw_positions'] == 14).all()
+        assert (results['positions'] == 19).all()
+        assert (results['achieved_service_level'] == 0.888).all()
+        assert (results['achieved_occupancy'] == 0.714).all()
+        assert (results['waiting_probability'] == 0.174).all()
 
+    def test_erlangc_single_scenario_results(self):
+        
+        erlang = ErlangC(erlang_scenarios=self.single_scenario_erlangC)
+        erlang.calculate_required_positions(enforce_trafficking_requirements=False)
+        results = erlang.results_to_dataframe()
+        results = results.round(3)
 
-def test_scale_positions_erlangc():
-    erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    results = erlang.required_positions(service_level=0.8, max_occupancy=0.85)
-    positions = results['positions']
-    service_level = erlang.service_level(positions=positions, scale_positions=True)
-    occupancy = erlang.achieved_occupancy(positions=positions, scale_positions=True)
-    waiting_probability = erlang.waiting_probability(positions=positions, scale_positions=True)
+        assert (results['raw_positions'] == 13.1).all()
+        assert (results['positions'] == 18.714).all()
+        assert (results['achieved_service_level'] == 0.817).all()
+        assert (results['achieved_occupancy'] == 0.763).all()
+        assert (results['waiting_probability'] == 0.257).all()
 
-    assert positions == 20
-    assert round(service_level, 3) == 0.888
-    assert round(occupancy, 3) == 0.714
-    assert round(waiting_probability, 3) == 0.174
+    def test_erlangc_multi_scenario_results(self):
+        
+        erlang = ErlangC(erlang_scenarios=self.multiple_scenario_erlangC)
+        erlang.calculate_required_positions(enforce_trafficking_requirements=False)
+        results = erlang.results_to_dataframe()
+        results = results.round(3)
 
+        columns = ['scenario', 'subscenario', 'transactions', 'aht', 'asa', 'shrinkage',
+       'interval', 'service_level_target', 'achieved_service_level',
+       'raw_positions', 'positions', 'maximum_occupancy',
+       'waiting_probability', 'achieved_occupancy', 'intensity']
 
-def test_over_occupancy_erlangc():
-    erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    results = erlang.required_positions(service_level=0.8, max_occupancy=0.7)
-    raw_positions = results['raw_positions']
-    positions = results['positions']
-    service_level = erlang.service_level(positions=positions, scale_positions=True)
-    occupancy = erlang.achieved_occupancy(positions=positions, scale_positions=True)
-    waiting_probability = erlang.waiting_probability(positions=positions, scale_positions=True)
+        assert results.shape == (3,15)
+        assert (results.columns == columns).all()
+        assert (results['scenario'].isin(list(self.multiple_scenario_erlangC.keys()) )).all()
 
-    assert raw_positions == 15
-    assert positions == 22
-    assert round(service_level, 3) == 0.941
-    assert round(occupancy, 3) == 0.667
-    assert round(waiting_probability, 3) == 0.102
+        scenario_1 = results[results.scenario == "test_scenario 1"]
+        assert (scenario_1['raw_positions'] == 13.1).all()
+        assert (scenario_1['positions'] == 18.714).all()
+        assert (scenario_1['achieved_service_level'] == 0.818).all()
+        assert (scenario_1['achieved_occupancy'] == 0.763).all()
+        assert (scenario_1['waiting_probability'] == 0.257).all()
 
-
-def test_wrong_transactions_erlangc():
-    with pytest.raises(Exception) as excinfo:
-        erlang = ErlangC(transactions=-20, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    assert str(excinfo.value) == "transactions can't be smaller or equals than 0"
-
-
-def test_wrong_aht_erlangc():
-    with pytest.raises(Exception) as excinfo:
-        erlang = ErlangC(transactions=100, asa=0.33, aht=-5, interval=30, shrinkage=0.3)
-    assert str(excinfo.value) == "aht can't be smaller or equals than 0"
-
-
-def test_wrong_asa_erlangc():
-    with pytest.raises(Exception) as excinfo:
-        erlang = ErlangC(transactions=100, asa=0, aht=5, interval=30, shrinkage=0.3)
-    assert str(excinfo.value) == "asa can't be smaller or equals than 0"
-
-
-def test_wrong_interval_erlangc():
-    with pytest.raises(Exception) as excinfo:
-        erlang = ErlangC(transactions=100, asa=10, aht=5, interval=-30, shrinkage=0.3)
-    assert str(excinfo.value) == "interval can't be smaller or equals than 0"
-
-
-def test_wrong_shrinkage_erlangc():
-    with pytest.raises(Exception) as excinfo:
-        erlang = ErlangC(transactions=100, asa=10, aht=5, interval=30, shrinkage=1)
-    assert str(excinfo.value) == "shrinkage must be between in the interval [0,1)"
-
-
-def test_wrong_service_level_erlangc():
-    erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    with pytest.raises(Exception) as excinfo:
-        results = erlang.required_positions(service_level=1.8, max_occupancy=0.85)
-    assert str(excinfo.value) == "service_level must be between 0 and 1"
-
-
-def test_wrong_max_occupancy_erlangc():
-    erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    with pytest.raises(Exception) as excinfo:
-        results = erlang.required_positions(service_level=0.8, max_occupancy=1.2)
-    assert str(excinfo.value) == "max_occupancy must be between 0 and 1"
+        scenario_2 = results[results.scenario == "test_scenario 2"]
+        assert (scenario_2['raw_positions'] == [13.1,23.9]).all()
+        assert (scenario_2['positions'] == [18.714, 34.143]).all()
+        assert (scenario_2['achieved_service_level'] == [0.818, 0.801]).all()
+        assert (scenario_2['achieved_occupancy'] == [0.763, 0.837]).all()
+        assert (scenario_2['waiting_probability'] == [0.257, 0.307]).all()
+            

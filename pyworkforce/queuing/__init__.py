@@ -1,3 +1,3 @@
-from pyworkforce.queuing.erlang import ErlangC, MultiErlangC
+from pyworkforce.queuing.erlang import ErlangC
 
-__all__ = ["ErlangC", "MultiErlangC"]
+__all__ = ["ErlangC"]
