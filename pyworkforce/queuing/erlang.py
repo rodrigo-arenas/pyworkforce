@@ -8,7 +8,7 @@ from pydantic import BaseModel, ValidationError, validator, Field, root_validato
 from pydantic.typing import Dict, Optional
 
 # Import constants
-from pyworkforce.queuing.queueing_constants import cErlangC_generic_variable_list
+from pyworkforce.queuing.queueing_constants import cErlangC_generic_variables
 
 def raise_value_errors(message):
     """
@@ -16,9 +16,9 @@ def raise_value_errors(message):
     """
     raise ValidationError(message)
 
-class Erlang_c_data(BaseModel):
+class ErlangCData(BaseModel):
     f"""
-    Contains the generic parameters expected for ErlangC. The model contains {cErlangC_generic_variable_list}
+    Contains the generic parameters expected for ErlangC. The model contains {cErlangC_generic_variables}
     
     Parameters
     ----------
@@ -172,7 +172,7 @@ class ErlangC(BaseModel):
     """
     """
     ### Parameter setup ###
-    erlang_scenarios : Dict[str, Dict[str, Erlang_c_data]] # List of possible scenario's including subscenario's.
+    erlang_scenarios : Dict[str, Dict[str, ErlangCData]] # List of possible scenario's including subscenario's.
     
     ### Setup parameter grid and validate parameters ###
     @validator('erlang_scenarios', pre=True)
@@ -189,7 +189,7 @@ class ErlangC(BaseModel):
             for sub_scenario in range(len(sub_scenarios)):
                 #validate individual scenarios 
                 sub_scenario_output.update(
-                    {f"{scenario}.{sub_scenario}" :Erlang_c_data(**sub_scenarios[sub_scenario])}
+                    {f"{scenario}.{sub_scenario}" :ErlangCData(**sub_scenarios[sub_scenario])}
                 )
             erlang_scenarios[scenario] = sub_scenario_output
         return erlang_scenarios
