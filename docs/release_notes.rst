@@ -12,6 +12,11 @@ Features:
 
 * Remove support for python 3.7 and add support for python up to 3.11
 * Update the project dependencies
+* Support of non interger transactions. This allows for more accurate agent estimations.
+* Replacement of parameter grid with automatic dictionary handeling for multiple scenarios and multiple parameters.
+* Added enforce_trafficker_requirements to allow final rounding towards intergers. If using data for capacity estimations it is adviced to do rounding in your final step.
+* Added pydantic based data model for ErlangC to ensure correctness of input values.
+* ErlangC renamed to erlang for future expansions.
 
 What's new in 0.5.0
 -------------------
