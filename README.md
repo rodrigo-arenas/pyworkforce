@@ -19,9 +19,15 @@ It's advised to install pyworkforce using a virtual env, inside the env use:
 pip install pyworkforce
 ```
 
-If you are having troubles with or-tools installation, check the [or-tools guide](https://github.com/google/or-tools#installation)
+If you are using anaconda an having some issue on the installation, try running first
 
-For complete list and details of examples go to the 
+```
+conda update --all
+```
+
+If you are having trouble with or-tools installation, check the [or-tools guide](https://github.com/google/or-tools#installation)
+
+For a complete list and details of examples go to the 
 [examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples)
 
 ## Features:
@@ -38,7 +44,7 @@ It solves the following system resource requirements:
 ### Scheduling
 
 It finds the number of resources to schedule in a shift based on the number of required positions per time interval 
-(found, for example, using  [queuing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions and static shifts coverage.<br>
+(found, for example, using  [queuing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions, and static shifts coverage.<br>
 - **scheduling.MinAbsDifference:** This module finds the "optimal" assignation by minimizing the total absolute 
     differences between required resources per interval against the scheduled resources found by the solver.
 - **scheduling.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total 
@@ -128,7 +134,7 @@ required_resources = [
     [13, 13, 12, 15, 18, 20, 13, 16, 17, 8, 13, 11, 6, 19, 11, 20, 19, 17, 10, 13, 14, 23, 16, 8]
 ]
 
-# Each entry of a shift,an hour of the day (24), 1 if the shift covers that hour, 0 otherwise
+# Each entry of a shift, an hour of the day (24), 1 if the shift covers that hour, 0 otherwise
 shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                    "Afternoon": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
                    "Night": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
