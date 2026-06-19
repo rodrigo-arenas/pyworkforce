@@ -5,17 +5,24 @@
 
 pyworkforce
 ===========
-Standard tools for workforce management, queuing, scheduling, rostering and optimization problems.
+Tools for workforce management problems such as queue staffing, shift scheduling,
+rostering, and operations research optimization.
 
 #########################################################################
 
-This package implements a python interface for common problems in operations research
-applied to queue and scheduling problems, among others.
+pyworkforce helps answer practical planning questions:
+
+* How many resources are needed to handle incoming demand?
+* How many people should be assigned to each predefined shift?
+* Which named resources should work each day and shift?
+
+The package exposes focused solvers for queuing, scheduling, and rostering
+workflows, with examples and API references for each module.
 
 Installation:
 #############
 
-It's advised to install pyworkforce using a virtual env, inside the env use::
+We recommend installing pyworkforce in a virtual environment::
 
    pip install pyworkforce
 

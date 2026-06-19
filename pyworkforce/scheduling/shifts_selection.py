@@ -15,29 +15,30 @@ class MinAbsDifference(BaseShiftScheduler):
                  num_search_workers=2,
                  *args, **kwargs):
         """
-        The "optimal" criteria is defined as the number of resources per shift
-        that minimize the total absolute difference between the required resources
-        per period and the actual scheduling found by the solver
+        Minimizes the total absolute difference between required resources per
+        period and resources scheduled by the solver.
 
         Parameters
         ----------
 
         num_days: int,
-            Number of days needed to schedule
+            Number of days to schedule.
         periods: int,
-            Number of working periods in a day
+            Number of working periods in a day.
         shifts_coverage: dict,
-            dict with structure {"shift_name": "shift_array"} where "shift_array" is an array of size [periods] (p), 1 if shift covers period p, 0 otherwise
+            Dictionary of the form ``{"shift_name": shift_array}``, where each
+            ``shift_array`` has length ``periods`` and uses 1 when the shift
+            covers a period, otherwise 0.
         required_resources: list,
-            Array of size [days, periods]
+            Array of size ``[days, periods]``.
         max_period_concurrency: int,
-            Maximum resources that are allowed to shift in any period and day
+            Maximum resources allowed in any period and day.
         max_shift_concurrency: int,
-            Number of maximum allowed resources in the same shift
+            Maximum resources allowed in the same shift.
         max_search_time: float, default = 240
-            Maximum time in seconds to search for a solution
+            Maximum time, in seconds, to search for a solution.
         num_search_workers: int, default = 2
-            Number of workers to search for a solution
+            Number of workers used to search for a solution.
         """
 
         super().__init__(num_days,
@@ -56,8 +57,8 @@ class MinAbsDifference(BaseShiftScheduler):
         Returns
         -------
         solution: dict,
-            Dictionary with the status on the optimization, the resources to schedule per day and the
-            final value of the cost function
+            Dictionary with optimization status, scheduled resources by day and
+            shift, and final objective value.
         """
         sch_model = cp_model.CpModel()
 
@@ -90,7 +91,7 @@ class MinAbsDifference(BaseShiftScheduler):
                                                              - sum(resources[d][s] * self.shifts_coverage_matrix[s][p]
                                                                    for s in range(self.num_shifts))))
 
-        # Total programmed resources, must be less or equals to max_period_concurrency, for each day and period
+        # Total programmed resources must be less than or equal to max_period_concurrency for each day and period
         for d in range(self.num_days):
             for p in range(self.num_periods):
                 sch_model.Add(
@@ -139,32 +140,33 @@ class MinRequiredResources(BaseShiftScheduler):
                  num_search_workers: int = 2,
                  *args, **kwargs):
         """
-        The "optimal" criteria is defined as the minimum weighted amount
-        of resources (by optional shift cost), that ensures that there are never
-        fewer resources shifted than the ones required per period
+        Minimizes the weighted number of scheduled resources while ensuring that
+        every period has at least the required number of resources.
 
         Parameters
         ----------
 
         num_days: int,
-            Number of days needed to schedule
+            Number of days to schedule.
         periods: int,
-            Number of working periods in a day
+            Number of working periods in a day.
         shifts_coverage: dict,
-            dict with structure {"shift_name": "shift_array"} where "shift_array" is an array of size [periods] (p), 1 if shift covers period p, 0 otherwise
+            Dictionary of the form ``{"shift_name": shift_array}``, where each
+            ``shift_array`` has length ``periods`` and uses 1 when the shift
+            covers a period, otherwise 0.
         required_resources: list,
-            Array of size [days, periods]
+            Array of size ``[days, periods]``.
         max_period_concurrency: int,
-            Maximum resources that are allowed to shift in any period and day
+            Maximum resources allowed in any period and day.
         max_shift_concurrency: int,
-            Number of maximum allowed resources in the same shift
+            Maximum resources allowed in the same shift.
         cost_dict: dict, default = None
-            dictionary of form {shift: cost_value}, where shift must be the same options listed in the
-            shifts_coverage matrix, and they must be all integers
+            Dictionary of the form ``{shift: cost_value}``. It must contain the
+            same shifts as ``shifts_coverage``.
         max_search_time: float, default = 240
-            Maximum time in seconds to search for a solution
+            Maximum time, in seconds, to search for a solution.
         num_search_workers: int, default = 2
-            Number of workers to search for a solution
+            Number of workers used to search for a solution.
         """
 
         super().__init__(num_days,
@@ -214,7 +216,7 @@ class MinRequiredResources(BaseShiftScheduler):
                 sch_model.Add(sum(resources[d][s] * self.shifts_coverage_matrix[s][p]
                                   for s in range(self.num_shifts)) >= self.required_resources[d][p])
 
-        # Total programmed resources, must be less or equals to max_period_concurrency, for each day and period
+        # Total programmed resources must be less than or equal to max_period_concurrency for each day and period
         for d in range(self.num_days):
             for p in range(self.num_periods):
                 sch_model.Add(

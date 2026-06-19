@@ -6,53 +6,51 @@ Understanding ErlangC for Queue Problems
 Introduction
 ------------
 
-Finding the number of positions to use in a queue system has been a study case for a long time now;
-it has applications in several fields and industries, for example, finding the optimal number of call centers agents,
-deciding the number of bankers in a support station, network traffic analysis and so on.
+Finding the number of positions to use in a queue system is a long-standing planning problem.
+It appears in many industries, for example when estimating the number of call center agents,
+bank tellers, support staff, or network resources required to meet a service target.
 
-There are several methods to analyze this problem;
-this article will look at how to model it using the ErlangC approach.
+There are several ways to analyze this problem. This article introduces the Erlang C approach
+used by pyworkforce.
 
 Queue System
 ------------
 
 In the most fundamental Erlang C method, we represent the system as a queue with the following assumptions:
 
-* There is incoming traffic with a constant rate; the arrivals follow a Poisson process
-* There is a fixed capacity in the system; usually, only one transaction gets handled by a resource at the time
+* Incoming traffic has a constant rate, and arrivals follow a Poisson process.
+* The system has fixed capacity; usually, each resource handles one transaction at a time.
 * There is a fixed number of available positions in a time interval
-* When all the positions have a total capacity, there is an infinite queue length
-  where the requests wait for a position to be free.
-* An exponential distribution describes the holding times in the queue
+* When all positions are busy, requests wait in an infinite queue until a position is free.
+* An exponential distribution describes the handling times.
 * There is no dropout from the queue.
 
 A queue system with these characteristics may look like this:
 
 .. image:: ../images/erlangc_queue_system.png
 
-In this representation, we can see several measures that will help us to describe the system;
-here there are their definitions and how we are going to call them from now on:
+The diagram includes several measures used throughout pyworkforce:
 
 * **Transactions:** Number of incoming requests
 * **Resource:** The element that handles a transaction
 * **Arrival rate:** The number of incoming transactions in a time interval
-* **Average speed of answer (ASA):** Average time that a transaction waits in the queue to be attended by a resource
-* **Average handle time (AHT):** Average time that takes to a single resource to attend a transaction
+* **Average speed of answer (ASA):** Average time that a transaction waits before a resource starts handling it
+* **Average handle time (AHT):** Average time that a resource spends handling one transaction
 
-Other variables are in the diagram, but that is important for the model, those are:
+The model also uses these service-planning variables:
 
 * **Shrinkage:** Expected percentage of time that a server is not available, for example,
   due to breaks, scheduled training, etc.
 * **Occupancy:** Percentage of time that a resource is handling a transaction
-* **Service level:** Percentage of transactions that arrives at a resource before a target ASA
+* **Service level:** Percentage of transactions handled before the target ASA
 
 For direct calls to the Erlang C performance methods, the number of productive positions must be greater than
 the traffic intensity. This keeps the modeled queue system stable. If shrinkage scaling is enabled, productive
 positions are computed after applying shrinkage.
 
-The way as Erlang C find the number of resources in this system is by finding the probability
-that a transaction waits in queue, opposed to immediately being attended, it takes a target ASA
-and service level and uses the others variables as the system parameters, if you want to know more about the details of
-Erlang formulation, you can red the definition `here <https://en.wikipedia.org/wiki/Erlang_(unit)>`_
+Erlang C estimates the probability that a transaction waits in queue instead of being handled immediately.
+pyworkforce uses that probability, together with the target ASA and service level, to search for the minimum
+number of positions required by the system. For more background on Erlang formulas, see the
+`Erlang unit definition <https://en.wikipedia.org/wiki/Erlang_(unit)>`_.
 
-In the following article, we'll explain how to use pyworkforce to solve this kind of problem.
+The next article shows how to solve this type of problem with pyworkforce.

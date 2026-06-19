@@ -4,20 +4,22 @@ Rostering Problems
 Introduction
 ------------
 
-In workforce management, rostering refers to finding the "optimal" way to assign a set of fixed resources
-to a resource requirement per day and shift that you might have been found using any scheduling technique
-(like the ones present in this package).
-The "optimal" criterion is  defined under an objective function, for example, minimizing the total resources
-scheduled hours.
+In workforce management, rostering means assigning named resources to days and shifts while
+respecting operational rules. The required number of resources per day and shift might come from
+a scheduling model, a demand forecast, or a manual planning process.
 
-Pyworkforce comes with a particular method to solve this problem, called MinHoursRoster
+The meaning of "optimal" is defined by an objective function. In this solver, the objective is to
+minimize scheduled hours while still satisfying the required coverage and roster constraints.
+
+pyworkforce solves this problem with ``MinHoursRoster``.
 
 MinHoursRoster
 --------------
 
 This method assigns a list of resources to a list of required positions per day and shifts;
-it considers different restrictions such as shift bans, consecutive shifts, resting days, and others.
-It also introduces soft restrictions like shift preferences.
+it considers restrictions such as shift bans, non-sequential shifts, rest days, minimum hours,
+and other roster rules. It can also use soft preferences, such as a resource preferring a
+particular shift.
 
 The "optimal" criterion is the minimum total scheduled hours, optionally weighted by resource shift preferences.
 
@@ -32,10 +34,10 @@ Name                 Type                Description
 :math:`\delta_s`     Parameter           Number of hours in the shift `s`
 :math:`\mu`          Parameter           Maximum number of days off per resource in the planning horizon
 :math:`R_{ds}`       Parameter           Number of resources required at day `d` for the shift `s`
-:math:`\tau_{ij}`    Parameter           1 if no resource can't be shifted on shift `i`, and to the next day on shift `j`, 0 otherwise
-:math:`\sigma_{nds}` Parameter           1 if the resource `n` can't be shifted on shift `s` at day `d`, 0 otherwise
-:math:`\phi_{ns}`    Parameter           1 if the resource `n` prefers to be shifted on shift `s`, 0 if there is not specific preference
-:math:`\alpha_{n}`   Parameter           Weight factor from which the O.F reduces is value if the shift preference for the resource `n` is met
+:math:`\tau_{ij}`    Parameter           1 if a resource cannot work shift `j` the day after shift `i`, 0 otherwise
+:math:`\sigma_{nds}` Parameter           1 if resource `n` cannot work shift `s` on day `d`, 0 otherwise
+:math:`\phi_{ns}`    Parameter           1 if resource `n` prefers shift `s`, 0 if there is no specific preference
+:math:`\alpha_{n}`   Parameter           Weight used to reward resource `n` when one of their shift preferences is met
 :math:`X_{nds}`      Decision variable   1 if the resource `n` is scheduled at day `d` for the shift `s`, 0 otherwise
 ==================== ==================  =====================================
 
@@ -48,14 +50,14 @@ Under this definition, the objective function is formulated as:
 
     min \sum_{n, d, s} (\delta_s - \alpha_{n}*\phi_{ns})*X_{nds}
 
-Notice that if we don't use the shifts preference term :math:`\phi_{ns}`, or we set it to 0, :math:`\phi_{ns} = 0_{n,s}`
-then the O.F is simplified to the total number of shifted hours:
+If the shift preference term :math:`\phi_{ns}` is not used, or if it is set to
+:math:`\phi_{ns} = 0_{n,s}`, the objective function simplifies to the total number of scheduled hours:
 
 .. math::
 
     min \sum_{n, d, s} \delta_s*X_{nds}
 
-Now we Introduce the restrictions of this model:
+The model uses these restrictions:
 
 * The number of resources in the roster for day `d` and shift `s` must be greater or equal to
   the number of required resources for that day and shift.
@@ -64,25 +66,25 @@ Now we Introduce the restrictions of this model:
 
      \sum_{n} X_{nds} \geq R_{ds} \; \forall d \in D, \forall s \in S
 
-* The total off days for the resource `n` can't be greater than the maximum allowed days
+* The total days off for resource `n` cannot be greater than the maximum allowed days.
 
 .. math::
 
      \sum_{d, s} 1- X_{nds} \leq \mu \; \forall n \in N
 
-* Each resource can be scheduled at most once a day
+* Each resource can be scheduled at most once per day.
 
 .. math::
 
      \sum_{s} X_{nds} \leq 1 \; \forall d \in D, \forall n \in N
 
-* A resource can't be shifted in two consecutive shifts, according to the shifts dependencies :math:`\tau_{ij}`
+* A resource cannot work forbidden shift sequences, according to :math:`\tau_{ij}`.
 
 .. math::
 
      \sum_{j \in S} X_{nds}*\tau_{sj} + X_{n(d+1)s} \leq 1 \; \forall d \in D, \forall n \in N, \forall s \in S
 
-* The resources with a banned shift can't be assigned to it
+* Resources with a banned shift cannot be assigned to that shift.
 
 .. math::
 
@@ -91,22 +93,21 @@ Now we Introduce the restrictions of this model:
 
 We'll solve an example using pyworkforce with the following conditions:
 
-* We want to plan 7-days operation
+* We want to plan a 7-day operation
 * The resources are people, and there are 55 resources available
-* There are four shifts: Morning, Afternoon, Night, and Mixed; all of them last 8 hours except for the mixed,
-  which last 6 hours
+* There are four shifts: Morning, Afternoon, Night, and Mixed. All last 8 hours except Mixed,
+  which lasts 6 hours
 * The minimum working hours in the 7-day horizon are 40
 * Each resource can be off at most one day in this planning horizon
-* A resource shifted at night can't be shifted at the morning of the following day
-* The resource identified as e.johnston@randatmail.com can't work on the night shift of the day 0 and
-  the morning shift of the day 3
-* The resource identified as d.harper@randatmail.com can't work at the mixed shift in the day 1
-* The resource identified as d.harper@randatmail.com say he'd prefer to work on the morning or mixed shifts if possible
-* The resource identified as c.campbell@randatmail.com says he'd prefer to work on the afternoon shift if possible
-* There is no a particular prioritization over the different resources shifts preferences
-* The number of minimum required resources per shift and day are encoded in the variable "required_resources"
+* A resource who works Night cannot work Morning the following day
+* e.johnston@randatmail.com cannot work Night on day 0 or Morning on day 3
+* d.harper@randatmail.com cannot work Mixed on day 1
+* d.harper@randatmail.com prefers Morning or Mixed shifts when possible
+* c.campbell@randatmail.com prefers Afternoon shifts when possible
+* There is no special prioritization among resource shift preferences
+* The minimum required resources per shift and day are encoded in ``required_resources``
 
-This is the data that contains all the previous conditions:
+This data encodes all the previous conditions:
 
 .. code:: python3
 
@@ -169,31 +170,33 @@ With this information, we can start using the :class:`~pyworkforce.rostering.Min
 
    pp.pprint(solver.solve())
 
-You should see a pretty large output, but we'll explain each object,
-and the entire print is at the end of this article:
+The output is large, so this section explains the important fields first.
+The full printed solution is included at the end of this article.
 
-First, notice that the status is OPTIMAL, there are 330 total shifts that represent a total of 2388 working hours.
-We have the resource_shifts, this is a list of dicts, and each element tell us which resource was scheduled for that shift at what day
-For example, the first element means that the resource e.johnston@randatmail.com has to work on the shift Mixed of the day 0:
+First, the ``OPTIMAL`` status means that the solver found the best feasible roster for the model.
+There are 330 assigned shifts, representing 2388 scheduled working hours.
+``resource_shifts`` is a list of dictionaries. Each item tells you which resource is scheduled
+on which day and shift. For example, the first item means that e.johnston@randatmail.com works
+the Mixed shift on day 0:
 
 .. code:: python3
 
    { 'day': 0, 'resource': 'e.johnston@randatmail.com', 'shift': 'Mixed'}
 
-Now, the resting_resource tell us which resource is off at which day; for example, the first element
-means that the resource e.johnston@randatmail.com is off on the day 3:
+``resting_resource`` tells you which resource is off on each day. For example, the first item
+means that e.johnston@randatmail.com is off on day 3:
 
 .. code:: python3
 
    {'day': 3, 'resource': 'e.johnston@randatmail.com'}
 
-Notice that resting_days has the value of 55; this is the total days off in the planning horizon;
-this would mean that each resource is resting precisely one day (due to the restriction of one max resting day).
+``resting_days`` is 55, the total number of days off in the planning horizon. Since there are
+55 resources and each resource can rest at most one day, this means every resource rests exactly once.
 
-Now let's analyze the shifts of a couple of people who had some special conditions:
+Now let's inspect a few resources with special conditions:
 
-* e.johnston@randatmail.com had two banned shifts: Night of day 0 and Morning of day 3.
-  We can see that in this case the solver respected the condition of day 0 and he is resting on day 3
+* e.johnston@randatmail.com has two banned shifts: Night on day 0 and Morning on day 3.
+  The solver respects both conditions by assigning Mixed on day 0 and a rest day on day 3.
 
 .. code:: python3
 
@@ -205,12 +208,10 @@ Now let's analyze the shifts of a couple of people who had some special conditio
      { 'day': 6, 'resource': 'e.johnston@randatmail.com', 'shift': 'Morning'} ]
 
 
-* d.harper@randatmail.com can't work the Mixed shift on day 1, and he'd prefer to work on the
-  Morning or Mixed shift.
-  In this scenario, the first condition is met since he's off, and the solver also puts him on the Morning shift,
-  which is a preference.
-  Notice that such preference is not a strong condition that would make the problem unfeasible, it's tried to be used
-  by the solver without breaking the optimality of the problem
+* d.harper@randatmail.com cannot work Mixed on day 1 and prefers Morning or Mixed shifts.
+  The ban is respected because he is off on day 1. The solver also assigns him to Morning shifts,
+  which matches one of his preferences. Preferences are soft constraints: the solver tries to satisfy
+  them without making the model infeasible or sacrificing optimality.
 
 .. code:: python3
 
@@ -221,7 +222,7 @@ Now let's analyze the shifts of a couple of people who had some special conditio
     { 'day': 5, 'resource': 'd.harper@randatmail.com', 'shift': 'Morning'},
     { 'day': 6, 'resource': 'd.harper@randatmail.com', 'shift': 'Morning'}]
 
-* Similar for c.campbell@randatmail.com who wanted to work in the afternoon:
+* c.campbell@randatmail.com prefers Afternoon shifts:
 
 .. code:: python3
 
