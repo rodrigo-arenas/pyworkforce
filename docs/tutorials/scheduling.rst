@@ -4,21 +4,22 @@ Scheduling Problems
 Introduction
 ------------
 
-In workforce management, scheduling refers to finding the "optimal" way to schedule a set of
-resources depending on the projected requirements demand per interval.
-This may be, for example, finding how many call center agents to schedule per one-hour interval,  given
-some demand (for instance, using ErlangC) and some restrictions.
-The "optimal" criterion is defined under an objective function, for example, minimizing the overall
-number of scheduled resources or the absolute difference between the required and the planned resources.
+In workforce management, scheduling means choosing how many resources to assign to each shift
+based on projected demand by interval. For example, after using ErlangC to estimate hourly call
+center requirements, scheduling can decide how many agents should be assigned to the available
+morning, afternoon, night, or mixed shifts.
 
-Pyworkforce comes with several methods that already choose  over the objective function and
-its restrictions, which are:
+The meaning of "optimal" depends on the objective function. A schedule might minimize the total
+number of scheduled resources, or it might minimize the absolute difference between required
+and planned resources.
+
+pyworkforce includes two scheduling solvers:
 
 * MinAbsDifference
 * MinRequiredResources
 
-In the following sections, we'll explain the mathematical formulation of each method, as well as giving
-an intuitive description and examples on how to use them.
+The following sections explain each method, first intuitively and then with the mathematical
+formulation and examples.
 
 For both methods, we'll introduce the following variables and notation:
 
@@ -35,15 +36,16 @@ Name            Type                Description
 :math:`X_{ds}`  Decision variable   Number of resources to schedule at day `d` for the shift `s`
 =============== ==================  =====================================
 
-Notice that the definition of period allows splitting a day in any number of intervals; it may be 24
-intervals of one hour, 48 intervals of 30 minutes, etc. It will depend on the granularity of the requirements.
+The period definition can use any time granularity: 24 one-hour intervals, 48 half-hour intervals,
+or another structure that matches your requirements data.
 
 
 MinAbsDifference
 ----------------
 
-This method tries to minimize the absolute difference between the required and scheduled resources,
-this implies that the scheduled resources may be higher or lower than the actual requirement.
+This method minimizes the absolute difference between required and scheduled resources.
+Because it minimizes differences in both directions, the solution may schedule more or fewer
+resources than required in a given interval.
 
 Under this definition, the objective function is formulated as:
 
@@ -55,37 +57,35 @@ Notice that the term :math:`X_{ds}*E_{sp}` would result in the number of schedul
 and day, and the term :math:`N_{dp}` is the required resources, so the objective is to minimize
 the absolute difference over all days and periods of the requirements vs. the actual scheduling.
 
-Now we Introduce the restrictions of this model:
+The model uses these restrictions:
 
-* The number of scheduled resources for a period `p` and day `d` can't exceed the maximum allowed capacity.
+* The number of scheduled resources for a period `p` and day `d` cannot exceed the maximum allowed capacity.
 
 .. math::
 
     0 \leq X_{ds}*E_{sp} \leq \gamma \; \forall d \in  D, \forall p \in  P
 
 
-* The number of scheduled resources on a same shift, can't exceed the maximum allowed capacity.
+* The number of scheduled resources on the same shift cannot exceed the maximum allowed capacity.
 
 .. math::
 
     0 \leq X_{ds} \leq \beta \; \forall d \in  D, \forall s \in  S
 
-* Positive integers restriction
+* Positive integer restriction
 
 .. math::
 
     X_{ds}, \gamma, N_{dp} \in \mathbb{Z}^{*} \; \forall d \in  D, \forall s \in  S, \forall p \in  P \\
 
-* Bool restriction
+* Boolean restriction
 
 .. math::
 
     E_{sp} \in \{0, 1\} \; \forall s \in  S, \forall p \in  P \\
 
-Under the pyworkforce package, this is how you can solve this problem; the comments make the
-reference to each variable under the notation.
-In this example, we will solve the scheduling problem for a horizon of two days;
-we split each day into 24 intervals of one hour.
+This is how to solve the problem with pyworkforce. The comments reference the notation above.
+The example solves a two-day scheduling problem with 24 one-hour intervals per day.
 
 .. code:: python3
 
@@ -99,7 +99,7 @@ we split each day into 24 intervals of one hour.
        [13, 13, 12, 15, 18, 20, 13, 16, 17, 8, 13, 11, 6, 19, 11, 20, 19, 17, 10, 13, 14, 23, 16, 8]
    ]
 
-   # Each entry of a shift, is an hour of the day (24 columns)
+   # Each shift has 24 entries, one per hour of the day
    # E_sp
    shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       "Afternoon": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
@@ -132,25 +132,26 @@ The solver will print this solution:
                            {'day': 1, 'resources': 0, 'shift': 'Mixed'}],
      'status': 'OPTIMAL'}
 
-First, we see that the status is optimal; this means that the solver found an optimal feasible solution.
-The cost is 157; this is the value of the objective function.
-The resources_shifts dict is the actual shifts schedule, i.e :math:`X_{ds}`;
-this tells you how many resources to schedule per day and shift.
+The ``OPTIMAL`` status means that the solver found the best feasible solution for the model.
+The cost is the value of the objective function.
+``resources_shifts`` is the shift schedule, represented by :math:`X_{ds}`; it tells you how many
+resources to schedule for each day and shift.
 
 
 MinRequiredResources
 --------------------
 
-This method tries to minimize the total scheduled resources while not planning fewer resources than required for each interval.
-This method generally results in a higher number of resources planned since it's not allowed to have a deficit on the requirements.
+This method minimizes the total scheduled resources while ensuring that every interval has at least
+the required number of resources. It often schedules more resources than ``MinAbsDifference`` because
+understaffing is not allowed.
 
-Additionally to the variables used in the MinAbsDifference method, we introduce an additional cost variable
-which can help to weight the cost of scheduling a resource if a particular shift, this parameter is:
+In addition to the variables used by ``MinAbsDifference``, this method accepts an optional shift-cost
+parameter:
 
 =============== ==================  ========================================
 Name            Type                Description
 =============== ==================  ========================================
-:math:`C_{s}`   Parameter            Cost or weight in o.f for the shift `s`
+:math:`C_{s}`   Parameter            Cost or weight in the objective function for shift `s`
 =============== ==================  ========================================
 
 
@@ -161,44 +162,42 @@ In this case, the objective function is:
     min \sum_{d, s} C_{s}*X_{ds}
 
 
-Now we Introduce the restrictions of this model:
+The model uses these restrictions:
 
 * The number of scheduled resources for a period `p` and day `d` must be
-  greater or equals to the required resources for such day and period.
+  greater than or equal to the required resources for that day and period.
 
 .. math::
 
     \sum_{d, p} X_{ds}*E_{sp} \geq  N_{dp} \; \forall d \in  D, \forall p \in  P
 
-* The number of scheduled resources for a period `p` and day `d` can't exceed the maximum allowed capacity.
+* The number of scheduled resources for a period `p` and day `d` cannot exceed the maximum allowed capacity.
 
 .. math::
 
     0 \leq X_{ds}*E_{sp} \leq \gamma \; \forall d \in  D, \forall p \in  P
 
 
-* The number of scheduled resources on a same shift, can't exceed the maximum allowed capacity.
+* The number of scheduled resources on the same shift cannot exceed the maximum allowed capacity.
 
 .. math::
 
     0 \leq X_{ds} \leq \beta \; \forall d \in  D, \forall s \in  S
 
-* Positive integers restriction
+* Positive integer restriction
 
 .. math::
 
     X_{ds}, \gamma, N_{dp} \in \mathbb{Z}^{*} \; \forall d \in  D, \forall s \in  S, \forall p \in  P \\
 
-* Bool restriction
+* Boolean restriction
 
 .. math::
 
     E_{sp} \in \{0, 1\} \; \forall s \in  S, \forall p \in  P \\
 
-Under the pyworkforce package, this is how you can solve this problem; the comments make the
-reference to each variable under the notation.
-In this example, we will solve the scheduling problem for a horizon of two days;
-we split each day into 24 intervals of one hour.
+This is how to solve the problem with pyworkforce. The comments reference the notation above.
+The example solves a two-day scheduling problem with 24 one-hour intervals per day.
 
 .. code:: python3
 
@@ -212,14 +211,14 @@ we split each day into 24 intervals of one hour.
        [13, 13, 12, 15, 18, 20, 13, 16, 17, 8, 13, 11, 6, 19, 11, 20, 19, 17, 10, 13, 14, 23, 16, 8]
    ]
 
-   # Each entry of a shift, is an hour of the day (24 columns)
+   # Each shift has 24 entries, one per hour of the day
    # E_sp
    shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       "Afternoon": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
                       "Night": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
                       "Mixed": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
 
-   # The cost of shifting a resource if each shift, if present, solver will minimize the total cost
+   # Optional cost for assigning one resource to each shift
    # C_s
    cost_dict = {"Morning": 1, "Afternoon": 1.2, "Night": 2, "Mixed": 1.5}
 
@@ -249,7 +248,7 @@ The solver will print this solution:
                            {'day': 1, 'resources': 0, 'shift': 'Mixed'}],
      'status': 'OPTIMAL'}
 
-First, we see that the status is optimal; this means that the solver found an optimal feasible solution.
-The cost is 113; this is the value of the objective function.
-The resources_shifts dict is the actual shifts schedule, i.e :math:`X_{ds}`;
-this tells you how many resources to schedule per day and shift.
+The ``OPTIMAL`` status means that the solver found the best feasible solution for the model.
+The cost is the value of the objective function.
+``resources_shifts`` is the shift schedule, represented by :math:`X_{ds}`; it tells you how many
+resources to schedule for each day and shift.

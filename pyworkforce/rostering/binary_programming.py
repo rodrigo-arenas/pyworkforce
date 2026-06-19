@@ -5,48 +5,49 @@ from ortools.sat.python import cp_model
 class MinHoursRoster:
     """
 
-    It assigns a list of resources to a list of required positions per day and shifts; it takes into account
-    different restrictions as shift bans, consecutive shifts, resting days, and others.
-    It also introduces soft restrictions like shift preferences.
-    The "optimal" criteria is defined as the minimum total scheduled hours,
-    optionally weighted by resources shifts preferences
+    Assigns named resources to required positions by day and shift.
+
+    The solver supports restrictions such as banned shifts, non-sequential
+    shifts, rest days, and minimum working hours. It also supports soft shift
+    preferences. The objective is to minimize total scheduled hours, optionally
+    weighted by resource shift preferences.
 
     Parameters
     ----------
 
     num_days: int,
-        Number of days needed to schedule
+        Number of days to schedule.
     resources: list[str],
-        Resources available to shift
+        Resources available to schedule.
     shifts: list,
-        Array of shifts names
+        List of shift names.
     shifts_hours: list,
-        Array of size [shifts] with the total hours within the shift
+        Array of size ``[shifts]`` with the duration of each shift.
     min_working_hours: int,
-        Minimum working hours per resource in the horizon
+        Minimum working hours per resource in the planning horizon.
     banned_shifts: list[dict]
-        Each element {"resource": resource_index, "shift": shift_name, "day": day_number} indicating
-        that the resource can't be assigned to that shift that particular day
+        Each element has the form ``{"resource": resource_id, "shift": shift_name, "day": day_number}``
+        and marks a shift that the resource cannot work on that day.
         example: banned_shifts": [{"resource":"e.johnston@randatmail.com", "shift": "Night", "day":  0}],
     max_resting: int,
-        Maximum number of resting days per resource in the total interval
+        Maximum number of resting days per resource in the planning horizon.
     required_resources: dict[list]
-        Each key of the dict must be one of the shifts, the value must be a  list of length [days]
-        specifying the number of resources to shift in each day for that shift
+        Each key must be a shift name, and each value must be a list of length
+        ``num_days`` with the required resources for that shift each day.
     non_sequential_shifts: List[dict]
-        Each element must have the form {"origin": first_shift, "destination": second_shift}
-        to make sure that destination shift can't be after origin shift.
+        Each element must have the form ``{"origin": first_shift, "destination": second_shift}``
+        to prevent ``destination`` from being assigned the day after ``origin``.
         example: [{"origin":"Night", "destination":"Morning"}]
     resources_preferences: list[dict]
-        Each element must have the form {"resource": resource_idx, "shifts":shift_name}
-        indicating the resources that have preference for shift
+        Each element must have the form ``{"resource": resource_id, "shift": shift_name}``
+        and indicates that the resource prefers that shift.
     resources_prioritization: list[dict], default=None
-        Each element must have the form {"resource": resource_idx, "weight": weight_percentage}
-        this represent the relative importance for resources_preferences assignment
+        Each element must have the form ``{"resource": resource_id, "weight": weight}``
+        and represents the relative importance of that resource's preferences.
     max_search_time: float, default = 240
-        Maximum time in seconds to search for a solution
+        Maximum time, in seconds, to search for a solution.
     num_search_workers: int, default = 2
-        Number of workers to search for a solution
+        Number of workers used to search for a solution.
     """
 
     def __init__(self, num_days: int,
@@ -108,7 +109,7 @@ class MinHoursRoster:
 
         # Constrains
 
-        # The number of shifted resource must be ge that required resource, for each day and shift
+        # The number of scheduled resources must be greater than or equal to the requirement for each day and shift
         for d in range(self._num_days):
             for s in range(self.num_shifts):
                 sch_model.Add(sum(shifted_resource[n][d][s] for n in range(self.num_resource))
@@ -144,7 +145,7 @@ class MinHoursRoster:
                             shifted_resource[n][d + 1][j]
                             for j in range(self.num_shifts)) <= 1)
 
-        # resource can't be assigned to banned shifts
+        # Resources cannot be assigned to banned shifts
         if self.banned_shifts is not None:
             for ban in self.banned_shifts:
                 resource_idx = self.resources.index(ban['resource'])

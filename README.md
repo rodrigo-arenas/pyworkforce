@@ -6,58 +6,65 @@
 
 
 # pyworkforce
-Standard tools for workforce management, queuing, scheduling, rostering and optimization problems.
+Tools for workforce management problems such as queue staffing, shift scheduling,
+rostering, and operations research optimization.
 
-Make sure to check the documentation, which is available [here](https://pyworkforce.readthedocs.io/en/stable/)
+The full documentation is available at
+[pyworkforce.readthedocs.io](https://pyworkforce.readthedocs.io/en/stable/).
 
-# Usage:
-Install pyworkforce
+## Installation
 
-It's advised to install pyworkforce using a virtual env, inside the env use:
+We recommend installing pyworkforce in a virtual environment:
 
-```
+```bash
 pip install pyworkforce
 ```
 
 pyworkforce supports Python 3.12, 3.13, and 3.14.
 
-If you are using anaconda an having some issue on the installation, try running first
+If you are using Anaconda and run into installation issues, update the environment first:
 
-```
+```bash
 conda update --all
 ```
 
-If you are having trouble with or-tools installation, check the [or-tools guide](https://github.com/google/or-tools#installation)
+If the issue is related to OR-Tools, check the
+[OR-Tools installation guide](https://github.com/google/or-tools#installation).
 
-For a complete list and details of examples go to the 
-[examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples)
+For runnable examples, see the
+[examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples).
 
-## Features:
-pyworkforce currently includes:
+## What pyworkforce Does
+
+pyworkforce is organized around three planning steps:
 
 ### Queuing
-It solves the following system resource requirements:
+
+Use `pyworkforce.queuing` when you need to estimate how many resources are required
+to handle incoming work, for example calls arriving at a call center. The current
+implementation uses Erlang C assumptions: constant arrival rate, infinite queue,
+and no customer dropout.
 
 ![queue_system](https://raw.githubusercontent.com/rodrigo-arenas/pyworkforce/main/docs/images/erlangc_queue_system.png)
 
-- **queuing.ErlangC:** Find the number of resources required to attend incoming traffic to a constant rate, 
-  infinite queue length, and no dropout.
+- **queuing.ErlangC:** Calculate staffing requirements and performance metrics for one queue scenario.
+- **queuing.MultiErlangC:** Run multiple Erlang C scenarios from a parameter grid.
   
 ### Scheduling
 
-It finds the number of resources to schedule in a shift based on the number of required positions per time interval 
-(found, for example, using  [queuing.ErlangC](./pyworkforce/queuing/erlang.py)), maximum capacity restrictions, and static shifts coverage.<br>
-- **scheduling.MinAbsDifference:** This module finds the "optimal" assignation by minimizing the total absolute 
-    differences between required resources per interval against the scheduled resources found by the solver.
-- **scheduling.MinRequiredResources**: This module finds the "optimal" assignation by minimizing the total 
-    weighted amount of scheduled resources (optionally weighted by shift cost), it ensures that in all intervals, there are
-    never fewer resources shifted than the ones required per period.
+Use `pyworkforce.scheduling` when you already know the required resources by time
+interval and need to choose how many people to place on each predefined shift.
+
+- **scheduling.MinAbsDifference:** Minimizes the total absolute difference between required and scheduled resources.
+- **scheduling.MinRequiredResources:** Minimizes the total weighted number of scheduled resources while ensuring every interval is covered.
 
 ### Rostering
 
-It assigns a list of resources to a list of required positions per day and shifts; it takes into account
-different restrictions as shift bans, consecutive shifts, resting days, and others.
-It also introduces soft restrictions like shift preferences.
+Use `pyworkforce.rostering` when you have named resources and need to assign them
+to days and shifts while respecting rules such as banned shifts, rest days,
+minimum working hours, and preferences.
+
+- **rostering.MinHoursRoster:** Builds a resource-level roster that covers shift requirements with the minimum scheduled hours.
 
 ### Queue systems:
 
@@ -82,7 +89,8 @@ Output:
                              'waiting_probability': 0.1741319335950498}
 ```
 
-If you want to run different scenarios at the same time, you can use the MultiErlangC, for example, trying different service levels:
+If you want to run several scenarios at the same time, use `MultiErlangC`.
+For example, this tries different service-level targets:
 
 ```python
 from pyworkforce.queuing import MultiErlangC
@@ -130,13 +138,13 @@ A brief introduction can be found in this [medium post](https://towardsdatascien
 ```python
 from pyworkforce.scheduling import MinAbsDifference, MinRequiredResources
 
-# Rows are the days, each entry of a row, is number of positions required at an hour of the day (24). 
+# Rows are days. Each value is the number of required positions for one hour of the day.
 required_resources = [
     [9, 11, 17, 9, 7, 12, 5, 11, 8, 9, 18, 17, 8, 12, 16, 8, 7, 12, 11, 10, 13, 19, 16, 7],
     [13, 13, 12, 15, 18, 20, 13, 16, 17, 8, 13, 11, 6, 19, 11, 20, 19, 17, 10, 13, 14, 23, 16, 8]
 ]
 
-# Each entry of a shift, an hour of the day (24), 1 if the shift covers that hour, 0 otherwise
+# Each shift has 24 entries, one per hour. Use 1 if the shift covers that hour, otherwise 0.
 shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                    "Afternoon": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
                    "Night": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],

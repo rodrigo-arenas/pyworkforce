@@ -13,31 +13,33 @@ class BaseShiftScheduler:
                  num_search_workers=2):
 
         """
-        Base class to solve the following schedule problem:
+        Base class for shift scheduling problems.
 
-        Its required to find the optimal number of resources (agents, operators, doctors, etc) to allocate
-        in a shift, based on a pre-defined requirement of number of resources per period of the day (periods of hours,
-        half-hour, etc)
+        Scheduling finds the number of resources (agents, operators, doctors, etc.)
+        to allocate to each shift, based on predefined resource requirements by
+        period of the day.
         
         Parameters
         ----------
 
         num_days: int,
-            Number of days needed to schedule
+            Number of days to schedule.
         periods: int,
-            Number of working periods in a day
+            Number of working periods in a day.
         shifts_coverage: dict,
-            dict with structure {"shift_name": "shift_array"} where "shift_array" is an array of size [periods] (p), 1 if shift covers period p, 0 otherwise
+            Dictionary of the form ``{"shift_name": shift_array}``, where each
+            ``shift_array`` has length ``periods`` and uses 1 when the shift
+            covers a period, otherwise 0.
         required_resources: list,
-            Array of size [days, periods]
+            Array of size ``[days, periods]``.
         max_period_concurrency: int,
-            Maximum resources that are allowed to shift in any period and day
+            Maximum resources allowed in any period and day.
         max_shift_concurrency: int,
-            Number of maximum allowed resources in the same shift
+            Maximum resources allowed in the same shift.
         max_search_time: float, default = 240
-            Maximum time in seconds to search for a solution
+            Maximum time, in seconds, to search for a solution.
         num_search_workers: int, default = 2
-            Number of workers to search for a solution
+            Number of workers used to search for a solution.
         """
 
         is_valid_num_days = check_positive_integer("num_days", num_days)
