@@ -48,6 +48,13 @@ def test_parameter_grid():
     assert_grid_iter_equals_getitem(has_empty)
 
 
+def test_parameter_grid_getitem_uses_numpy_2_compatible_product():
+    grid = ParameterGrid({"a": [1, 2], "b": [3, 4]})
+
+    assert grid[0] == {"a": 1, "b": 3}
+    assert grid[3] == {"a": 2, "b": 4}
+
+
 def test_non_iterable_parameter_grid():
     params = {"foo": 4,
               "bar": ["ham", "spam", "eggs"]}

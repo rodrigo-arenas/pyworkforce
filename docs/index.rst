@@ -19,6 +19,8 @@ It's advised to install pyworkforce using a virtual env, inside the env use::
 
    pip install pyworkforce
 
+pyworkforce supports Python 3.12, 3.13, and 3.14.
+
 .. toctree::
    :maxdepth: 2
    :titlesonly:

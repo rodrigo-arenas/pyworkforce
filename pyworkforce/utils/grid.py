@@ -98,7 +98,7 @@ class ParameterGrid:
             # Reverse so most frequent cycling parameter comes first
             keys, values_lists = zip(*sorted(sub_grid.items())[::-1])
             sizes = [len(v_list) for v_list in values_lists]
-            total = np.product(sizes)
+            total = np.prod(sizes)
 
             if ind >= total:
                 # Try the next grid

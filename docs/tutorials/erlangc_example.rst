@@ -15,6 +15,7 @@ the AHT is 3 minutes, and the expected shrinkage is 30%.
 As the call center administrators, we want the average time that a transaction waits in the queue to be 20 seconds
 and achieve a service level of 80%.
 We also want to ensure that the maximum occupancy of the agents is not greater than 85%.
+The ``max_occupancy`` value must be greater than 0 and less than or equal to 1.
 
 The use of this package is very straightforward; we import ErlangC and initialize the class with the given parameters,
 then we use the method `required_positions` to find the minimum number of resources to handle the transactions.

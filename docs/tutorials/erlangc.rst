@@ -46,6 +46,10 @@ Other variables are in the diagram, but that is important for the model, those a
 * **Occupancy:** Percentage of time that a resource is handling a transaction
 * **Service level:** Percentage of transactions that arrives at a resource before a target ASA
 
+For direct calls to the Erlang C performance methods, the number of productive positions must be greater than
+the traffic intensity. This keeps the modeled queue system stable. If shrinkage scaling is enabled, productive
+positions are computed after applying shrinkage.
+
 The way as Erlang C find the number of resources in this system is by finding the probability
 that a transaction waits in queue, opposed to immediately being attended, it takes a target ASA
 and service level and uses the others variables as the system parameters, if you want to know more about the details of
