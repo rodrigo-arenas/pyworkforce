@@ -2,7 +2,7 @@
 [![Build Status](https://www.travis-ci.com/rodrigo-arenas/pyworkforce.svg?branch=main)](https://www.travis-ci.com/rodrigo-arenas/pyworkforce)
 [![Codecov](https://codecov.io/gh/rodrigo-arenas/pyworkforce/branch/main/graphs/badge.svg?branch=main&service=github)](https://codecov.io/github/rodrigo-arenas/pyworkforce?branch=main)
 [![PyPI Version](https://badge.fury.io/py/pyworkforce.svg)](https://badge.fury.io/py/pyworkforce)
-[![Python Version](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13%20%7C%203.14-blue)](https://www.python.org/downloads/)
 
 
 # pyworkforce
@@ -18,6 +18,8 @@ It's advised to install pyworkforce using a virtual env, inside the env use:
 ```
 pip install pyworkforce
 ```
+
+pyworkforce supports Python 3.12, 3.13, and 3.14.
 
 If you are using anaconda an having some issue on the installation, try running first
 

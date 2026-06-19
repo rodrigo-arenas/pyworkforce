@@ -93,3 +93,11 @@ def test_multierlangc_wrong_grid():
         results = MultiErlangC(param_grid=param_grid)
     assert str(excinfo.value) == "Parameter grid value is not iterable (key='transactions', value=100)"
 
+
+def test_multierlangc_check_solutions_expected_combinations():
+    erlang = MultiErlangC(param_grid={"transactions": [100], "asa": [0.33], "aht": [3], "interval": [30]})
+
+    with pytest.raises(Exception) as excinfo:
+        erlang._check_solutions([{}], combinations=2)
+    assert str(excinfo.value) == "Inconsistent results. Expected 2 solutions, got 1"
+

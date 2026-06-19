@@ -3,6 +3,22 @@ Release Notes
 
 Some notes on new features in various releases
 
+What's new in Unreleased
+------------------------
+
+^^^^^^^^^^^^
+API Changes:
+^^^^^^^^^^^^
+
+* Add support for Python 3.12, 3.13, and 3.14.
+* Run GitHub Actions tests on all supported Python versions.
+* Update project dependencies to versions compatible with modern Python and NumPy releases.
+* Update :class:`~pyworkforce.utils.ParameterGrid` to work with NumPy 2.x.
+* Validate Erlang C systems with zero productive positions or traffic intensity greater than or equal to positions.
+* Validate :meth:`~pyworkforce.queuing.ErlangC.required_positions` with ``max_occupancy > 0``.
+* Fix the :class:`~pyworkforce.queuing.MultiErlangC` inconsistent-results error message to report the expected
+  number of scenario combinations.
+
 What's new in 0.5.1
 -------------------
 

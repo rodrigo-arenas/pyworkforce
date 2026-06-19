@@ -90,3 +90,33 @@ def test_wrong_max_occupancy_erlangc():
     with pytest.raises(Exception) as excinfo:
         results = erlang.required_positions(service_level=0.8, max_occupancy=1.2)
     assert str(excinfo.value) == "max_occupancy must be between 0 and 1"
+
+
+def test_zero_max_occupancy_erlangc():
+    erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
+    with pytest.raises(Exception) as excinfo:
+        erlang.required_positions(service_level=0.8, max_occupancy=0)
+    assert str(excinfo.value) == "max_occupancy must be greater than 0"
+
+
+def test_waiting_probability_requires_productive_positions():
+    erlang = ErlangC(transactions=1, asa=0.33, aht=1, interval=30, shrinkage=0.9)
+    with pytest.raises(Exception) as excinfo:
+        erlang.waiting_probability(positions=1, scale_positions=True)
+    assert str(excinfo.value) == "productive positions must be greater than 0"
+
+
+def test_erlang_methods_require_stable_system():
+    erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.0)
+
+    with pytest.raises(Exception) as excinfo:
+        erlang.waiting_probability(positions=10)
+    assert str(excinfo.value) == "positions must be greater than traffic intensity"
+
+    with pytest.raises(Exception) as excinfo:
+        erlang.service_level(positions=10)
+    assert str(excinfo.value) == "positions must be greater than traffic intensity"
+
+    with pytest.raises(Exception) as excinfo:
+        erlang.achieved_occupancy(positions=10)
+    assert str(excinfo.value) == "positions must be greater than traffic intensity"

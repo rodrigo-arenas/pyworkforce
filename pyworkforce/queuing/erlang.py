@@ -49,6 +49,20 @@ class ErlangC:
         self.intensity = (self.n_transactions / self.interval) * self.aht
         self.shrinkage = shrinkage
 
+    def _productive_positions(self, positions: int, scale_positions: bool = False):
+        if scale_positions:
+            productive_positions = floor((1 - self.shrinkage) * positions)
+        else:
+            productive_positions = positions
+
+        if productive_positions <= 0:
+            raise ValueError("productive positions must be greater than 0")
+
+        if productive_positions <= self.intensity:
+            raise ValueError("positions must be greater than traffic intensity")
+
+        return productive_positions
+
     def waiting_probability(self, positions: int, scale_positions: bool = False):
         """
         Returns the probability of waiting in the queue
@@ -57,15 +71,13 @@ class ErlangC:
         ----------
         positions: int,
             The number of positions to attend the transactions.
+            Productive positions must be greater than traffic intensity.
         scale_positions: bool, default=False
             Set it to True if the positions were calculated using shrinkage.
 
         """
 
-        if scale_positions:
-            productive_positions = floor((1 - self.shrinkage) * positions)
-        else:
-            productive_positions = positions
+        productive_positions = self._productive_positions(positions, scale_positions)
 
         erlang_b_inverse = 1
         for position in range(1, productive_positions + 1):
@@ -83,14 +95,12 @@ class ErlangC:
 
         positions: int,
             The number of positions attending.
+            Productive positions must be greater than traffic intensity.
         scale_positions: bool, default = False
             Set it to True if the positions were calculated using shrinkage.
 
         """
-        if scale_positions:
-            productive_positions = floor((1 - self.shrinkage) * positions)
-        else:
-            productive_positions = positions
+        productive_positions = self._productive_positions(positions, scale_positions)
 
         probability_wait = self.waiting_probability(productive_positions, scale_positions=False)
         exponential = exp(-(productive_positions - self.intensity) * (self.asa / self.aht))
@@ -105,14 +115,12 @@ class ErlangC:
 
         positions: int,
             The number of raw positions
+            Productive positions must be greater than traffic intensity.
         scale_positions: bool, default=False
             Set it to True if the positions were calculated using shrinkage.
 
         """
-        if scale_positions:
-            productive_positions = floor((1 - self.shrinkage) * positions)
-        else:
-            productive_positions = positions
+        productive_positions = self._productive_positions(positions, scale_positions)
 
         return self.intensity / productive_positions
 
@@ -126,7 +134,8 @@ class ErlangC:
         service_level: float,
             Target service level
         max_occupancy: float,
-            The maximum fraction of time that a transaction can occupy a position
+            The maximum fraction of time that a transaction can occupy a position.
+            Must be greater than 0 and less than or equal to 1.
 
         Returns
         -------
@@ -149,6 +158,9 @@ class ErlangC:
 
         if max_occupancy < 0 or max_occupancy > 1:
             raise ValueError("max_occupancy must be between 0 and 1")
+
+        if max_occupancy == 0:
+            raise ValueError("max_occupancy must be greater than 0")
 
         positions = round(self.intensity + 1)
         achieved_service_level = self.service_level(positions, scale_positions=False)
@@ -350,5 +362,5 @@ class MultiErlangC:
         if len(solutions) != combinations:
             raise ValueError('Inconsistent results. Expected {} '
                              'solutions, got {}'
-                             .format(len(self.param_list),
+                             .format(combinations,
                                      len(solutions))) # noqa
