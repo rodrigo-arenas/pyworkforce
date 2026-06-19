@@ -11,6 +11,7 @@ API Changes:
 ^^^^^^^^^^^^
 
 * Add support for Python 3.12, 3.13, and 3.14.
+* Run GitHub Actions tests on all supported Python versions.
 * Update project dependencies to versions compatible with modern Python and NumPy releases.
 * Update :class:`~pyworkforce.utils.ParameterGrid` to work with NumPy 2.x.
 * Validate Erlang C systems with zero productive positions or traffic intensity greater than or equal to positions.
