@@ -7,10 +7,13 @@
 
 # pyworkforce
 Tools for workforce management problems such as queue staffing, shift scheduling,
-rostering, and operations research optimization.
+rostering, and operations research optimization. It is geared toward call /
+contact centers, but the same techniques apply to hospitals, retail, logistics,
+network capacity planning and any operation that has to match a variable demand
+with a finite number of resources.
 
-The full documentation is available at
-[rodrigo-arenas.github.io/pyworkforce](https://rodrigo-arenas.github.io/pyworkforce/).
+📖 **Full documentation and tutorials:**
+[rodrigo-arenas.github.io/pyworkforce](https://rodrigo-arenas.github.io/pyworkforce/)
 
 ## Installation
 
@@ -34,51 +37,45 @@ If the issue is related to OR-Tools, check the
 For runnable examples, see the
 [examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/main/examples).
 
-## What pyworkforce Does
+## Features
 
-pyworkforce is organized around three planning steps:
+pyworkforce is organized around three planning steps — *how many resources do I
+need?* → *how many per shift?* → *who works when?* — plus helpers that tie them
+together:
 
-### Queuing
+- **Queuing**
+  - `ErlangC` — the classic M/M/c queue (infinite patience).
+  - `ErlangA` — the M/M/c+M queue with customer **abandonment** (patience),
+    computed exactly from the birth–death stationary distribution.
+  - `MultiErlangC` / `MultiErlangA` — evaluate many scenarios from a parameter
+    grid in parallel, scikit-learn style.
+- **Shift coverage helpers** (`pyworkforce.shifts`) — build the `shifts_coverage`
+  arrays the schedulers expect from clock hours, spans or explicit periods,
+  instead of hand-writing 0/1 arrays.
+- **Scheduling** (`pyworkforce.scheduling`) — `MinAbsDifference` and
+  `MinRequiredResources` decide how many people to place on each shift, built on
+  [OR-Tools](https://developers.google.com/optimization).
+- **Rostering** (`pyworkforce.rostering`) — `MinHoursRoster` assigns named people
+  to days and shifts while respecting banned shifts, rest days, minimum hours,
+  non-sequential shifts and preferences.
+- **A scikit-learn-friendly API** — consistent constructors with clear validation
+  messages, `get_params()` and readable `repr()` on every estimator, the last
+  result stored as `solution_`, and `results_to_dataframe` to turn grid results
+  into tidy `pandas` DataFrames.
 
-Use `pyworkforce.queuing` when you need to estimate how many resources are required
-to handle incoming work, for example calls arriving at a call center. The current
-implementation uses Erlang C assumptions: constant arrival rate, infinite queue,
-and no customer dropout.
+A brief introduction to the queuing and scheduling ideas can be found in these
+posts:
+[workforce planning](https://towardsdatascience.com/workforce-planning-optimization-using-python-69af0ef9011a)
+and [scheduling](https://towardsdatascience.com/how-to-solve-scheduling-problems-in-python-36a9af8de451).
+
+## Queuing
+
+Estimate how many resources are required to handle incoming work, for example
+calls arriving at a call center.
 
 ![queue_system](https://raw.githubusercontent.com/rodrigo-arenas/pyworkforce/main/docs/images/erlangc_queue_system.png)
 
-- **queuing.ErlangC:** Calculate staffing requirements and performance metrics for one queue scenario.
-- **queuing.ErlangA:** Like Erlang C, but models customers who **abandon** the queue if they wait
-  too long (the M/M/c+M queue). Closer to reality for most contact centers.
-- **queuing.MultiErlangC:** Run multiple Erlang C scenarios from a parameter grid.
-
-### Shift coverage helpers
-
-Use `pyworkforce.shifts` to build the `shifts_coverage` arrays the schedulers expect
-from human-friendly descriptions (clock hours, spans or explicit period indices) instead
-of hand-writing 0/1 arrays.
-
-### Scheduling
-
-Use `pyworkforce.scheduling` when you already know the required resources by time
-interval and need to choose how many people to place on each predefined shift.
-
-- **scheduling.MinAbsDifference:** Minimizes the total absolute difference between required and scheduled resources.
-- **scheduling.MinRequiredResources:** Minimizes the total weighted number of scheduled resources while ensuring every interval is covered.
-
-### Rostering
-
-Use `pyworkforce.rostering` when you have named resources and need to assign them
-to days and shifts while respecting rules such as banned shifts, rest days,
-minimum working hours, and preferences.
-
-- **rostering.MinHoursRoster:** Builds a resource-level roster that covers shift requirements with the minimum scheduled hours.
-
-### Queue systems:
-
-A brief introduction can be found in this [medium post](https://towardsdatascience.com/workforce-planning-optimization-using-python-69af0ef9011a)
-
-#### Example:
+### Erlang C
 
 ```python
 from pyworkforce.queuing import ErlangC
@@ -90,17 +87,18 @@ print("positions_requirements: ", positions_requirements)
 ```
 Output:
 ```
->> positions_requirements:  {'raw_positions': 14, 
-                             'positions': 20, 
-                             'service_level': 0.8883500191794669, 
-                             'occupancy': 0.7142857142857143, 
+>> positions_requirements:  {'raw_positions': 14,
+                             'positions': 20,
+                             'service_level': 0.8883500191794669,
+                             'occupancy': 0.7142857142857143,
                              'waiting_probability': 0.1741319335950498}
 ```
 
-#### Modeling abandonment with Erlang A:
+### Erlang A (modeling abandonment)
 
-Real customers hang up if they wait too long. `ErlangA` adds a `patience` parameter and
-reports the abandonment probability, typically requiring fewer agents than Erlang C:
+Real customers hang up if they wait too long. `ErlangA` adds a `patience`
+parameter and reports the abandonment probability, typically requiring fewer
+agents than Erlang C:
 
 ```python
 from pyworkforce.queuing import ErlangA
@@ -121,51 +119,58 @@ Output:
                    'average_speed_of_answer': 0.125...}
 ```
 
-If you want to run several scenarios at the same time, use `MultiErlangC`.
-For example, this tries different service-level targets:
+### Many scenarios at once
+
+`MultiErlangC` / `MultiErlangA` evaluate a parameter grid in parallel, and
+`results_to_dataframe` turns the results into a tidy table:
 
 ```python
 from pyworkforce.queuing import MultiErlangC
+from pyworkforce.utils import results_to_dataframe
 
 param_grid = {"transactions": [100], "aht": [3], "interval": [30], "asa": [20 / 60], "shrinkage": [0.3]}
 multi_erlang = MultiErlangC(param_grid=param_grid, n_jobs=-1)
 
-required_positions_scenarios = {"service_level": [0.8, 0.85, 0.9], "max_occupancy": [0.8]}
+scenarios = {"service_level": [0.8, 0.85, 0.9], "max_occupancy": [0.8]}
+results = multi_erlang.required_positions(scenarios)
 
-positions_requirements = multi_erlang.required_positions(required_positions_scenarios)
-print("positions_requirements: ", positions_requirements)
+df = results_to_dataframe(results, multi_erlang.required_positions_params)
+print(df[["service_level", "positions", "service_level_result", "occupancy"]].round(4).to_string(index=False))
 ```
 Output:
 ```
->> positions_requirements:   [
-                                {
-                                    "raw_positions": 13,
-                                    "positions": 19,
-                                    "service_level": 0.7955947884177831,
-                                    "occupancy": 0.7692307692307693,
-                                    "waiting_probability": 0.285270453036493
-                                },
-                                {
-                                    "raw_positions": 14,
-                                    "positions": 20,
-                                    "service_level": 0.8883500191794669,
-                                    "occupancy": 0.7142857142857143,
-                                    "waiting_probability": 0.1741319335950498
-                                },
-                                {
-                                    "raw_positions": 15,
-                                    "positions": 22,
-                                    "service_level": 0.9414528428690223,
-                                    "occupancy": 0.6666666666666666,
-                                    "waiting_probability": 0.10204236700798798
-                                }
-                            ]
+ service_level  positions  service_level_result  occupancy
+          0.80         20                0.8884     0.7143
+          0.85         20                0.8884     0.7143
+          0.90         22                0.9415     0.6667
 ```
-### Scheduling
 
-A brief introduction can be found in this [medium post](https://towardsdatascience.com/how-to-solve-scheduling-problems-in-python-36a9af8de451)
+The input target stays under `service_level`; the achieved value is kept as
+`service_level_result`.
 
-#### Example:
+## Shift coverage helpers
+
+Describe shifts by their clock hours instead of writing 0/1 arrays. Overnight
+shifts wrap past midnight:
+
+```python
+from pyworkforce.shifts import shift_coverage_from_hours
+
+shifts_coverage = shift_coverage_from_hours({
+    "Morning":   (6, 14),
+    "Afternoon": (14, 22),
+    "Night":     (22, 6),
+}, num_periods=24)
+```
+
+The output plugs straight into the schedulers below. See also
+`shift_coverage_from_spans`, `shift_coverage_from_periods`,
+`validate_shift_coverage` and `coverage_to_dataframe`.
+
+## Scheduling
+
+Given the required resources per period, decide how many people to place on each
+predefined shift.
 
 ```python
 from pyworkforce.scheduling import MinAbsDifference, MinRequiredResources
@@ -182,53 +187,96 @@ shifts_coverage = {"Morning": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0
                    "Night": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
                    "Mixed": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]}
 
-# Method One
+# Minimize the absolute difference between required and scheduled resources
 difference_scheduler = MinAbsDifference(num_days=2,
                                         periods=24,
                                         shifts_coverage=shifts_coverage,
                                         required_resources=required_resources,
                                         max_period_concurrency=27,
                                         max_shift_concurrency=25)
-
 difference_solution = difference_scheduler.solve()
 
-# Method Two
-
+# Minimize the (optionally weighted) number of scheduled resources while covering every period
 requirements_scheduler = MinRequiredResources(num_days=2,
                                               periods=24,
                                               shifts_coverage=shifts_coverage,
                                               required_resources=required_resources,
                                               max_period_concurrency=27,
                                               max_shift_concurrency=25)
-
 requirements_solution = requirements_scheduler.solve()
 
-print("difference_solution :", difference_solution)
-
-print("requirements_solution :", requirements_solution)
+print("difference_solution :", difference_solution["status"], difference_solution["cost"])
+print("requirements_solution :", requirements_solution["status"], requirements_solution["cost"])
 ```
 Output:
 ```
->> difference_solution: {'status': 'OPTIMAL', 
-                          'cost': 157.0, 
+>> difference_solution: {'status': 'OPTIMAL',
+                          'cost': 157.0,
                           'resources_shifts': [{'day': 0, 'shift': 'Morning', 'resources': 8},
                                                {'day': 0, 'shift': 'Afternoon', 'resources': 11},
-                                               {'day': 0, 'shift': 'Night', 'resources': 9}, 
-                                               {'day': 0, 'shift': 'Mixed', 'resources': 1}, 
-                                               {'day': 1, 'shift': 'Morning', 'resources': 13}, 
-                                               {'day': 1, 'shift': 'Afternoon', 'resources': 17}, 
-                                               {'day': 1, 'shift': 'Night', 'resources': 13}, 
-                                               {'day': 1, 'shift': 'Mixed', 'resources': 0}]
-                          }
+                                               {'day': 0, 'shift': 'Night', 'resources': 9},
+                                               {'day': 0, 'shift': 'Mixed', 'resources': 1},
+                                               ... ]}
 
->> requirements_solution: {'status': 'OPTIMAL', 
-                           'cost': 113.0, 
-                           'resources_shifts': [{'day': 0, 'shift': 'Morning', 'resources': 15}, 
-                                                {'day': 0, 'shift': 'Afternoon', 'resources': 13}, 
-                                                {'day': 0, 'shift': 'Night', 'resources': 19}, 
-                                                {'day': 0, 'shift': 'Mixed', 'resources': 3}, 
-                                                {'day': 1, 'shift': 'Morning', 'resources': 20}, 
-                                                {'day': 1, 'shift': 'Afternoon', 'resources': 20}, 
-                                                {'day': 1, 'shift': 'Night', 'resources': 23}, 
-                                                {'day': 1, 'shift': 'Mixed', 'resources': 0}]}
+>> requirements_solution: {'status': 'OPTIMAL',
+                           'cost': 113.0,
+                           'resources_shifts': [{'day': 0, 'shift': 'Morning', 'resources': 15},
+                                                {'day': 0, 'shift': 'Afternoon', 'resources': 13},
+                                                ... ]}
 ```
+
+`MinRequiredResources` also accepts a `cost_dict` to weight shifts differently
+(for example, more expensive night shifts).
+
+## Rostering
+
+Assign **named** people to days and shifts while respecting individual rules and
+preferences.
+
+```python
+from pyworkforce.rostering import MinHoursRoster
+
+roster = MinHoursRoster(
+    num_days=2,
+    resources=["ana@co", "ben@co", "cara@co", "dan@co", "eve@co"],
+    shifts=["Morning", "Night"],
+    shifts_hours=[8, 8],
+    min_working_hours=8,
+    max_resting=1,
+    required_resources={"Morning": [2, 2], "Night": [1, 1]},
+    banned_shifts=[{"resource": "ana@co", "shift": "Night", "day": 0}],
+    resources_preferences=[{"resource": "ana@co", "shift": "Morning"}],
+)
+
+solution = roster.solve()
+print(solution["status"], solution["resource_shifts"][:2])
+```
+Output:
+```
+OPTIMAL [{'resource': 'ana@co', 'day': 0, 'shift': 'Morning'},
+         {'resource': 'ana@co', 'day': 1, 'shift': 'Morning'}]
+```
+
+`ana@co` is given her preferred `Morning` shift and never `Night` on day 0,
+exactly as configured.
+
+## Documentation and tutorials
+
+The [documentation site](https://rodrigo-arenas.github.io/pyworkforce/) includes
+narrative guides, a full API reference, and self-contained, notebook-style
+tutorials with real outputs:
+
+- [End-to-end planning](https://rodrigo-arenas.github.io/pyworkforce/guide/end-to-end)
+  — demand → required positions → shift coverage → schedule → roster.
+- [Comparing scenarios](https://rodrigo-arenas.github.io/pyworkforce/guide/scenarios)
+  — grids and DataFrames.
+
+## Contributing
+
+Contributions are very welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for the
+local development setup, how to run the tests and linter, and the pull-request
+workflow.
+
+## License
+
+pyworkforce is released under the [MIT License](LICENSE).
