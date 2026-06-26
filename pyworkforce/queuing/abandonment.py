@@ -14,7 +14,10 @@ the tail probability is negligible.
 
 from math import ceil, exp
 
+from joblib import Parallel, delayed
+
 from pyworkforce.base import BaseWorkforce
+from pyworkforce.utils import ParameterGrid
 from pyworkforce.utils.validation import check_in_range, check_positive_float
 
 
@@ -360,3 +363,135 @@ class ErlangA(BaseWorkforce):
     def _check_positions(positions):
         if isinstance(positions, bool) or not isinstance(positions, int) or positions <= 0:
             raise ValueError(f"positions must be a positive integer, got {positions!r}")
+
+
+class MultiErlangA(BaseWorkforce):
+    """
+    Runs Erlang A calculations over multiple parameter combinations.
+
+    This is the abandonment-aware counterpart of
+    :class:`pyworkforce.queuing.MultiErlangC`. It evaluates every combination
+    from ``param_grid`` and the method-specific argument grid in parallel using
+    joblib, with a scikit-learn-like interface.
+
+    Parameters
+    ----------
+    param_grid: dict,
+        Dictionary with :class:`ErlangA` initialization parameters. Each key
+        must be an expected parameter, and each value must be a list of options
+        to iterate over.
+        example: {"transactions": [100, 200], "aht": [3], "interval": [30],
+        "asa": [20 / 60], "patience": [5], "shrinkage": [0.3]}
+    n_jobs: int, default=2
+        Maximum number of concurrently running jobs. ``-1`` uses all CPUs,
+        ``1`` disables parallelism (useful for debugging).
+    pre_dispatch: {"all", int, or expression}, default='2 * n_jobs'
+        Number of task batches to pre-dispatch. See joblib's documentation.
+
+    Attributes
+    ----------
+    waiting_probability_params, abandonment_probability_params,
+    achieved_occupancy_params, average_speed_of_answer_params,
+    average_queue_length_params, service_level_params,
+    required_positions_params: list[tuple],
+        Parameters used for each result of the matching method, in result
+        order. Each entry is an ``(erlang_params, method_params)`` tuple.
+    """
+
+    def __init__(self, param_grid: dict, n_jobs: int = 2, pre_dispatch: str = '2 * n_jobs'):
+        self.param_grid = param_grid
+        self.n_jobs = n_jobs
+        self.pre_dispatch = pre_dispatch
+        self.param_list = list(ParameterGrid(self.param_grid))
+        self.waiting_probability_params = None
+        self.abandonment_probability_params = None
+        self.achieved_occupancy_params = None
+        self.average_speed_of_answer_params = None
+        self.average_queue_length_params = None
+        self.service_level_params = None
+        self.required_positions_params = None
+
+    def _solve(self, method_name, arguments_grid):
+        """Evaluate ``method_name`` over the cartesian product of both grids.
+
+        Returns
+        -------
+        tuple(list, list)
+            The list of results and the parallel list of
+            ``(erlang_params, method_params)`` tuples that produced them.
+        """
+        arguments_list = list(ParameterGrid(arguments_grid))
+        used_params = [(erlang_params, method_params)
+                       for erlang_params in self.param_list
+                       for method_params in arguments_list]
+        combinations = len(self.param_list) * len(arguments_list)
+        results = Parallel(n_jobs=self.n_jobs, pre_dispatch=self.pre_dispatch)(
+            delayed(getattr(ErlangA(**params), method_name))(**arguments)
+            for params in self.param_list
+            for arguments in arguments_list)
+        self._check_solutions(results, combinations)
+        return results, used_params
+
+    def waiting_probability(self, arguments_grid):
+        """Probability of waiting for every grid combination.
+
+        ``arguments_grid`` example: ``{"positions": [12, 14, 16]}``.
+        """
+        results, self.waiting_probability_params = self._solve("waiting_probability", arguments_grid)
+        return results
+
+    def abandonment_probability(self, arguments_grid):
+        """Abandonment probability for every grid combination.
+
+        ``arguments_grid`` example: ``{"positions": [12, 14, 16]}``.
+        """
+        results, self.abandonment_probability_params = self._solve("abandonment_probability", arguments_grid)
+        return results
+
+    def achieved_occupancy(self, arguments_grid):
+        """Server occupancy for every grid combination.
+
+        ``arguments_grid`` example: ``{"positions": [12, 14, 16]}``.
+        """
+        results, self.achieved_occupancy_params = self._solve("achieved_occupancy", arguments_grid)
+        return results
+
+    def average_speed_of_answer(self, arguments_grid):
+        """Average speed of answer for every grid combination.
+
+        ``arguments_grid`` example: ``{"positions": [12, 14, 16]}``.
+        """
+        results, self.average_speed_of_answer_params = self._solve("average_speed_of_answer", arguments_grid)
+        return results
+
+    def average_queue_length(self, arguments_grid):
+        """Average queue length for every grid combination.
+
+        ``arguments_grid`` example: ``{"positions": [12, 14, 16]}``.
+        """
+        results, self.average_queue_length_params = self._solve("average_queue_length", arguments_grid)
+        return results
+
+    def service_level(self, arguments_grid):
+        """Service level for every grid combination.
+
+        ``arguments_grid`` example: ``{"positions": [12, 14], "asa": [20 / 60]}``.
+        """
+        results, self.service_level_params = self._solve("service_level", arguments_grid)
+        return results
+
+    def required_positions(self, arguments_grid):
+        """Required positions for every grid combination.
+
+        ``arguments_grid`` example:
+        ``{"service_level": [0.8, 0.9], "max_occupancy": [0.85], "max_abandonment": [0.05]}``.
+        """
+        results, self.required_positions_params = self._solve("required_positions", arguments_grid)
+        return results
+
+    def _check_solutions(self, solutions, combinations):
+        """Check the integrity of the solution in terms of dimensions."""
+        if len(solutions) < 1:
+            raise ValueError("Could not find any solution, make sure the param_grid is defined correctly")
+        if len(solutions) != combinations:
+            raise ValueError(f"Inconsistent results. Expected {combinations} solutions, got {len(solutions)}")
