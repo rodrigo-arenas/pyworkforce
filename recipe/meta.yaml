@@ -49,7 +49,7 @@ about:
     shift scheduling, rostering and operations-research optimization.
   license: MIT
   license_file: LICENSE
-  doc_url: https://rodrigo-arenas.github.io/pyworkforce/
+  doc_url: https://pyworkforce.rodrigo-arenas.com/
   dev_url: https://github.com/rodrigo-arenas/pyworkforce
 
 extra:

@@ -2,7 +2,7 @@
 [![Codecov](https://codecov.io/gh/rodrigo-arenas/pyworkforce/branch/main/graphs/badge.svg?branch=main&service=github)](https://codecov.io/github/rodrigo-arenas/pyworkforce?branch=main)
 [![PyPI Version](https://badge.fury.io/py/pyworkforce.svg)](https://badge.fury.io/py/pyworkforce)
 [![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13%20%7C%203.14-blue)](https://www.python.org/downloads/)
-[![Docs](https://img.shields.io/badge/docs-rodrigo--arenas.github.io-blue)](https://rodrigo-arenas.github.io/pyworkforce/stable/)
+[![Docs](https://img.shields.io/badge/docs-pyworkforce.rodrigo--arenas.com-blue)](https://pyworkforce.rodrigo-arenas.com/stable/)
 
 # pyworkforce
 
@@ -14,7 +14,7 @@ theory and OR-Tools constraint programming, with a scikit-learn-style API.
 > hospitals, retail, logistics and any operation matching variable demand to
 > finite resources.
 
-📖 **Full documentation:** [rodrigo-arenas.github.io/pyworkforce](https://rodrigo-arenas.github.io/pyworkforce/stable/)
+📖 **Full documentation:** [pyworkforce.rodrigo-arenas.com](https://pyworkforce.rodrigo-arenas.com/stable/)
 
 ---
 
@@ -329,15 +329,15 @@ OPTIMAL
 
 ## Documentation
 
-The [documentation site](https://rodrigo-arenas.github.io/pyworkforce/stable/)
+The [documentation site](https://pyworkforce.rodrigo-arenas.com/stable/)
 includes narrative guides, a full API reference, and self-contained tutorials
 with real outputs:
 
-- **[End-to-end tutorial](https://rodrigo-arenas.github.io/pyworkforce/stable/guide/end-to-end)**
+- **[End-to-end tutorial](https://pyworkforce.rodrigo-arenas.com/stable/guide/end-to-end)**
   — demand forecast → queuing → staffing mix → shift coverage → schedule → roster
-- **[Comparing scenarios](https://rodrigo-arenas.github.io/pyworkforce/stable/guide/scenarios)**
+- **[Comparing scenarios](https://pyworkforce.rodrigo-arenas.com/stable/guide/scenarios)**
   — grids, DataFrames, and service-level sweeps
-- **[API reference](https://rodrigo-arenas.github.io/pyworkforce/stable/api/queuing)**
+- **[API reference](https://pyworkforce.rodrigo-arenas.com/stable/api/queuing)**
 
 Background reading on the underlying techniques:
 [workforce planning](https://towardsdatascience.com/workforce-planning-optimization-using-python-69af0ef9011a)

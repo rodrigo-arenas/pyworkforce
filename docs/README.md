@@ -2,7 +2,7 @@
 
 This folder contains the [VitePress](https://vitepress.dev/) documentation site
 for pyworkforce, published to GitHub Pages at
-<https://rodrigo-arenas.github.io/pyworkforce/>.
+<https://pyworkforce.rodrigo-arenas.com/>.
 
 ## Local development
 

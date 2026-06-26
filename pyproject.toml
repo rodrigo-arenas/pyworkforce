@@ -49,10 +49,10 @@ dev = [
 ]
 
 [project.urls]
-Documentation = "https://rodrigo-arenas.github.io/pyworkforce/"
+Documentation = "https://pyworkforce.rodrigo-arenas.com/"
 "Source Code" = "https://github.com/rodrigo-arenas/pyworkforce"
 "Bug Tracker" = "https://github.com/rodrigo-arenas/pyworkforce/issues"
-Changelog = "https://rodrigo-arenas.github.io/pyworkforce/release-notes"
+Changelog = "https://pyworkforce.rodrigo-arenas.com/release-notes"
 
 [tool.setuptools]
 include-package-data = true

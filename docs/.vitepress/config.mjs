@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // "stable" on tag releases, "development" on main-branch pushes.
 const docsVersion = process.env.DOCS_VERSION ?? 'development'
-const base = `/pyworkforce/${docsVersion}/`
+const base = `/${docsVersion}/`
 
 // Google Analytics measurement ID (e.g. "G-XXXXXXXXXX"), injected at build time.
 // This is a PUBLIC identifier (it ships in the page), not a credential.
@@ -50,8 +50,8 @@ export default defineConfig({
       {
         text: docsVersion,
         items: [
-          { text: 'stable', link: 'https://rodrigo-arenas.github.io/pyworkforce/stable/' },
-          { text: 'development', link: 'https://rodrigo-arenas.github.io/pyworkforce/development/' },
+          { text: 'stable', link: 'https://pyworkforce.rodrigo-arenas.com/stable/' },
+          { text: 'development', link: 'https://pyworkforce.rodrigo-arenas.com/development/' },
         ],
       },
     ],
