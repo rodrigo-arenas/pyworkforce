@@ -17,22 +17,24 @@ with a finite number of resources.
 
 ## Installation
 
-We recommend installing pyworkforce in a virtual environment:
+pyworkforce supports Python 3.12, 3.13, and 3.14.
+
+**pip**
 
 ```bash
 pip install pyworkforce
 ```
 
-pyworkforce supports Python 3.12, 3.13, and 3.14.
-
-If you are using Anaconda and run into installation issues, update the environment first:
+**conda** (via [conda-forge](https://conda-forge.org/))
 
 ```bash
-conda update --all
+conda install -c conda-forge pyworkforce
 ```
 
-If the issue is related to OR-Tools, check the
-[OR-Tools installation guide](https://github.com/google/or-tools#installation).
+> **Note for conda users:** the `ortools-python` package on conda-forge may
+> lag behind the PyPI release of OR-Tools. If you need the latest OR-Tools
+> version or encounter solver issues, install via pip instead, or see the
+> [OR-Tools installation guide](https://github.com/google/or-tools#installation).
 
 For runnable examples, see the
 [examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/main/examples).

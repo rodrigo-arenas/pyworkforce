@@ -1,6 +1,6 @@
 name: Publish to PyPI
 
-# Build and publish the package to PyPI when a v* tag is pushed.
+# Build and publish the package to PyPI when a v* or 0.* tag is pushed.
 # Uses PyPI Trusted Publishing (OIDC) — no API token needs to be stored.
 # Configure the trusted publisher once at:
 #   https://pypi.org/manage/project/pyworkforce/settings/publishing/
@@ -8,6 +8,7 @@ on:
   push:
     tags:
       - 'v*'
+      - '[0-9]*'
   workflow_dispatch:
 
 permissions:

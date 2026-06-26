@@ -35,22 +35,29 @@ library; Node.js is needed only if you work on the docs.
    cd pyworkforce
    ```
 
-2. Create and activate a virtual environment:
+2. Create and activate a development environment.
+
+   **Using venv:**
 
    ```bash
    python -m venv .venv
    source .venv/bin/activate        # Windows: .venv\Scripts\activate
-   ```
-
-3. Install pyworkforce in editable mode with the development extras. This pulls
-   in the runtime deps plus `pytest`, `pytest-cov`, `ruff` and `twine`:
-
-   ```bash
    python -m pip install --upgrade pip
    pip install -e ".[dev]"
    ```
 
-4. Check that everything imports and the suite is green:
+   **Using conda / mamba:**
+
+   ```bash
+   conda create -n pyworkforce python=3.12
+   conda activate pyworkforce
+   pip install -e ".[dev]"
+   ```
+
+   Either way, the editable install pulls in the runtime deps plus `pytest`,
+   `pytest-cov`, `ruff` and `twine`.
+
+3. Check that everything imports and the suite is green:
 
    ```bash
    python -c "import pyworkforce; print(pyworkforce.__version__)"

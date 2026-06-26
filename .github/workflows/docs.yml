@@ -1,12 +1,13 @@
 name: Deploy Docs
 
 # Push to main → builds "development" docs.
-# Push of a v* tag → builds "stable" docs + updates the root redirect.
+# Push of a v* or 0.* tag → builds "stable" docs + updates the root redirect.
 on:
   push:
     branches: [main]
     tags:
       - 'v*'
+      - '[0-9]*'
   workflow_dispatch:
     inputs:
       version:
