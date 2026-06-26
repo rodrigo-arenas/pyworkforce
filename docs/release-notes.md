@@ -1,6 +1,6 @@
 # Release Notes
 
-## 0.5.4
+## 0.5.3
 
 ### New features
 
@@ -11,11 +11,6 @@
   (multi-skilled) agents count towards every skill they hold, so the solver
   automatically balances dedicated vs. flexible hiring. Supports an optional
   `max_agents` budget cap and is now exported from the `pyworkforce` root namespace.
-
-## 0.5.3
-
-### New features
-
 - **`pyworkforce.queuing.ErlangB`** / **`MultiErlangB`** — Erlang B (M/M/c/c)
   pure-loss queue for trunk and channel sizing. Models systems with no waiting
   room where blocked calls are shed. Provides `blocking_probability`,
@@ -27,7 +22,8 @@
   (earliest start, latest end), preventing overlapping breaks on the same slot,
   and guaranteeing that simultaneous breaks never exceed the coverage slack.
   Accepts multiple break types per shift.
-- Both are now exported from the `pyworkforce` root namespace.
+- `ErlangB`, `MultiErlangB`, `BreakScheduler`, and `MultiSkillStaffing` are all
+  exported from the `pyworkforce` root namespace.
 
 ### Dependency changes
 
@@ -64,10 +60,6 @@
 - Migrated to PEP 621 `pyproject.toml`; upgraded dependency floors.
 - Added ruff linting, Dependabot config, and a PyPI trusted-publishing workflow.
 - Documentation moved to VitePress on GitHub Pages.
-
-## 0.5.2
-
-- Latest Python support (3.12–3.14) and CI / packaging updates.
 
 For older releases, see the
 [GitHub releases page](https://github.com/rodrigo-arenas/pyworkforce/releases).
