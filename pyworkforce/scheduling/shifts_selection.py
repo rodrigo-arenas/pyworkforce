@@ -125,6 +125,7 @@ class MinAbsDifference(BaseShiftScheduler):
                         "cost": -1,
                         "resources_shifts": [{'day': -1, 'shift': 'Unknown', 'resources': -1}]}
 
+        self.solution_ = solution
         return solution
 
 
@@ -250,4 +251,5 @@ class MinRequiredResources(BaseShiftScheduler):
                         "cost": -1,
                         "resources_shifts": [{'day': -1, 'shift': 'Unknown', 'resources': -1}]}
 
+        self.solution_ = solution
         return solution

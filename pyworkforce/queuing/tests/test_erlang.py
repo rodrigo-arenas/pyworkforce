@@ -49,54 +49,54 @@ def test_over_occupancy_erlangc():
 
 
 def test_wrong_transactions_erlangc():
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         erlang = ErlangC(transactions=-20, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    assert str(excinfo.value) == "transactions can't be smaller or equals than 0"
+    assert "transactions must be a positive number" in str(excinfo.value)
 
 
 def test_wrong_aht_erlangc():
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         erlang = ErlangC(transactions=100, asa=0.33, aht=-5, interval=30, shrinkage=0.3)
-    assert str(excinfo.value) == "aht can't be smaller or equals than 0"
+    assert "aht must be a positive number" in str(excinfo.value)
 
 
 def test_wrong_asa_erlangc():
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         erlang = ErlangC(transactions=100, asa=0, aht=5, interval=30, shrinkage=0.3)
-    assert str(excinfo.value) == "asa can't be smaller or equals than 0"
+    assert "asa must be a positive number" in str(excinfo.value)
 
 
 def test_wrong_interval_erlangc():
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         erlang = ErlangC(transactions=100, asa=10, aht=5, interval=-30, shrinkage=0.3)
-    assert str(excinfo.value) == "interval can't be smaller or equals than 0"
+    assert "interval must be a positive number" in str(excinfo.value)
 
 
 def test_wrong_shrinkage_erlangc():
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         erlang = ErlangC(transactions=100, asa=10, aht=5, interval=30, shrinkage=1)
-    assert str(excinfo.value) == "shrinkage must be between in the interval [0,1)"
+    assert "shrinkage must be in the interval [0, 1)" in str(excinfo.value)
 
 
 def test_wrong_service_level_erlangc():
     erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         results = erlang.required_positions(service_level=1.8, max_occupancy=0.85)
-    assert str(excinfo.value) == "service_level must be between 0 and 1"
+    assert "service_level must be in the interval [0, 1]" in str(excinfo.value)
 
 
 def test_wrong_max_occupancy_erlangc():
     erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         results = erlang.required_positions(service_level=0.8, max_occupancy=1.2)
-    assert str(excinfo.value) == "max_occupancy must be between 0 and 1"
+    assert "max_occupancy must be in the interval (0, 1]" in str(excinfo.value)
 
 
 def test_zero_max_occupancy_erlangc():
     erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         erlang.required_positions(service_level=0.8, max_occupancy=0)
-    assert str(excinfo.value) == "max_occupancy must be greater than 0"
+    assert "max_occupancy must be in the interval (0, 1]" in str(excinfo.value)
 
 
 def test_waiting_probability_requires_productive_positions():
