@@ -31,10 +31,6 @@ pip install pyworkforce
 conda install -c conda-forge pyworkforce
 ```
 
-> **Note for conda users:** the `ortools-python` package on conda-forge may
-> lag behind the PyPI release of OR-Tools. If you need the latest OR-Tools
-> version or encounter solver issues, install via pip instead, or see the
-> [OR-Tools installation guide](https://github.com/google/or-tools#installation).
 
 For runnable examples, see the
 [examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/main/examples).
@@ -49,8 +45,10 @@ together:
   - `ErlangC` — the classic M/M/c queue (infinite patience).
   - `ErlangA` — the M/M/c+M queue with customer **abandonment** (patience),
     computed exactly from the birth–death stationary distribution.
-  - `MultiErlangC` / `MultiErlangA` — evaluate many scenarios from a parameter
-    grid in parallel, scikit-learn style.
+  - `ErlangB` — the M/M/c/c **loss queue** (no waiting room): blocked calls are
+    shed. Use this for trunk / SIP channel sizing.
+  - `MultiErlangC` / `MultiErlangA` / `MultiErlangB` — evaluate many scenarios
+    from a parameter grid in parallel, scikit-learn style.
 - **Shift coverage helpers** (`pyworkforce.shifts`) — build the `shifts_coverage`
   arrays the schedulers expect from clock hours, spans or explicit periods,
   instead of hand-writing 0/1 arrays.
@@ -60,6 +58,9 @@ together:
 - **Rostering** (`pyworkforce.rostering`) — `MinHoursRoster` assigns named people
   to days and shifts while respecting banned shifts, rest days, minimum hours,
   non-sequential shifts and preferences.
+- **Break scheduling** (`pyworkforce.breaks`) — `BreakScheduler` assigns break
+  start times to agent slots within each shift, preventing overlapping breaks
+  and guaranteeing that breaks never drop coverage below the required minimum.
 - **A scikit-learn-friendly API** — consistent constructors with clear validation
   messages, `get_params()` and readable `repr()` on every estimator, the last
   result stored as `solution_`, and `results_to_dataframe` to turn grid results

@@ -13,15 +13,17 @@ sequence:
 ## 1. Queuing — *how many resources do I need?*
 
 Given an incoming demand (for example, calls arriving at a call center), how
-many agents are required to hit a service target?
+many agents or channels are required to hit a service target?
 
 - [`ErlangC`](/guide/erlangc) — the classic M/M/c queue: Poisson arrivals,
   exponential handling times, an infinite queue and no abandonment.
 - [`ErlangA`](/guide/erlanga) — the M/M/c+M queue, which additionally models
   customers who **abandon** the queue if they wait too long. This is closer to
   reality for most contact centers.
-- [`MultiErlangC`](/guide/multierlang) / `MultiErlangA` — evaluate many Erlang C
-  or Erlang A scenarios at once from a parameter grid, with a scikit-learn-like
+- [`ErlangB`](/guide/erlangb) — the M/M/c/c **loss queue**: no waiting room,
+  blocked calls are shed. Use this for trunk / SIP channel sizing.
+- [`MultiErlangC`](/guide/multierlang) / `MultiErlangA` / `MultiErlangB` —
+  evaluate many scenarios at once from a parameter grid, with a scikit-learn-like
   interface.
 
 ## 2. Scheduling — *how many people per shift?*
@@ -40,12 +42,21 @@ by hand.
 
 ## 3. Rostering — *who works when?*
 
-Finally, assign **named** resources to days and shifts while respecting rules
-such as banned shifts, rest days, minimum working hours, non-sequential shifts
-and personal preferences.
+Assign **named** resources to days and shifts while respecting rules such as
+banned shifts, rest days, minimum working hours, non-sequential shifts and
+personal preferences.
 
 - [`MinHoursRoster`](/guide/rostering) — build a resource-level roster that
   covers the shift requirements with the minimum scheduled hours.
+
+## 4. Break scheduling — *when do breaks happen?*
+
+Once the roster is set, assign a start time to every break for every agent slot
+while ensuring that simultaneous breaks never drop coverage below the required
+minimum.
+
+- [`BreakScheduler`](/guide/breaks) — CP-SAT solver that places breaks inside
+  shift windows, prevents overlaps, and respects per-period coverage constraints.
 
 ## Design principles
 

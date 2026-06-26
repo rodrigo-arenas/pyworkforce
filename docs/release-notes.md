@@ -1,65 +1,57 @@
 # Release Notes
 
-## 0.53.0 (development)
+## 0.5.3
 
 ### New features
 
-- **`pyworkforce.queuing.ErlangA`** — a new M/M/c+M queue model with customer
-  **abandonment** (patience). Exposes `waiting_probability`,
-  `abandonment_probability`, `achieved_occupancy`, `average_speed_of_answer`,
-  `average_queue_length`, an exact `service_level`, and `required_positions`
-  with service-level, occupancy and abandonment targets. All metrics are
-  computed exactly from the birth-death stationary distribution and verified
-  against a Monte Carlo simulation and the Erlang C patient limit.
-- **`pyworkforce.queuing.MultiErlangA`** — the abandonment-aware counterpart of
-  `MultiErlangC`: evaluates `ErlangA` over a parameter grid in parallel.
-- **`pyworkforce.shifts`** — builders to create `shifts_coverage` definitions
-  without hand-writing 0/1 arrays: `shift_coverage_from_hours`,
-  `shift_coverage_from_spans`, `shift_coverage_from_periods`, plus
-  `validate_shift_coverage` and `coverage_to_dataframe`.
-- **`pyworkforce.utils.results_to_dataframe`** — turn `Multi*` results (and the
-  parameters that produced them) into a tidy `pandas.DataFrame`.
-- All estimators now provide `get_params()` and a readable `repr()`
-  (`BaseWorkforce` mixin), and store their last result as `solution_`.
+- **`pyworkforce.queuing.ErlangB`** / **`MultiErlangB`** — Erlang B (M/M/c/c)
+  pure-loss queue for trunk and channel sizing. Models systems with no waiting
+  room where blocked calls are shed. Provides `blocking_probability`,
+  `achieved_occupancy` and `required_positions` (with `max_blocking` and
+  `max_occupancy` targets). `MultiErlangB` sweeps a parameter grid in parallel,
+  mirroring `MultiErlangC`.
+- **`pyworkforce.breaks.BreakScheduler`** — CP-SAT solver that assigns break
+  start times to agent slots within each shift while enforcing break windows
+  (earliest start, latest end), preventing overlapping breaks on the same slot,
+  and guaranteeing that simultaneous breaks never exceed the coverage slack.
+  Accepts multiple break types per shift.
+- Both are now exported from the `pyworkforce` root namespace.
+
+### Dependency changes
+
+- Lowered `numpy` floor to `>=1.23` (code uses only stable basic operations;
+  aligns with the `pandas>=2.2` minimum and unblocks the conda-forge package).
+- Lowered `ortools` floor to `>=9.6` (all CP-SAT APIs in use are stable at
+  this version; matches the conda-forge `ortools-python` feedstock).
+
+## 0.5.2 — *previous release*
+
+### New features
+
+- **`pyworkforce.queuing.ErlangA`** — M/M/c+M queue with customer abandonment.
+  All metrics computed exactly from the birth-death stationary distribution.
+- **`pyworkforce.queuing.MultiErlangA`** — parameter-grid variant of `ErlangA`.
+- **`pyworkforce.shifts`** — shift coverage builders (`shift_coverage_from_hours`,
+  `shift_coverage_from_spans`, `shift_coverage_from_periods`,
+  `validate_shift_coverage`, `coverage_to_dataframe`).
+- **`pyworkforce.utils.results_to_dataframe`** — tidy DataFrames from `Multi*`
+  results.
+- All estimators expose `get_params()`, a readable `repr()` and store their
+  last result as `solution_`.
 
 ### Bug fixes
 
-- **`MultiErlangC`** now correctly populates `achieved_occupancy_params` and
-  `required_positions_params` (previously always `None`).
-- Validation helpers no longer reject integers where a float is expected (for
-  example `max_search_time=240`) and now reject booleans, `NaN` and infinities.
-- `MinHoursRoster` rejects duplicate resource names, which previously caused
-  silent index-lookup errors for banned shifts and preferences.
-
-### API quality
-
-- Schedulers and `MinHoursRoster` validate their inputs and shapes up front
-  with clear, consistent `ValueError` / `KeyError` messages.
-- Greatly expanded test suite (35 → 120+ tests) and higher coverage.
+- `MultiErlangC` now correctly populates `achieved_occupancy_params` and
+  `required_positions_params`.
+- Validation helpers accept integers where floats are expected and reject
+  booleans, `NaN` and infinities.
+- `MinHoursRoster` rejects duplicate resource names.
 
 ### Packaging & tooling
 
-- Migrated packaging from `setup.py` to a PEP 621 **`pyproject.toml`**.
-- Upgraded dependency floors (`numpy>=2.0`, `pandas>=2.2`, `ortools>=9.14`,
-  `joblib>=1.4.2`); development extras are now installed with
-  `pip install -e ".[dev]"`.
-- Added [ruff](https://docs.astral.sh/ruff/) linting, enforced in CI.
-- CI now runs a lint gate, cancels superseded runs, and tests against the
-  latest dependencies. Added a Dependabot config and a PyPI
-  trusted-publishing release workflow.
-
-### API
-
-- Estimator constructors no longer silently accept unknown keyword arguments,
-  so typos in parameter names now raise a clear `TypeError`.
-
-### Documentation
-
-- Documentation moved from Read the Docs / Sphinx to a
-  [VitePress](https://vitepress.dev/) site published on **GitHub Pages**.
-- Added self-contained, notebook-style tutorials with real outputs: an
-  end-to-end queue → schedule → roster walkthrough and a scenario-comparison
-  guide using the grid estimators and `results_to_dataframe`.
+- Migrated to PEP 621 `pyproject.toml`; upgraded dependency floors.
+- Added ruff linting, Dependabot config, and a PyPI trusted-publishing workflow.
+- Documentation moved to VitePress on GitHub Pages.
 
 ## 0.5.2
 

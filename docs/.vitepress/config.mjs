@@ -78,6 +78,7 @@ export default defineConfig({
           items: [
             { text: 'Erlang C', link: '/guide/erlangc' },
             { text: 'Erlang A (abandonment)', link: '/guide/erlanga' },
+            { text: 'Erlang B (loss systems)', link: '/guide/erlangb' },
             { text: 'Running many scenarios', link: '/guide/multierlang' },
           ],
         },
@@ -87,6 +88,7 @@ export default defineConfig({
             { text: 'Building shift coverage', link: '/guide/shifts' },
             { text: 'Scheduling', link: '/guide/scheduling' },
             { text: 'Rostering', link: '/guide/rostering' },
+            { text: 'Break scheduling', link: '/guide/breaks' },
           ],
         },
       ],
@@ -98,6 +100,7 @@ export default defineConfig({
             { text: 'Scheduling', link: '/api/scheduling' },
             { text: 'Rostering', link: '/api/rostering' },
             { text: 'Shifts', link: '/api/shifts' },
+            { text: 'Breaks', link: '/api/breaks' },
           ],
         },
       ],

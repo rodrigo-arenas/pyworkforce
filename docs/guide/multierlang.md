@@ -1,6 +1,8 @@
-# Running many scenarios with MultiErlangC
+# Running many scenarios with MultiErlang*
 
-`MultiErlangC` evaluates Erlang C over **many parameter combinations at once**.
+The `MultiErlang*` classes — `MultiErlangC`, `MultiErlangA` and `MultiErlangB`
+— evaluate their respective Erlang model over **many parameter combinations at
+once**.
 Its interface is inspired by scikit-learn's grid-search utilities: you provide
 a `param_grid` of constructor arguments, then call a method with an
 `arguments_grid`. Every combination of the two grids is evaluated, in parallel
@@ -63,6 +65,19 @@ for (erlang_params, method_params), result in zip(
 - `service_level(arguments_grid)`
 - `waiting_probability(arguments_grid)`
 - `achieved_occupancy(arguments_grid)`
+
+`MultiErlangA` adds abandonment-specific methods:
+
+- all of the above, plus `abandonment_probability`, `average_speed_of_answer`,
+  `average_queue_length`. `param_grid` takes `ErlangA` constructor arguments
+  (including `patience`).
+
+`MultiErlangB` mirrors `ErlangB` (loss queue):
+
+- `required_positions(arguments_grid)` — `arguments_grid` takes `max_blocking`
+  and optionally `max_occupancy`.
+- `blocking_probability(arguments_grid)` — `arguments_grid` takes `positions`.
+- `achieved_occupancy(arguments_grid)` — `arguments_grid` takes `positions`.
 
 ## Parallelism
 
