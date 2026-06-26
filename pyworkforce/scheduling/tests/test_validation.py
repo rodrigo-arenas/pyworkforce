@@ -2,7 +2,6 @@ import pytest
 
 from pyworkforce.scheduling import MinAbsDifference, MinRequiredResources
 
-
 BASE_KWARGS = dict(
     num_days=2,
     periods=3,

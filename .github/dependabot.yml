@@ -1,0 +1,25 @@
+version: 2
+updates:
+  # Keep GitHub Actions up to date.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+
+  # Keep Python dependencies up to date.
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+
+  # Keep the documentation's npm dependencies up to date.
+  - package-ecosystem: "npm"
+    directory: "/docs"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "docs"

@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=77.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyworkforce"
+dynamic = ["version"]
+description = "Common tools for workforce management, queuing, scheduling, rostering and optimization problems"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Rodrigo Arenas", email = "rodrigo.arenas456@gmail.com" },
+]
+keywords = [
+    "workforce management",
+    "call center",
+    "erlang",
+    "scheduling",
+    "rostering",
+    "operations research",
+    "optimization",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "ortools>=9.14.0",
+    "joblib>=1.4.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.0",
+    "pytest-cov>=6.2.0",
+    "ruff>=0.10.0",
+    "twine>=6.1.0",
+]
+
+[project.urls]
+Documentation = "https://rodrigo-arenas.github.io/pyworkforce/"
+"Source Code" = "https://github.com/rodrigo-arenas/pyworkforce"
+"Bug Tracker" = "https://github.com/rodrigo-arenas/pyworkforce/issues"
+Changelog = "https://rodrigo-arenas.github.io/pyworkforce/release-notes"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["pyworkforce", "pyworkforce.*"]
+
+[tool.setuptools.package-data]
+pyworkforce = ["**/*.json"]
+
+[tool.setuptools.dynamic]
+version = { attr = "pyworkforce._version.__version__" }
+
+[tool.pytest.ini_options]
+testpaths = ["pyworkforce"]
+addopts = "--color=yes"
+
+[tool.coverage.run]
+omit = [
+    "*/tests/*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "noqa",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+# pyflakes (F), pycodestyle errors (E), warnings (W), isort (I), pyupgrade (UP), bugbear (B)
+select = ["E", "F", "W", "I", "UP", "B"]
+# E501 (line length) is handled by the formatter; ignore for now to avoid churn.
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests intentionally keep unused bindings (e.g. constructing inside
+# pytest.raises) and unused loop variables for readability.
+"**/tests/*" = ["F841", "B007", "B011", "B905"]
+# grid.py is vendored from scikit-learn; keep it aligned with upstream.
+"pyworkforce/utils/grid.py" = ["B905"]

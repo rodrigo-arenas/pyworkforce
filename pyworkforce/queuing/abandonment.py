@@ -15,7 +15,7 @@ the tail probability is negligible.
 from math import ceil, exp
 
 from pyworkforce.base import BaseWorkforce
-from pyworkforce.utils.validation import check_positive_float, check_in_range
+from pyworkforce.utils.validation import check_in_range, check_positive_float
 
 
 class ErlangA(BaseWorkforce):
@@ -60,8 +60,7 @@ class ErlangA(BaseWorkforce):
     """
 
     def __init__(self, transactions: float, aht: float, asa: float,
-                 interval: int, patience: float, shrinkage: float = 0.0,
-                 **kwargs):
+                 interval: int, patience: float, shrinkage: float = 0.0):
 
         check_positive_float("transactions", transactions)
         check_positive_float("aht", aht)

@@ -1,5 +1,5 @@
 from pyworkforce.base import BaseWorkforce
-from pyworkforce.queuing import ErlangC, ErlangA
+from pyworkforce.queuing import ErlangA, ErlangC
 from pyworkforce.scheduling import MinRequiredResources
 
 

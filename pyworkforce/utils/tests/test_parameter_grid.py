@@ -1,7 +1,9 @@
-from pyworkforce.utils import ParameterGrid
 from collections.abc import Iterable, Sized
 from itertools import chain, product
+
 import pytest
+
+from pyworkforce.utils import ParameterGrid
 
 
 def assert_grid_iter_equals_getitem(grid):
@@ -63,7 +65,7 @@ def test_non_iterable_parameter_grid():
         for grid in params:
             for key in grid:
                 assert str(excinfo.value) == 'Parameter grid value is not iterable '
-                '(key={!r}, value={!r})'.format(key, grid[key])
+                f'(key={key!r}, value={grid[key]!r})'
 
 
 def test_non_dict_parameter_grid():
@@ -71,7 +73,7 @@ def test_non_dict_parameter_grid():
     with pytest.raises(Exception) as excinfo:
         grid = ParameterGrid(params)
         for grid in params:
-            assert str(excinfo.value) == 'Parameter grid is not a dict ({!r})'.format(grid)
+            assert str(excinfo.value) == f'Parameter grid is not a dict ({grid!r})'
 
 
 def test_wrong_parameter_grid():
@@ -79,4 +81,4 @@ def test_wrong_parameter_grid():
     with pytest.raises(Exception) as excinfo:
         grid = ParameterGrid(params)
         for grid in params:
-            assert str(excinfo.value) == 'Parameter grid is not a dict or a list ({!r})'.format(params)
+            assert str(excinfo.value) == f'Parameter grid is not a dict or a list ({params!r})'

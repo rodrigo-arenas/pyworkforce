@@ -1,10 +1,10 @@
-from math import exp, ceil, floor
+from math import ceil, exp, floor
 
 from joblib import Parallel, delayed
 
 from pyworkforce.base import BaseWorkforce
 from pyworkforce.utils import ParameterGrid
-from pyworkforce.utils.validation import check_positive_float, check_in_range
+from pyworkforce.utils.validation import check_in_range, check_positive_float
 
 
 class ErlangC(BaseWorkforce):
@@ -45,8 +45,7 @@ class ErlangC(BaseWorkforce):
     """
 
     def __init__(self, transactions: float, aht: float, asa: float,
-                 interval: int, shrinkage: float = 0.0,
-                 **kwargs):
+                 interval: int, shrinkage: float = 0.0):
 
         check_positive_float("transactions", transactions)
         check_positive_float("aht", aht)
@@ -347,7 +346,6 @@ class MultiErlangC(BaseWorkforce):
             raise ValueError("Could not find any solution, make sure the param_grid is defined correctly")
 
         if len(solutions) != combinations:
-            raise ValueError('Inconsistent results. Expected {} '
-                             'solutions, got {}'
-                             .format(combinations,
-                                     len(solutions))) # noqa
+            raise ValueError(f'Inconsistent results. Expected {combinations} '
+                             f'solutions, got {len(solutions)}'
+                             ) # noqa

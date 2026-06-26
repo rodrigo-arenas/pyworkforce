@@ -1,7 +1,8 @@
-from collections.abc import Mapping, Iterable
-from itertools import product
-from functools import partial, reduce
 import operator
+from collections.abc import Iterable, Mapping
+from functools import partial, reduce
+from itertools import product
+
 import numpy as np
 
 
@@ -27,7 +28,7 @@ class ParameterGrid:
     def __init__(self, param_grid):
         if not isinstance(param_grid, (Mapping, Iterable)):
             raise TypeError('Parameter grid is not a dict or '
-                            'a list ({!r})'.format(param_grid))
+                            f'a list ({param_grid!r})')
 
         if isinstance(param_grid, Mapping):
             # wrap dictionary in a singleton list to support either dict
@@ -38,12 +39,12 @@ class ParameterGrid:
         for grid in param_grid:
             if not isinstance(grid, dict):
                 raise TypeError('Parameter grid is not a '
-                                'dict ({!r})'.format(grid))
+                                f'dict ({grid!r})')
             for key in grid:
                 if not isinstance(grid[key], Iterable):
                     raise TypeError('Parameter grid value is not iterable '
-                                    '(key={!r}, value={!r})'
-                                    .format(key, grid[key]))
+                                    f'(key={key!r}, value={grid[key]!r})'
+                                    )
 
         self.param_grid = param_grid
 

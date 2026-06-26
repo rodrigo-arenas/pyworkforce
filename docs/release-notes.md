@@ -33,6 +33,22 @@
   with clear, consistent `ValueError` / `KeyError` messages.
 - Greatly expanded test suite (35 → 120+ tests) and higher coverage.
 
+### Packaging & tooling
+
+- Migrated packaging from `setup.py` to a PEP 621 **`pyproject.toml`**.
+- Upgraded dependency floors (`numpy>=2.0`, `pandas>=2.2`, `ortools>=9.14`,
+  `joblib>=1.4.2`); development extras are now installed with
+  `pip install -e ".[dev]"`.
+- Added [ruff](https://docs.astral.sh/ruff/) linting, enforced in CI.
+- CI now runs a lint gate, cancels superseded runs, and tests against the
+  latest dependencies. Added a Dependabot config and a PyPI
+  trusted-publishing release workflow.
+
+### API
+
+- Estimator constructors no longer silently accept unknown keyword arguments,
+  so typos in parameter names now raise a clear `TypeError`.
+
 ### Documentation
 
 - Documentation moved from Read the Docs / Sphinx to a

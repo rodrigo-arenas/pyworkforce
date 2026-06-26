@@ -6,7 +6,7 @@ intentionally small and free of heavy dependencies so they can be reused from
 any module.
 """
 
-from math import isnan, isinf
+from math import isinf, isnan
 from numbers import Integral, Real
 
 

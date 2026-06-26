@@ -1,8 +1,0 @@
-pytest>=8.4.0
-codecov==2.1.13
-pytest-cov>=6.2.0
-twine>=6.1.0
-numpy>=1.26.0
-ortools>=9.12.4544
-pandas>=2.2.0
-joblib>=1.4.0

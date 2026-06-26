@@ -1,5 +1,6 @@
-from pyworkforce.scheduling import MinAbsDifference, MinRequiredResources
 import pytest
+
+from pyworkforce.scheduling import MinAbsDifference, MinRequiredResources
 
 
 def test_min_abs_difference_schedule():

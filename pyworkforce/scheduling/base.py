@@ -1,7 +1,7 @@
 from ortools.sat.python import cp_model
 
 from pyworkforce.base import BaseWorkforce
-from pyworkforce.utils.validation import check_positive_integer, check_positive_float
+from pyworkforce.utils.validation import check_positive_float, check_positive_integer
 
 
 class BaseShiftScheduler(BaseWorkforce):

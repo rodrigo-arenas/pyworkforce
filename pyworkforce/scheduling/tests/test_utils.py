@@ -1,5 +1,6 @@
 import pytest
-from pyworkforce.scheduling.utils import check_positive_integer, check_positive_float
+
+from pyworkforce.scheduling.utils import check_positive_float, check_positive_integer
 
 
 def test_check_positive_integer():

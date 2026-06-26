@@ -45,6 +45,7 @@ mode with the development requirements:
 ```bash
 git clone https://github.com/rodrigo-arenas/pyworkforce.git
 cd pyworkforce
-pip install -e . -r dev-requirements.txt
+pip install -e ".[dev]"
 pytest pyworkforce/
+ruff check pyworkforce/
 ```
