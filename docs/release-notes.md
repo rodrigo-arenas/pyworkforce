@@ -1,5 +1,12 @@
 # Release Notes
 
+## 0.5.4
+
+### Maintenance
+
+- CI pipeline and deployment workflow improvements.
+- README and documentation updates.
+
 ## 0.5.3
 
 ### New features
