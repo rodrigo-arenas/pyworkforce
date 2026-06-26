@@ -41,6 +41,14 @@ def test_rejects_wrong_coverage_length(cls):
 
 
 @pytest.mark.parametrize("cls", [MinAbsDifference, MinRequiredResources])
+def test_rejects_required_resources_row_wrong_length(cls):
+    # Correct number of rows, but one row has the wrong number of periods.
+    with pytest.raises(ValueError) as excinfo:
+        make(cls, required_resources=[[1, 1, 1], [2, 2]])
+    assert "required_resources[1]" in str(excinfo.value)
+
+
+@pytest.mark.parametrize("cls", [MinAbsDifference, MinRequiredResources])
 def test_rejects_non_positive_num_days(cls):
     with pytest.raises(ValueError):
         make(cls, num_days=0)

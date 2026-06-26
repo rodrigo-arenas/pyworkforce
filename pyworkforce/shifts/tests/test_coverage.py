@@ -117,6 +117,12 @@ def test_from_spans_rejects_non_positive_length():
         shift_coverage_from_spans({"M": (0, 0)}, num_periods=4)
 
 
+def test_from_spans_rejects_non_integer_start_in_list():
+    with pytest.raises(ValueError) as excinfo:
+        shift_coverage_from_spans({"M": [(1.5, 1)]}, num_periods=4)
+    assert "non-integer start" in str(excinfo.value)
+
+
 def test_from_hours_rejects_empty_dict():
     with pytest.raises(ValueError):
         shift_coverage_from_hours({}, num_periods=24)

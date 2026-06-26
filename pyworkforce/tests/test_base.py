@@ -1,5 +1,14 @@
+from pyworkforce.base import BaseWorkforce
 from pyworkforce.queuing import ErlangC, ErlangA
 from pyworkforce.scheduling import MinRequiredResources
+
+
+def test_get_params_empty_for_class_without_init():
+    class NoInit(BaseWorkforce):
+        pass
+
+    assert NoInit().get_params() == {}
+    assert repr(NoInit()) == "NoInit()"
 
 
 def test_get_params_roundtrip():
