@@ -18,6 +18,12 @@ def test_expected_erlangc_results():
     assert round(waiting_probability, 3) == 0.174
 
 
+def test_n_transactions_alias():
+    erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
+    assert erlang.n_transactions == 100
+    assert erlang.n_transactions == erlang.transactions
+
+
 def test_scale_positions_erlangc():
     erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
     results = erlang.required_positions(service_level=0.8, max_occupancy=0.85)

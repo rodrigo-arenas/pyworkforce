@@ -108,10 +108,10 @@ class ErlangA(BaseWorkforce):
             total += term
             if n > c and term < 1e-15 * total:
                 break
-            if n > c + 100000:  # safety guard, should never trigger in practice
+            if n > c + 100000:  # pragma: no cover - safety guard, should never trigger
                 break
             # Rescale to avoid overflow for very heavy traffic.
-            if probs[-1] > 1e250:
+            if probs[-1] > 1e250:  # pragma: no cover - overflow guard for extreme load
                 probs = [p / 1e250 for p in probs]
                 total /= 1e250
 
@@ -223,7 +223,7 @@ class ErlangA(BaseWorkforce):
 
         served_immediately = sum(probs[:c])
         delayed_states = list(range(c, len(probs)))
-        if not delayed_states:
+        if not delayed_states:  # pragma: no cover - the chain always extends past c
             return served_immediately
 
         max_ahead = len(probs) - 1 - c  # maximum queue position a customer can take
@@ -247,7 +247,7 @@ class ErlangA(BaseWorkforce):
 
         # Uniformization rate: maximum total outflow across transient states.
         max_rate = c * mu + max_ahead * self.abandonment_rate + self.abandonment_rate
-        if max_rate <= 0:
+        if max_rate <= 0:  # pragma: no cover - rates are always strictly positive
             return [0.0] * states
 
         # The tagged chain is lower-triangular (queue position only decreases),
@@ -340,7 +340,7 @@ class ErlangA(BaseWorkforce):
                     and metrics["abandonment_probability"] <= max_abandonment):
                 break
             positions += 1
-            if positions > self.intensity + 100000:  # safety guard
+            if positions > self.intensity + 100000:  # pragma: no cover - safety guard
                 break
 
         raw_positions = positions
