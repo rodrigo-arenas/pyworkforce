@@ -24,11 +24,8 @@ theory and OR-Tools constraint programming, with a scikit-learn-style API.
 pip install pyworkforce
 ```
 
-```bash
-conda install -c conda-forge pyworkforce   # via conda-forge
-```
-
-Requires Python 3.12 – 3.14.
+Requires Python 3.12 – 3.14. conda-forge support is pending an update to the
+`ortools-python` feedstock for Python 3.12.
 
 ---
 
