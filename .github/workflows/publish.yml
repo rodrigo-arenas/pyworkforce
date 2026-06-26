@@ -1,12 +1,13 @@
 name: Publish to PyPI
 
-# Build and publish the package to PyPI when a GitHub Release is published.
+# Build and publish the package to PyPI when a v* tag is pushed.
 # Uses PyPI Trusted Publishing (OIDC) — no API token needs to be stored.
 # Configure the trusted publisher once at:
 #   https://pypi.org/manage/project/pyworkforce/settings/publishing/
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 permissions:

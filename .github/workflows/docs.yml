@@ -1,63 +1,98 @@
 name: Deploy Docs
 
-# Build the VitePress site and deploy it to GitHub Pages.
+# Push to main → builds "development" docs.
+# Push of a v* tag → builds "stable" docs + updates the root redirect.
 on:
   push:
     branches: [main]
-    paths:
-      - 'docs/**'
-      - '.github/workflows/docs.yml'
+    tags:
+      - 'v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Docs version to deploy'
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - stable
 
-# Allow only one concurrent deployment.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write  # required by peaceiris/actions-gh-pages
 
 concurrency:
-  group: pages
+  group: docs-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: docs
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - name: Determine docs version
+        id: meta
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "version=stable" >> $GITHUB_OUTPUT
+          else
+            echo "version=development" >> $GITHUB_OUTPUT
+          fi
+
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: docs/package-lock.json
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
+
       - name: Install dependencies
+        working-directory: docs
         run: npm ci
+
       - name: Build with VitePress
+        working-directory: docs
         run: npm run docs:build
         env:
-          # Public Google Analytics measurement ID (not a credential), stored as
-          # a repository Variable. The secret fallback keeps it working if it is
-          # configured as a Secret instead.
+          DOCS_VERSION: ${{ steps.meta.outputs.version }}
           GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID || secrets.GA_MEASUREMENT_ID }}
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: docs/.vitepress/dist
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+      - name: Deploy versioned docs
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/.vitepress/dist
+          destination_dir: ${{ steps.meta.outputs.version }}
+          keep_files: true
+
+      - name: Create root redirect (stable deploys only)
+        if: steps.meta.outputs.version == 'stable'
+        run: |
+          mkdir -p /tmp/root-redirect
+          cat > /tmp/root-redirect/index.html << 'HTMLEOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=stable/">
+            <title>pyworkforce documentation</title>
+            <link rel="canonical" href="stable/">
+          </head>
+          <body>
+            <p>Redirecting to <a href="stable/">stable documentation</a>...</p>
+          </body>
+          </html>
+          HTMLEOF
+
+      - name: Deploy root redirect
+        if: steps.meta.outputs.version == 'stable'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /tmp/root-redirect
+          keep_files: true

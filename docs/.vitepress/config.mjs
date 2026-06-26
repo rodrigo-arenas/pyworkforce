@@ -1,5 +1,9 @@
 import { defineConfig } from 'vitepress'
 
+// "stable" on tag releases, "development" on main-branch pushes.
+const docsVersion = process.env.DOCS_VERSION ?? 'development'
+const base = `/pyworkforce/${docsVersion}/`
+
 // Google Analytics measurement ID (e.g. "G-XXXXXXXXXX"), injected at build time.
 // This is a PUBLIC identifier (it ships in the page), not a credential.
 const gaId = process.env.GA_MEASUREMENT_ID
@@ -25,15 +29,15 @@ export default defineConfig({
     'Tools for workforce management: queue staffing (Erlang C / Erlang A), ' +
     'shift scheduling, rostering and operations-research optimization.',
 
-  // Deployed to https://rodrigo-arenas.github.io/pyworkforce/
-  base: '/pyworkforce/',
+  // base is /pyworkforce/stable/ or /pyworkforce/development/ depending on DOCS_VERSION.
+  base,
   lang: 'en-US',
   cleanUrls: true,
   lastUpdated: true,
   ignoreDeadLinks: true,
 
   head: [
-    ['link', { rel: 'icon', href: '/pyworkforce/favicon.ico' }],
+    ['link', { rel: 'icon', href: `${base}favicon.ico` }],
     ...analyticsHead,
   ],
 
@@ -42,9 +46,13 @@ export default defineConfig({
       { text: 'Guide', link: '/guide/introduction' },
       { text: 'API', link: '/api/queuing' },
       { text: 'Release Notes', link: '/release-notes' },
+      { text: 'PyPI', link: 'https://pypi.org/project/pyworkforce/' },
       {
-        text: 'PyPI',
-        link: 'https://pypi.org/project/pyworkforce/',
+        text: docsVersion,
+        items: [
+          { text: 'stable', link: 'https://rodrigo-arenas.github.io/pyworkforce/stable/' },
+          { text: 'development', link: 'https://rodrigo-arenas.github.io/pyworkforce/development/' },
+        ],
       },
     ],
 
