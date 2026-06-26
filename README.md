@@ -1,5 +1,5 @@
 
-[![Build Status](https://www.travis-ci.com/rodrigo-arenas/pyworkforce.svg?branch=main)](https://www.travis-ci.com/rodrigo-arenas/pyworkforce)
+[![Tests](https://github.com/rodrigo-arenas/pyworkforce/actions/workflows/ci-tests.yml/badge.svg?branch=main)](https://github.com/rodrigo-arenas/pyworkforce/actions/workflows/ci-tests.yml)
 [![Codecov](https://codecov.io/gh/rodrigo-arenas/pyworkforce/branch/main/graphs/badge.svg?branch=main&service=github)](https://codecov.io/github/rodrigo-arenas/pyworkforce?branch=main)
 [![PyPI Version](https://badge.fury.io/py/pyworkforce.svg)](https://badge.fury.io/py/pyworkforce)
 [![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13%20%7C%203.14-blue)](https://www.python.org/downloads/)
@@ -10,7 +10,7 @@ Tools for workforce management problems such as queue staffing, shift scheduling
 rostering, and operations research optimization.
 
 The full documentation is available at
-[pyworkforce.readthedocs.io](https://pyworkforce.readthedocs.io/en/stable/).
+[rodrigo-arenas.github.io/pyworkforce](https://rodrigo-arenas.github.io/pyworkforce/).
 
 ## Installation
 
@@ -32,7 +32,7 @@ If the issue is related to OR-Tools, check the
 [OR-Tools installation guide](https://github.com/google/or-tools#installation).
 
 For runnable examples, see the
-[examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/develop/examples).
+[examples folder](https://github.com/rodrigo-arenas/pyworkforce/tree/main/examples).
 
 ## What pyworkforce Does
 
@@ -48,8 +48,16 @@ and no customer dropout.
 ![queue_system](https://raw.githubusercontent.com/rodrigo-arenas/pyworkforce/main/docs/images/erlangc_queue_system.png)
 
 - **queuing.ErlangC:** Calculate staffing requirements and performance metrics for one queue scenario.
+- **queuing.ErlangA:** Like Erlang C, but models customers who **abandon** the queue if they wait
+  too long (the M/M/c+M queue). Closer to reality for most contact centers.
 - **queuing.MultiErlangC:** Run multiple Erlang C scenarios from a parameter grid.
-  
+
+### Shift coverage helpers
+
+Use `pyworkforce.shifts` to build the `shifts_coverage` arrays the schedulers expect
+from human-friendly descriptions (clock hours, spans or explicit period indices) instead
+of hand-writing 0/1 arrays.
+
 ### Scheduling
 
 Use `pyworkforce.scheduling` when you already know the required resources by time
@@ -87,6 +95,30 @@ Output:
                              'service_level': 0.8883500191794669, 
                              'occupancy': 0.7142857142857143, 
                              'waiting_probability': 0.1741319335950498}
+```
+
+#### Modeling abandonment with Erlang A:
+
+Real customers hang up if they wait too long. `ErlangA` adds a `patience` parameter and
+reports the abandonment probability, typically requiring fewer agents than Erlang C:
+
+```python
+from pyworkforce.queuing import ErlangA
+
+erlang = ErlangA(transactions=100, asa=20/60, aht=3, interval=30, patience=5, shrinkage=0.3)
+
+requirements = erlang.required_positions(service_level=0.8, max_occupancy=0.85, max_abandonment=0.05)
+print("requirements: ", requirements)
+```
+Output:
+```
+>> requirements:  {'raw_positions': 13,
+                   'positions': 19,
+                   'service_level': 0.858...,
+                   'occupancy': 0.750...,
+                   'abandonment_probability': 0.025...,
+                   'waiting_probability': 0.226...,
+                   'average_speed_of_answer': 0.125...}
 ```
 
 If you want to run several scenarios at the same time, use `MultiErlangC`.
