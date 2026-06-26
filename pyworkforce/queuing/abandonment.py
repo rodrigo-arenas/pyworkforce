@@ -243,24 +243,15 @@ class ErlangA(BaseWorkforce):
         ``served`` and ``abandoned``.
         """
         mu = self.service_rate
-        theta = self.abandonment_rate
         states = max_ahead + 1  # j = 0 .. max_ahead
 
         # Uniformization rate: maximum total outflow across transient states.
-        max_rate = c * mu + max_ahead * theta + theta
+        max_rate = c * mu + max_ahead * self.abandonment_rate + self.abandonment_rate
         if max_rate <= 0:
             return [0.0] * states
 
-        # One-step (uniformized) transition contributions for each transient
-        # state j: advance to j-1 (or success if j == 0) and absorb to fail.
-        # prob_served accumulates absorption mass into the "served" state.
-        prob_state = [0.0] * states  # current distribution over transient states (per start)
-        # We compute G[j] for all j simultaneously by treating the start state
-        # as a basis vector; that requires a transient solve per j. Instead we
-        # exploit the lower-triangular structure: success mass for start j can
-        # be derived from the absorbing-chain dynamics directly via iteration.
-        #
-        # Run uniformization once per start state j. states is small.
+        # The tagged chain is lower-triangular (queue position only decreases),
+        # so we solve the transient absorption once per starting position.
         served = [0.0] * states
         for start in range(states):
             served[start] = self._uniformized_served_prob(start, c, max_ahead, t, max_rate)
