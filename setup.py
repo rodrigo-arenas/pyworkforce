@@ -32,7 +32,7 @@ setup(
         "Programming Language :: Python :: 3.14",
     ],
     project_urls={
-        "Documentation": "https://pyworkforce.readthedocs.io/en/stable/",
+        "Documentation": "https://rodrigo-arenas.github.io/pyworkforce/",
         "Source Code": "https://github.com/rodrigo-arenas/pyworkforce",
         "Bug Tracker": "https://github.com/rodrigo-arenas/pyworkforce/issues",
     },
