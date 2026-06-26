@@ -94,3 +94,42 @@ Evaluate `ErlangC` over a grid of parameters in parallel.
   `(erlang_params, method_params)` tuples.
 
 See the [MultiErlangC guide](/guide/multierlang).
+
+## MultiErlangA
+
+```python
+MultiErlangA(param_grid, n_jobs=2, pre_dispatch='2 * n_jobs')
+```
+
+The abandonment-aware counterpart of `MultiErlangC`: evaluates `ErlangA` over a
+parameter grid in parallel. `param_grid` takes `ErlangA` constructor arguments
+(including `patience`).
+
+**Methods** (each takes an `arguments_grid` dict and returns a list of results)
+
+- `required_positions(arguments_grid)`
+- `service_level(arguments_grid)`
+- `waiting_probability(arguments_grid)`
+- `abandonment_probability(arguments_grid)`
+- `achieved_occupancy(arguments_grid)`
+- `average_speed_of_answer(arguments_grid)`
+- `average_queue_length(arguments_grid)`
+
+Each method stores the matching `(erlang_params, method_params)` tuples in a
+`<method>_params` attribute, aligned with the results.
+
+See the [scenarios tutorial](/guide/scenarios).
+
+## results_to_dataframe
+
+```python
+from pyworkforce.utils import results_to_dataframe
+
+results_to_dataframe(results, params=None)
+```
+
+Combine a `Multi*` result list (and the matching `*_params`) into a tidy
+`pandas.DataFrame`, one row per scenario. Result keys that collide with an input
+parameter name are suffixed with `_result` so both the target and the achieved
+value are kept.
+
