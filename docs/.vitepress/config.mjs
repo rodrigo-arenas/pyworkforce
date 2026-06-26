@@ -85,6 +85,7 @@ export default defineConfig({
         {
           text: 'Workforce Planning',
           items: [
+            { text: 'Multi-skill staffing', link: '/guide/staffing' },
             { text: 'Building shift coverage', link: '/guide/shifts' },
             { text: 'Scheduling', link: '/guide/scheduling' },
             { text: 'Rostering', link: '/guide/rostering' },
@@ -97,6 +98,7 @@ export default defineConfig({
           text: 'API Reference',
           items: [
             { text: 'Queuing', link: '/api/queuing' },
+            { text: 'Staffing', link: '/api/staffing' },
             { text: 'Scheduling', link: '/api/scheduling' },
             { text: 'Rostering', link: '/api/rostering' },
             { text: 'Shifts', link: '/api/shifts' },

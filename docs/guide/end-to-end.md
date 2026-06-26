@@ -1,6 +1,6 @@
 # Tutorial: planning a contact center day, end to end
 
-This tutorial walks through the three pyworkforce planning steps on a single,
+This tutorial walks through the four pyworkforce planning steps on a single,
 self-contained example: from raw call volumes to a named roster. Every code
 block is runnable top to bottom, and the outputs shown are the **real** outputs
 produced by the snippets.
@@ -8,9 +8,10 @@ produced by the snippets.
 We will:
 
 1. turn hourly call volumes into the **positions required per hour** (queuing);
-2. describe our **shifts** as coverage arrays;
-3. **schedule** how many people go on each shift;
-4. **roster** named agents onto days and shifts.
+2. find the **optimal skill-profile mix** (multi-skill staffing);
+3. describe our **shifts** as coverage arrays;
+4. **schedule** how many people go on each shift;
+5. **roster** named agents onto days and shifts.
 
 ## Step 1 — required positions per hour
 
@@ -47,10 +48,64 @@ Total agent-hours  C: 193  A: 184
 Because some callers abandon the queue, Erlang A asks for slightly fewer
 agent-hours. We'll use the (more conservative) Erlang C numbers below.
 
-## Step 2 — describe the shifts
+## Step 2 — optimal skill-profile mix
+
+Suppose our contact centre handles two contact types: **General** (handled by
+any agent) and **Technical** (requires a specialist or a flexible agent). We
+take the peak-hour requirement (13 agents) for General and assume 5 simultaneous
+Technical specialists are needed at the same peak.
+
+[`MultiSkillStaffing`](/guide/staffing) finds the cheapest combination of
+dedicated and flexible agents that covers both skills.
+
+```python
+from pyworkforce.staffing import MultiSkillStaffing
+
+skills = ["General", "Technical"]
+
+profiles = [
+    {"name": "General_only",  "skills": ["General"],              "cost": 1.0},
+    {"name": "Technical_only","skills": ["Technical"],            "cost": 1.0},
+    {"name": "Flexible",      "skills": ["General", "Technical"], "cost": 1.4},
+]
+
+# Peak-hour requirement (13 General from Step 1; 5 Technical specialists)
+required = {"General": 13, "Technical": 5}
+
+ms = MultiSkillStaffing(
+    skills=skills, profiles=profiles, required_positions=required
+)
+mix = ms.solve()
+
+print("status:", mix["status"], "| total:", mix["total_agents"],
+      "| cost:", mix["cost"])
+for entry in mix["agents_per_profile"]:
+    if entry["agents"] > 0:
+        print(f"  {entry['profile']:16s}: {entry['agents']}")
+```
+
+```text
+status: OPTIMAL | total: 13 | cost: 16.0
+  General_only    : 8
+  Flexible        : 5
+```
+
+5 flexible agents cover the Technical requirement while also contributing to
+General; 8 dedicated General agents fill the rest. Total cost: 16.0 vs. 18.0
+for pure-dedicated (13 General + 5 Technical).
+
+::: tip Per-period staffing
+In practice you would run `MultiSkillStaffing` for each planning period (or at
+least for the peak period of each shift). The `agents_per_profile` numbers feed
+into the per-profile scheduling step or inform the overall `required_resources`
+passed to the scheduler.
+:::
+
+## Step 3 — describe the shifts
 
 Instead of hand-writing 0/1 arrays, build the coverage from clock hours with
 the [shift helpers](/guide/shifts). The `Night` shift wraps past midnight.
+
 
 ```python
 from pyworkforce.shifts import shift_coverage_from_hours, coverage_to_dataframe
@@ -73,7 +128,7 @@ Late    0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   1   1   1   
 Night   1   1   1   1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   1
 ```
 
-## Step 3 — schedule people onto shifts
+## Step 4 — schedule people onto shifts
 
 Now decide how many people to place on each shift so every hour is covered,
 using [`MinRequiredResources`](/guide/scheduling). The required resources are
@@ -111,7 +166,7 @@ they are too small the problem becomes `INFEASIBLE`; give them enough head-room
 for the hours where shifts overlap.
 :::
 
-## Step 4 — roster named agents
+## Step 5 — roster named agents
 
 Finally, assign **named** people to days and shifts with
 [`MinHoursRoster`](/guide/rostering). To keep the output readable, here is a
@@ -162,7 +217,8 @@ day 0, exactly as configured.
 In a few dozen lines you went from a demand forecast to a concrete, named
 roster:
 
-- **queuing** turned demand into required positions per hour;
+- **queuing** turned demand into required positions per hour per skill;
+- **staffing** found the cheapest agent-profile mix covering all skill requirements;
 - **shift helpers** described the shifts without hand-written arrays;
 - **scheduling** chose how many people per shift;
 - **rostering** assigned named people while honoring rules and preferences.

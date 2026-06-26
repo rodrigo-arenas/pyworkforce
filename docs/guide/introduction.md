@@ -26,7 +26,18 @@ many agents or channels are required to hit a service target?
   evaluate many scenarios at once from a parameter grid, with a scikit-learn-like
   interface.
 
-## 2. Scheduling — *how many people per shift?*
+## 2. Staffing — *what is the optimal skill mix?*
+
+When your team handles multiple contact types (languages, queues, skill groups),
+you need to decide how many agents of each skill profile to hire so that every
+skill's coverage requirement is met at the lowest possible cost.
+
+- [`MultiSkillStaffing`](/guide/staffing) — solves the integer programme that
+  minimises total weighted headcount given per-skill requirements. Flexible
+  (multi-skilled) agents count towards every skill they hold, so the solver
+  automatically trades off dedicated vs. flexible hiring.
+
+## 3. Scheduling — *how many people per shift?*
 
 Once you know the resources required per period of the day, decide how many
 people to place on each predefined shift.
@@ -40,7 +51,7 @@ The [shift coverage builders](/guide/shifts) help you create the
 `shifts_coverage` definitions these solvers expect without writing 0/1 arrays
 by hand.
 
-## 3. Rostering — *who works when?*
+## 4. Rostering — *who works when?*
 
 Assign **named** resources to days and shifts while respecting rules such as
 banned shifts, rest days, minimum working hours, non-sequential shifts and
@@ -49,7 +60,7 @@ personal preferences.
 - [`MinHoursRoster`](/guide/rostering) — build a resource-level roster that
   covers the shift requirements with the minimum scheduled hours.
 
-## 4. Break scheduling — *when do breaks happen?*
+## 5. Break scheduling — *when do breaks happen?*
 
 Once the roster is set, assign a start time to every break for every agent slot
 while ensuring that simultaneous breaks never drop coverage below the required

@@ -1,5 +1,17 @@
 # Release Notes
 
+## 0.5.4
+
+### New features
+
+- **`pyworkforce.staffing.MultiSkillStaffing`** — minimum-cost agent-mix
+  optimiser for multi-skill contact-centre staffing. Given per-skill requirements
+  (from `ErlangC` / `ErlangA`) and a catalogue of agent skill profiles, solves
+  the integer programme that minimises total weighted headcount. Flexible
+  (multi-skilled) agents count towards every skill they hold, so the solver
+  automatically balances dedicated vs. flexible hiring. Supports an optional
+  `max_agents` budget cap and is now exported from the `pyworkforce` root namespace.
+
 ## 0.5.3
 
 ### New features
