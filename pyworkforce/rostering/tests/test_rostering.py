@@ -1,10 +1,11 @@
 import json
 import os
+
 from pyworkforce.rostering.binary_programming import MinHoursRoster
 
 scheduler_data_path = os.path.dirname(os.path.realpath(__file__))
 
-with open(os.path.join(scheduler_data_path, 'rostering_data.json'), 'r') as f:
+with open(os.path.join(scheduler_data_path, 'rostering_data.json')) as f:
     shifts_info = json.load(f)
 
 solver = MinHoursRoster(num_days=shifts_info["num_days"],

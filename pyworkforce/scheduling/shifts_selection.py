@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from ortools.sat.python import cp_model
+
 from pyworkforce.scheduling.base import BaseShiftScheduler
 
 
@@ -12,8 +13,7 @@ class MinAbsDifference(BaseShiftScheduler):
                  max_period_concurrency: int,
                  max_shift_concurrency: int,
                  max_search_time: float = 120.0,
-                 num_search_workers=2,
-                 *args, **kwargs):
+                 num_search_workers=2):
         """
         Minimizes the total absolute difference between required resources per
         period and resources scheduled by the solver.
@@ -138,8 +138,7 @@ class MinRequiredResources(BaseShiftScheduler):
                  max_shift_concurrency: int,
                  cost_dict: dict = None,
                  max_search_time: float = 240.0,
-                 num_search_workers: int = 2,
-                 *args, **kwargs):
+                 num_search_workers: int = 2):
         """
         Minimizes the weighted number of scheduled resources while ensuring that
         every period has at least the required number of resources.

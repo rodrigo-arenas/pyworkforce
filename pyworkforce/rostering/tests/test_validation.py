@@ -2,7 +2,6 @@ import pytest
 
 from pyworkforce.rostering import MinHoursRoster
 
-
 BASE_KWARGS = dict(
     num_days=2,
     resources=["a", "b", "c"],
