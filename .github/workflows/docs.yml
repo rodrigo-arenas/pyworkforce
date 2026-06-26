@@ -98,3 +98,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: /tmp/root-redirect
           keep_files: true
+          cname: pyworkforce.rodrigo-arenas.com
