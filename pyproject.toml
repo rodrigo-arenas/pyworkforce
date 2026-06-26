@@ -44,7 +44,7 @@ dependencies = [
 dev = [
     "pytest>=8.4.0",
     "pytest-cov>=6.2.0",
-    "ruff>=0.10.0",
+    "ruff>=0.15.20",
     "twine>=6.1.0",
 ]
 
