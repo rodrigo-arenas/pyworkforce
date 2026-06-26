@@ -36,6 +36,16 @@ def test_erlanga_matches_erlangc_in_patient_limit():
             erlang_c.service_level(positions), abs=1e-3)
 
 
+def test_erlanga_public_metric_methods():
+    erlang = make_erlang()
+    assert erlang.average_speed_of_answer(16) == pytest.approx(
+        erlang._metrics(16)["average_speed_of_answer"])
+    assert erlang.average_queue_length(16) == pytest.approx(
+        erlang._metrics(16)["average_queue_length"])
+    # ASA decreases as positions increase.
+    assert erlang.average_speed_of_answer(20) < erlang.average_speed_of_answer(14)
+
+
 def test_erlanga_littles_law_consistency():
     """Average speed of answer must equal queue length / arrival rate."""
     erlang = make_erlang()
