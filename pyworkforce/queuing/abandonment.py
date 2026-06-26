@@ -234,7 +234,7 @@ class ErlangA(BaseWorkforce):
             ahead = n - c
             delayed_served += probs[n] * served_within[ahead]
 
-        return served_immediately + delayed_served
+        return min(1.0, served_immediately + delayed_served)
 
     def _delayed_served_within(self, c, max_ahead, t):
         """Return ``G[j]`` = P(tagged customer with ``j`` ahead is served by ``t``).

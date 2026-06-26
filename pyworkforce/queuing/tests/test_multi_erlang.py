@@ -101,3 +101,43 @@ def test_multierlangc_check_solutions_expected_combinations():
         erlang._check_solutions([{}], combinations=2)
     assert str(excinfo.value) == "Inconsistent results. Expected 2 solutions, got 1"
 
+
+def test_multierlangc_records_params_for_every_method():
+    """Regression test: every method must populate its *_params attribute."""
+    param_grid = {"transactions": [100, 120], "asa": [0.33], "aht": [3],
+                  "interval": [30], "shrinkage": [0.3]}
+    erlang = MultiErlangC(param_grid=param_grid, n_jobs=1)
+
+    positions_grid = {"positions": [20, 25]}
+    erlang.waiting_probability(positions_grid)
+    erlang.service_level(positions_grid)
+    erlang.achieved_occupancy(positions_grid)
+    erlang.required_positions({"service_level": [0.8], "max_occupancy": [0.85]})
+
+    # 2 transaction values * 2 position values = 4 combinations.
+    assert len(erlang.waiting_probability_params) == 4
+    assert len(erlang.service_level_params) == 4
+    assert len(erlang.achieved_occupancy_params) == 4
+    # 2 transaction values * 1 service-level combination = 2.
+    assert len(erlang.required_positions_params) == 2
+
+    # Each entry is a (erlang_params, method_params) tuple.
+    erlang_params, method_params = erlang.achieved_occupancy_params[0]
+    assert "transactions" in erlang_params
+    assert "positions" in method_params
+
+
+def test_multierlangc_params_align_with_results():
+    param_grid = {"transactions": [100, 200], "asa": [0.33], "aht": [3],
+                  "interval": [30], "shrinkage": [0.0]}
+    erlang = MultiErlangC(param_grid=param_grid, n_jobs=1)
+    results = erlang.achieved_occupancy({"positions": [30]})
+
+    assert len(results) == len(erlang.achieved_occupancy_params)
+    # Higher transaction volume -> higher occupancy for the same positions.
+    occ_by_transactions = {
+        params[0]["transactions"]: occ
+        for params, occ in zip(erlang.achieved_occupancy_params, results)
+    }
+    assert occ_by_transactions[200] > occ_by_transactions[100]
+

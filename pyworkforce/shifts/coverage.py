@@ -90,8 +90,8 @@ def shift_coverage_from_spans(spans_by_shift, num_periods, wrap_around=True):
 
     Examples
     --------
-    >>> shift_coverage_from_spans({"Night": (3, 2)}, num_periods=4)
-    {'Night': [0, 0, 0, 1]}
+    >>> shift_coverage_from_spans({"Day": (1, 2)}, num_periods=4)
+    {'Day': [0, 1, 1, 0]}
     >>> shift_coverage_from_spans({"Night": (3, 3)}, num_periods=4)
     {'Night': [1, 1, 0, 1]}
     """
@@ -189,6 +189,10 @@ def shift_coverage_from_hours(hours_by_shift, num_periods=24, period_minutes=60,
         start_period = int(round(start_period))
         end_period = int(round(end_period))
 
+        if end_period == start_period:
+            raise ValueError(
+                f"shift '{shift_name}' window {window} covers zero periods; "
+                f"use (0, 24) for a full-day shift")
         if end_period > start_period:
             length = end_period - start_period
         elif wrap_around:
@@ -197,8 +201,6 @@ def shift_coverage_from_hours(hours_by_shift, num_periods=24, period_minutes=60,
             raise ValueError(
                 f"shift '{shift_name}' is an overnight window {window} but "
                 f"wrap_around is False")
-        if length == 0:
-            raise ValueError(f"shift '{shift_name}' covers zero periods")
         spans[shift_name] = (start_period % num_periods, length)
 
     return shift_coverage_from_spans(spans, num_periods, wrap_around=wrap_around)
