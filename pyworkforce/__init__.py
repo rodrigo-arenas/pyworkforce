@@ -3,6 +3,7 @@ from .breaks import BreakScheduler
 from .queuing import ErlangA, ErlangB, ErlangC, MultiErlangA, MultiErlangB, MultiErlangC
 from .rostering import MinHoursRoster
 from .scheduling import MinAbsDifference, MinRequiredResources
+from .staffing import MultiSkillStaffing
 
 __all__ = [
     "ErlangC",
@@ -15,5 +16,6 @@ __all__ = [
     "MinAbsDifference",
     "MinHoursRoster",
     "BreakScheduler",
+    "MultiSkillStaffing",
     "__version__",
 ]
