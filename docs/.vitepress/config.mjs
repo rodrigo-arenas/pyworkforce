@@ -1,5 +1,23 @@
 import { defineConfig } from 'vitepress'
 
+// Google Analytics measurement ID (e.g. "G-XXXXXXXXXX"), injected at build time.
+// This is a PUBLIC identifier (it ships in the page), not a credential.
+const gaId = process.env.GA_MEASUREMENT_ID
+
+const analyticsHead = gaId
+  ? [
+      ['script', { async: '', src: `https://www.googletagmanager.com/gtag/js?id=${gaId}` }],
+      [
+        'script',
+        {},
+        `window.dataLayer = window.dataLayer || [];\n` +
+          `function gtag(){dataLayer.push(arguments);}\n` +
+          `gtag('js', new Date());\n` +
+          `gtag('config', '${gaId}');`,
+      ],
+    ]
+  : []
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'pyworkforce',
@@ -16,6 +34,7 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', href: '/pyworkforce/favicon.ico' }],
+    ...analyticsHead,
   ],
 
   themeConfig: {

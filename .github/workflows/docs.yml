@@ -41,6 +41,11 @@ jobs:
         run: npm ci
       - name: Build with VitePress
         run: npm run docs:build
+        env:
+          # Public Google Analytics measurement ID (not a credential), stored as
+          # a repository Variable. The secret fallback keeps it working if it is
+          # configured as a Secret instead.
+          GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID || secrets.GA_MEASUREMENT_ID }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
