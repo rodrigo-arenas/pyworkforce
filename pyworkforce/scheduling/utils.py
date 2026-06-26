@@ -1,14 +1,9 @@
+"""Backward-compatible re-exports of validation helpers.
 
+The canonical implementations now live in :mod:`pyworkforce.utils.validation`.
+They are re-exported here so existing imports keep working.
+"""
 
-def check_positive_integer(name, value):
-    if value <= 0 or not isinstance(value, int):
-        raise ValueError(f"{name} must be a positive integer")
-    else:
-        return True
+from pyworkforce.utils.validation import check_positive_integer, check_positive_float
 
-
-def check_positive_float(name, value):
-    if value <= 0 or not isinstance(value, float):
-        raise ValueError(f"{name} must be a positive float")
-    else:
-        return True
+__all__ = ["check_positive_integer", "check_positive_float"]

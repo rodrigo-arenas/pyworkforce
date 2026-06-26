@@ -1,8 +1,11 @@
 import numpy as np
 from ortools.sat.python import cp_model
 
+from pyworkforce.base import BaseWorkforce
+from pyworkforce.utils.validation import check_positive_integer, check_positive_float
 
-class MinHoursRoster:
+
+class MinHoursRoster(BaseWorkforce):
     """
 
     Assigns named resources to required positions by day and shift.
@@ -64,6 +67,36 @@ class MinHoursRoster:
                  max_search_time: float = 240,
                  num_search_workers=2):
 
+        check_positive_integer("num_days", num_days)
+        check_positive_integer("min_working_hours", min_working_hours)
+        check_positive_integer("max_resting", max_resting)
+        check_positive_float("max_search_time", max_search_time)
+        check_positive_integer("num_search_workers", num_search_workers)
+
+        if not resources or len(resources) != len(set(resources)):
+            raise ValueError("resources must be a non-empty list of unique resource names")
+
+        if len(shifts) != len(shifts_hours):
+            raise ValueError(
+                f"shifts has {len(shifts)} entries but shifts_hours has "
+                f"{len(shifts_hours)}; they must have the same length")
+
+        missing_shifts = set(shifts) - set(required_resources.keys())
+        if missing_shifts:
+            raise ValueError(
+                f"required_resources is missing entries for shifts: {sorted(missing_shifts)}")
+
+        for shift in shifts:
+            if len(required_resources[shift]) != num_days:
+                raise ValueError(
+                    f"required_resources['{shift}'] has length "
+                    f"{len(required_resources[shift])}, but 'num_days' is {num_days}")
+
+        if max_resting >= num_days:
+            raise ValueError(
+                f"max_resting ({max_resting}) must be smaller than num_days ({num_days})")
+
+        self.num_days = num_days
         self._num_days = num_days
         self.resources = resources
         self.num_resource = len(self.resources)
@@ -84,6 +117,7 @@ class MinHoursRoster:
         self.resources_shifts_weight = None
         self._status = None
         self.solver = None
+        self.solution_ = None
 
     def solve(self):
         """
@@ -234,4 +268,5 @@ class MinHoursRoster:
                         "resource_shifts": [{'resource': -1, 'day': -1, 'shift': 'Unknown'}],
                         "resting_resource": [{'resource': -1, 'day': -1}]}
 
+        self.solution_ = solution
         return solution
