@@ -11,10 +11,14 @@
   with service-level, occupancy and abandonment targets. All metrics are
   computed exactly from the birth-death stationary distribution and verified
   against a Monte Carlo simulation and the Erlang C patient limit.
+- **`pyworkforce.queuing.MultiErlangA`** — the abandonment-aware counterpart of
+  `MultiErlangC`: evaluates `ErlangA` over a parameter grid in parallel.
 - **`pyworkforce.shifts`** — builders to create `shifts_coverage` definitions
   without hand-writing 0/1 arrays: `shift_coverage_from_hours`,
   `shift_coverage_from_spans`, `shift_coverage_from_periods`, plus
   `validate_shift_coverage` and `coverage_to_dataframe`.
+- **`pyworkforce.utils.results_to_dataframe`** — turn `Multi*` results (and the
+  parameters that produced them) into a tidy `pandas.DataFrame`.
 - All estimators now provide `get_params()` and a readable `repr()`
   (`BaseWorkforce` mixin), and store their last result as `solution_`.
 
@@ -53,6 +57,9 @@
 
 - Documentation moved from Read the Docs / Sphinx to a
   [VitePress](https://vitepress.dev/) site published on **GitHub Pages**.
+- Added self-contained, notebook-style tutorials with real outputs: an
+  end-to-end queue → schedule → roster walkthrough and a scenario-comparison
+  guide using the grid estimators and `results_to_dataframe`.
 
 ## 0.5.2
 

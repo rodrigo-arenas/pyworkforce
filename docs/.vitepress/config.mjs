@@ -40,6 +40,13 @@ export default defineConfig({
           ],
         },
         {
+          text: 'Tutorials',
+          items: [
+            { text: 'End-to-end planning', link: '/guide/end-to-end' },
+            { text: 'Comparing scenarios', link: '/guide/scenarios' },
+          ],
+        },
+        {
           text: 'Queuing',
           items: [
             { text: 'Erlang C', link: '/guide/erlangc' },

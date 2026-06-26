@@ -20,8 +20,9 @@ many agents are required to hit a service target?
 - [`ErlangA`](/guide/erlanga) — the M/M/c+M queue, which additionally models
   customers who **abandon** the queue if they wait too long. This is closer to
   reality for most contact centers.
-- [`MultiErlangC`](/guide/multierlang) — evaluate many Erlang C scenarios at
-  once from a parameter grid, with a scikit-learn-like interface.
+- [`MultiErlangC`](/guide/multierlang) / `MultiErlangA` — evaluate many Erlang C
+  or Erlang A scenarios at once from a parameter grid, with a scikit-learn-like
+  interface.
 
 ## 2. Scheduling — *how many people per shift?*
 
@@ -56,4 +57,5 @@ pyworkforce aims for a **scikit-learn level of friendliness**:
 - deterministic, well-tested numerical methods.
 
 Ready? Head to [Installation](/guide/installation) and the
-[Quick Start](/guide/quickstart).
+[Quick Start](/guide/quickstart), or jump straight into the
+[end-to-end tutorial](/guide/end-to-end).
