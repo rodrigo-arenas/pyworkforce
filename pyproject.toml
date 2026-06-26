@@ -37,7 +37,7 @@ dependencies = [
     "numpy>=2.0.0",
     "pandas>=2.2.0",
     "ortools>=9.14.0",
-    "joblib>=1.4.2",
+    "joblib>=1.5.3",
 ]
 
 [project.optional-dependencies]
