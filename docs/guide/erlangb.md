@@ -20,6 +20,8 @@ patience) or [Erlang A](/guide/erlanga) (finite patience) instead.
 
 ## The model
 
+![Erlang B loss system](../images/erlangb_loss_system.svg)
+
 Erlang B (M/M/c/c) makes three assumptions:
 
 - arrivals follow a **Poisson process**;

@@ -27,6 +27,14 @@ converge to the Erlang C results. pyworkforce's test suite verifies this, and
 also checks the analytic metrics against a Monte Carlo simulation.
 :::
 
+## The queue system
+
+![Erlang A queue system — abandonment](../images/erlanga_queue_system.svg)
+
+Callers who wait beyond their patience leave the queue (dashed red arrow).
+The system remains stable at any load because abandonments prevent unlimited
+queue growth.
+
 ## Basic usage
 
 ```python

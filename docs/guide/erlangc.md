@@ -15,7 +15,7 @@ Erlang C represents the system as a queue with these assumptions:
 - handling times follow an **exponential distribution**;
 - there is **no abandonment** — nobody leaves the queue.
 
-![Erlang C queue system](../images/erlangc_queue_system.png)
+![Erlang C queue system](../images/erlangc_queue_system.svg)
 
 ## Key terms
 

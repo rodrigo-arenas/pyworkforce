@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 830 178"
+     font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0 0 L8 3 L0 6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="830" height="178" fill="#f8fafc"/>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- CARD 1 — QUEUING  (#2563eb blue)                                  -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <rect x="25" y="24" width="140" height="132" rx="10"
+        fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <!-- number badge -->
+  <circle cx="95" cy="58" r="17" fill="#2563eb"/>
+  <text x="95" y="63.5" text-anchor="middle" fill="white"
+        font-size="17" font-weight="700">1</text>
+  <!-- title -->
+  <text x="95" y="83" text-anchor="middle" fill="#1e293b"
+        font-size="13.5" font-weight="700">Queuing</text>
+  <!-- classes -->
+  <text x="95" y="100" text-anchor="middle" fill="#2563eb" font-size="9.5">
+    ErlangC · ErlangA · ErlangB
+  </text>
+  <!-- question -->
+  <text x="95" y="119" text-anchor="middle" fill="#475569"
+        font-size="10.5" font-style="italic">How many agents?</text>
+  <!-- input label -->
+  <text x="95" y="146" text-anchor="middle" fill="#94a3b8" font-size="9">
+    Traffic forecast
+  </text>
+
+  <!-- arrow 1→2 -->
+  <line x1="168" y1="90" x2="183" y2="90"
+        stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- CARD 2 — STAFFING  (#7c3aed violet)                               -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <rect x="185" y="24" width="140" height="132" rx="10"
+        fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <circle cx="255" cy="58" r="17" fill="#7c3aed"/>
+  <text x="255" y="63.5" text-anchor="middle" fill="white"
+        font-size="17" font-weight="700">2</text>
+  <text x="255" y="83" text-anchor="middle" fill="#1e293b"
+        font-size="13.5" font-weight="700">Staffing</text>
+  <text x="255" y="100" text-anchor="middle" fill="#7c3aed" font-size="9.5">
+    MultiSkillStaffing
+  </text>
+  <text x="255" y="119" text-anchor="middle" fill="#475569"
+        font-size="10.5" font-style="italic">Optimal skill mix?</text>
+  <text x="255" y="146" text-anchor="middle" fill="#94a3b8" font-size="9">
+    Per-skill requirements
+  </text>
+
+  <!-- arrow 2→3 -->
+  <line x1="328" y1="90" x2="343" y2="90"
+        stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- CARD 3 — SCHEDULING  (#059669 emerald)                            -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <rect x="345" y="24" width="140" height="132" rx="10"
+        fill="#ecfdf5" stroke="#86efac" stroke-width="1.5"/>
+  <circle cx="415" cy="58" r="17" fill="#059669"/>
+  <text x="415" y="63.5" text-anchor="middle" fill="white"
+        font-size="17" font-weight="700">3</text>
+  <text x="415" y="83" text-anchor="middle" fill="#1e293b"
+        font-size="13.5" font-weight="700">Scheduling</text>
+  <text x="415" y="100" text-anchor="middle" fill="#059669" font-size="9.5">
+    MinRequired · MinAbsDiff
+  </text>
+  <text x="415" y="119" text-anchor="middle" fill="#475569"
+        font-size="10.5" font-style="italic">Agents per shift?</text>
+  <text x="415" y="146" text-anchor="middle" fill="#94a3b8" font-size="9">
+    Shift coverage arrays
+  </text>
+
+  <!-- arrow 3→4 -->
+  <line x1="488" y1="90" x2="503" y2="90"
+        stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- CARD 4 — ROSTERING  (#d97706 amber)                               -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <rect x="505" y="24" width="140" height="132" rx="10"
+        fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5"/>
+  <circle cx="575" cy="58" r="17" fill="#d97706"/>
+  <text x="575" y="63.5" text-anchor="middle" fill="white"
+        font-size="17" font-weight="700">4</text>
+  <text x="575" y="83" text-anchor="middle" fill="#1e293b"
+        font-size="13.5" font-weight="700">Rostering</text>
+  <text x="575" y="100" text-anchor="middle" fill="#d97706" font-size="9.5">
+    MinHoursRoster
+  </text>
+  <text x="575" y="119" text-anchor="middle" fill="#475569"
+        font-size="10.5" font-style="italic">Who works when?</text>
+  <text x="575" y="146" text-anchor="middle" fill="#94a3b8" font-size="9">
+    Shift agent counts
+  </text>
+
+  <!-- arrow 4→5 -->
+  <line x1="648" y1="90" x2="663" y2="90"
+        stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- CARD 5 — BREAKS  (#dc2626 red)                                    -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <rect x="665" y="24" width="140" height="132" rx="10"
+        fill="#fff1f2" stroke="#fca5a5" stroke-width="1.5"/>
+  <circle cx="735" cy="58" r="17" fill="#dc2626"/>
+  <text x="735" y="63.5" text-anchor="middle" fill="white"
+        font-size="17" font-weight="700">5</text>
+  <text x="735" y="83" text-anchor="middle" fill="#1e293b"
+        font-size="13.5" font-weight="700">Breaks</text>
+  <text x="735" y="100" text-anchor="middle" fill="#dc2626" font-size="9.5">
+    BreakScheduler
+  </text>
+  <text x="735" y="119" text-anchor="middle" fill="#475569"
+        font-size="10.5" font-style="italic">Break time windows?</text>
+  <text x="735" y="146" text-anchor="middle" fill="#94a3b8" font-size="9">
+    Named roster
+  </text>
+</svg>
