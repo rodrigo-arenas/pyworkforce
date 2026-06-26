@@ -34,9 +34,9 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "numpy>=2.5.0",
+    "numpy>=1.23",
     "pandas>=2.2.0",
-    "ortools>=9.15.6755",
+    "ortools>=9.6",
     "joblib>=1.4.2",
 ]
 

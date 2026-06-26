@@ -1,5 +1,6 @@
 {% set name = "pyworkforce" %}
-{% set version = "0.5.2" %}
+{% set version = "0.5.3" %}
+{% set python_min = "3.12" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +8,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: ae5c9dfcc24a334437e09af97b8a2955edb71711ca32b06e367381505860bd64
+  sha256: PLACEHOLDER_UPDATE_AFTER_PYPI_RELEASE
 
 build:
   number: 0
@@ -17,18 +18,15 @@ build:
 
 requirements:
   host:
-    - python >=3.12,<3.15
+    - python {{ python_min }}
     - pip
     - setuptools >=82.0.1
     - wheel
   run:
-    - python >=3.12,<3.15
-    - numpy >=2.5.0
+    - python >={{ python_min }}
+    - numpy >=1.23
     - pandas >=2.2.0
-    # NOTE: conda-forge ships ortools-python (currently 9.6); pypi requires >=9.15.
-    # Relax the lower bound here so conda users can install; tighten once
-    # the ortools-python feedstock is updated past 9.15.
-    - ortools-python >=9.6
+    - ortools-python >=9.0
     - joblib >=1.4.2
 
 test:
@@ -40,6 +38,7 @@ test:
     - pyworkforce.shifts
   requires:
     - pip
+    - python {{ python_min }}
   commands:
     - pip check
 
