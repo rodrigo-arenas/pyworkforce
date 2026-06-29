@@ -12,6 +12,8 @@ walks through setting up a local environment and the checks we run.
 - [Running the tests](#running-the-tests)
 - [Linting and formatting](#linting-and-formatting)
 - [Working on the documentation](#working-on-the-documentation)
+- [Adding models, examples and docs](#adding-models-examples-and-docs)
+- [Contributor roadmap](#contributor-roadmap)
 - [Pull request workflow](#pull-request-workflow)
 
 ## Reporting issues
@@ -155,6 +157,85 @@ When you change documented behavior, please:
 - keep tutorial code blocks runnable and show **real** outputs (run the snippet
   and paste what it prints);
 - add an entry to the release notes (`docs/release-notes.md`).
+
+## Adding models, examples and docs
+
+### Adding a new solver or model
+
+New optimization models should fit the existing project style:
+
+- Put the implementation in the closest domain package (`queuing`, `staffing`,
+  `scheduling`, `rostering`, `breaks`, or a new package only when the domain is
+  genuinely new).
+- Keep the public API explicit: constructor arguments should be named, validated
+  up front, and documented.
+- Return a plain dictionary from `solve()` / sizing methods, and store the last
+  result on `solution_` where that pattern applies.
+- Prefer clear `ValueError` messages for invalid user input rather than letting
+  OR-Tools, NumPy, or pandas fail later with low-level errors.
+- Add focused tests next to the module under `*/tests/`. Include infeasible or
+  invalid-input cases when they are part of the expected behavior.
+- Document the business problem, assumptions, inputs, output interpretation, and
+  common pitfalls before opening the PR.
+
+For numerical queueing models, validate against an independent reference where
+possible: published formulas, a small brute-force calculation, a simulation, or
+known limiting behavior.
+
+### Adding examples
+
+Examples under `examples/` should be runnable with:
+
+```bash
+python examples/path/to/example.py
+```
+
+Keep datasets small and inline unless the point of the example is file I/O.
+Use business-friendly names (`Billing`, `Technical`, `Morning`, `Night`) and
+print the key output a user should inspect. If an example needs a larger data
+file, include a short note explaining how to scale the pattern to real data.
+
+Good example themes:
+
+- contact center staffing with Erlang C, Erlang A, and Erlang B;
+- multi-skill staffing for language or support queues;
+- shift coverage from hourly demand;
+- named roster generation with banned shifts and preferences;
+- break scheduling while preserving minimum coverage;
+- end-to-end planning pipelines that join several modules.
+
+### Documentation guidelines
+
+Every major guide should answer the same practical questions:
+
+- **Problem statement:** what business decision does this model support?
+- **When to use it:** what assumptions make it appropriate?
+- **Input format:** shape, units, and key constraints.
+- **Code example:** copy-paste runnable and small enough to understand.
+- **Output explanation:** what each important field means.
+- **Common pitfalls:** units, infeasibility, assumptions, or modeling traps.
+
+Do not over-market. Make pyworkforce attractive by showing credible workflows,
+realistic inputs, and clear outputs.
+
+## Contributor roadmap
+
+These are useful issue ideas for new and experienced contributors:
+
+- More domain examples for healthcare staffing, retail operations, logistics,
+  support teams, service desks, and field operations.
+- Additional validation improvements for edge cases and clearer error messages.
+- Benchmark scenarios for larger scheduling, rostering, and break-scheduling
+  problems.
+- Visualization helpers for demand curves, scheduled coverage, roster matrices,
+  and break placement.
+- Additional workforce constraints such as weekly hour caps, skill-specific
+  rest rules, unavailable windows, fairness objectives, and weekend balancing.
+- Documentation translations and glossary improvements for workforce planning
+  terms.
+- Comparison notebooks that show how pyworkforce results relate to common
+  spreadsheet calculators and manual planning workflows.
+- More examples that export results to pandas DataFrames or downstream BI tools.
 
 ## Pull request workflow
 

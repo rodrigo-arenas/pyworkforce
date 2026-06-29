@@ -152,3 +152,12 @@ A simple rule of thumb: pass the same `required_resources` array you used in
 the scheduling step. This ensures you never send so many agents on break that
 service levels drop below what was planned.
 :::
+
+## Common pitfalls
+
+- `BreakScheduler` assigns breaks to shift slots, not named employees.
+- `min_coverage` is the number of agents that must remain available, not the
+  number allowed to go on break.
+- Break windows are relative to the shift, not absolute clock periods.
+- If every slot must take a long break inside a narrow window, the problem may
+  be infeasible unless there is enough coverage slack.

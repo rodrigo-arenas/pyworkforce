@@ -3,10 +3,10 @@ layout: home
 
 hero:
   name: pyworkforce
-  text: Workforce management, made practical
+  text: Practical workforce optimization in Python
   tagline: >-
-    Queue staffing, shift scheduling and rostering for call centers and any
-    operation that needs the right people at the right time.
+    Queue staffing, multi-skill staffing, shift scheduling, rostering and break
+    scheduling for operations that need the right people at the right time.
   actions:
     - theme: brand
       text: Get Started
@@ -14,6 +14,9 @@ hero:
     - theme: alt
       text: Quick Start
       link: /guide/quickstart
+    - theme: alt
+      text: Recipes
+      link: /recipes/
     - theme: alt
       text: View on GitHub
       link: https://github.com/rodrigo-arenas/pyworkforce
@@ -43,3 +46,26 @@ features:
       0/1 arrays.
     link: /guide/shifts
 ---
+
+## Planning pipeline
+
+```text
+Forecast demand -> Queue staffing -> Multi-skill staffing -> Shift scheduling -> Rostering -> Break scheduling
+```
+
+pyworkforce is useful beyond contact centers: healthcare staffing, retail
+operations, logistics, support teams, service desks and field operations all
+share the same planning problem of matching variable demand to finite resources.
+
+## Where should I start?
+
+| Goal | Page |
+| --- | --- |
+| Install and run the first example | [Quick Start](/guide/quickstart) |
+| Understand the full workflow | [End-to-end planning tutorial](/guide/end-to-end) |
+| Size call-center agents for 80/20 | [Erlang C](/guide/erlangc) |
+| Model abandonment | [Erlang A](/guide/erlanga) |
+| Size SIP trunks or channels | [Erlang B](/guide/erlangb) |
+| Solve short practical tasks | [Recipes](/recipes/) |
+| Check constructor and output details | [API Reference](/api/queuing) |
+| Contribute examples, docs or solvers | [Contributing](/contributing) |

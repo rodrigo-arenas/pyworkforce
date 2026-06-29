@@ -44,7 +44,9 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/guide/introduction' },
+      { text: 'Recipes', link: '/recipes/' },
       { text: 'API', link: '/api/queuing' },
+      { text: 'Contributing', link: '/contributing' },
       { text: 'Release Notes', link: '/release-notes' },
       { text: 'PyPI', link: 'https://pypi.org/project/pyworkforce/' },
       {
@@ -64,6 +66,7 @@ export default defineConfig({
             { text: 'Introduction', link: '/guide/introduction' },
             { text: 'Installation', link: '/guide/installation' },
             { text: 'Quick Start', link: '/guide/quickstart' },
+            { text: 'Contributing', link: '/contributing' },
           ],
         },
         {
@@ -71,6 +74,7 @@ export default defineConfig({
           items: [
             { text: 'End-to-end planning', link: '/guide/end-to-end' },
             { text: 'Comparing scenarios', link: '/guide/scenarios' },
+            { text: 'Recipes', link: '/recipes/' },
           ],
         },
         {
@@ -103,6 +107,14 @@ export default defineConfig({
             { text: 'Rostering', link: '/api/rostering' },
             { text: 'Shifts', link: '/api/shifts' },
             { text: 'Breaks', link: '/api/breaks' },
+          ],
+        },
+      ],
+      '/recipes/': [
+        {
+          text: 'Recipes',
+          items: [
+            { text: 'Overview', link: '/recipes/' },
           ],
         },
       ],

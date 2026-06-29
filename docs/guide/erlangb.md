@@ -152,3 +152,13 @@ print(df[["transactions", "max_blocking", "raw_positions", "blocking_probability
 | Stable at any load? | Yes | No (`c > A` required) | Yes |
 | Key metric | blocking probability | service level | service level + abandonment |
 | Typical use | trunks, channels | call center headcount | call center headcount |
+
+## Common pitfalls
+
+- Erlang B is for blocked-calls-cleared systems. If callers can wait, use
+  Erlang C or Erlang A instead.
+- `aht` and `interval` must use the same unit.
+- `max_blocking` is usually a small probability such as `0.01` or `0.02`, not a
+  percentage integer.
+- Check occupancy as well as blocking when high utilization creates operational
+  risk.

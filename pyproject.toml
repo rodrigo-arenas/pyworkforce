@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyworkforce"
 dynamic = ["version"]
-description = "Common tools for workforce management, queuing, scheduling, rostering and optimization problems"
+description = "Practical workforce planning tools for queue staffing, shift scheduling, rostering, breaks, and operations research in Python"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
 license = "MIT"
@@ -15,11 +15,21 @@ authors = [
 ]
 keywords = [
     "workforce management",
+    "workforce planning",
     "call center",
+    "contact center",
+    "call center staffing",
+    "contact center staffing",
     "erlang",
+    "erlang c",
+    "erlang a",
+    "erlang b",
     "scheduling",
+    "shift scheduling",
     "rostering",
+    "employee rostering",
     "operations research",
+    "or-tools",
     "optimization",
 ]
 classifiers = [
@@ -27,6 +37,8 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Office/Business :: Scheduling",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",

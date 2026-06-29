@@ -1,5 +1,5 @@
 {% set name = "pyworkforce" %}
-{% set version = "0.5.3" %}
+{% set version = "0.5.4" %}
 {% set python_min = "3.12" %}
 
 package:
@@ -26,7 +26,7 @@ requirements:
     - python >={{ python_min }}
     - numpy >=1.23
     - pandas >=2.2.0
-    - ortools-python >=9.0
+    - ortools-python >=9.6
     - joblib >=1.4.2
 
 test:

@@ -105,3 +105,12 @@ erlang.service_level(positions=14, asa=30 / 60)
 
 Use Erlang A when abandonment is material to your operation, and Erlang C as a
 conservative baseline.
+
+## Common pitfalls
+
+- `patience` is a mean patience time, not a hard maximum waiting time.
+- Keep `asa`, `aht`, `interval` and `patience` in the same unit.
+- Set a `max_abandonment` target when abandonment is a business constraint, not
+  just a modeling assumption.
+- Compare against Erlang C when you need a conservative upper-bound staffing
+  scenario.
