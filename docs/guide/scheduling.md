@@ -110,3 +110,15 @@ scheduler = MinRequiredResources(
 
 Both solvers accept `max_search_time` (seconds, default `120`/`240`) and
 `num_search_workers` (default `2`) to bound the optimization.
+
+## Common pitfalls
+
+- `required_resources` must have one row per day and exactly `periods` values
+  per row.
+- `max_period_concurrency` and `max_shift_concurrency` are upper bounds. If
+  they are too low, the solver may correctly return `INFEASIBLE`.
+- Use `MinRequiredResources` when every period must be covered; use
+  `MinAbsDifference` when matching demand closely is more important than strict
+  coverage.
+- Shift definitions drive feasibility. Validate `shifts_coverage` before
+  assuming the demand pattern is impossible.

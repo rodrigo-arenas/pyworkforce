@@ -2,10 +2,19 @@
 
 ## 0.5.4
 
+### Documentation and project polish
+
+- Clearer README positioning for practical workforce planning across contact
+  centers, healthcare, retail, logistics, support teams and service operations.
+- Improved documentation navigation so users can move quickly from getting
+  started to queue staffing, multi-skill staffing, scheduling, rostering, break
+  scheduling, recipes and API details.
+- Added contributor guidance and roadmap ideas to make first issues and pull
+  requests easier to start.
+
 ### Maintenance
 
 - CI pipeline and deployment workflow improvements.
-- README and documentation updates.
 
 ## 0.5.3
 

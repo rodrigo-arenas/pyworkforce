@@ -169,3 +169,15 @@ integer programmes and typically solve in under a second at contact-centre scale
 - [Scheduling guide](/guide/scheduling) — placing the staffed mix across shifts
 - [End-to-end tutorial](/guide/end-to-end) — full planning pipeline
 - [API — Staffing](/api/staffing)
+
+## Common pitfalls
+
+- Every required skill must appear in at least one profile.
+- Costs are relative weights, not necessarily salaries. Keep them consistent
+  across profiles.
+- `required_positions` should usually use productive requirements
+  (`raw_positions`) when the staffing mix is later scheduled with shrinkage or
+  availability assumptions elsewhere.
+- Multi-skilled agents count toward every skill they hold; if that is not how
+  routing works in your operation, model narrower profiles or add downstream
+  constraints.

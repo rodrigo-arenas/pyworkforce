@@ -7,7 +7,7 @@ call centers, but the same techniques apply to hospitals, retail, logistics,
 network capacity planning and any operation that has to match a variable
 demand with a finite number of resources.
 
-The package is organized around three planning steps that usually happen in
+The package is organized around planning steps that usually happen in
 sequence:
 
 ## 1. Queuing — *how many resources do I need?*

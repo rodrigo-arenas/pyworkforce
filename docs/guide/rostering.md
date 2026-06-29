@@ -83,3 +83,13 @@ works and who rests:
   assignments.
 - **`resources_prioritization`** — each entry `{"resource": ..., "weight": ...}`
   scales how strongly a resource's preferences are honored.
+
+## Common pitfalls
+
+- `required_resources` is per shift and per day, not per period.
+- `resources` must be unique. Use stable identifiers if names can repeat.
+- `max_resting` must be smaller than `num_days`.
+- Preferences are soft incentives; `banned_shifts` and
+  `non_sequential_shifts` are hard constraints.
+- If the model is infeasible, first reduce requirements or relax hard
+  constraints before tuning preference weights.

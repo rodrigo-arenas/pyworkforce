@@ -103,3 +103,13 @@ Erlang C assumes nobody ever hangs up, which makes it **conservative**: it
 tends to over-staff because, in reality, some customers abandon the queue. If
 abandonment matters for your operation, use the
 [Erlang A model](/guide/erlanga).
+
+## Common pitfalls
+
+- Keep `asa`, `aht` and `interval` in the same unit.
+- Do not treat `positions` and `raw_positions` as interchangeable:
+  `positions` includes shrinkage.
+- Erlang C requires enough productive positions for system stability. If demand
+  is too high for a proposed position count, increase positions or use
+  `required_positions`.
+- Use Erlang A when customer abandonment is a major part of the operation.
