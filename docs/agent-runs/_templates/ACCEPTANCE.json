@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "task": "<task>",
+  "source_references": [],
+  "contradictions": [],
+  "criteria": [
+    {
+      "id": "AC-001",
+      "category": "functional",
+      "source": {
+        "reference": "<source>",
+        "location": "<section/line/url>"
+      },
+      "description": "<single observable behavior>",
+      "preconditions": [],
+      "fixture": "<deterministic fixture or test data>",
+      "steps": [],
+      "expected": [],
+      "negative_and_boundary_cases": [],
+      "validation_commands": [],
+      "runtime_flow": [],
+      "required_evidence": [],
+      "required_skills": [
+        "verification-loop"
+      ],
+      "owner_role": "implementer",
+      "verifier_role": "verification-engineer",
+      "mandatory": true,
+      "status": "failing_or_unverified",
+      "evidence": [],
+      "findings": []
+    }
+  ],
+  "completion_gate": {
+    "all_mandatory_pass": false,
+    "independent_review_clean": false,
+    "runtime_verified": false,
+    "visual_verified_if_applicable": false,
+    "security_reviewed_if_applicable": false,
+    "clean_state_double_pass": false
+  }
+}
