@@ -14,7 +14,28 @@ npm run docs:build    # build the static site into .vitepress/dist
 npm run docs:preview  # preview the built site
 ```
 
-## Structure
+## Crawl-signal checks
+
+The focused artifact tests require Python with pytest and the installed Node
+dependencies. From this directory, build both modes sequentially into ignored
+output folders, generate the root Pages artifact, then run the tests (PowerShell):
+
+```powershell
+$env:PYWORKFORCE_BUILD_ROOT = Join-Path (Get-Location) '.vitepress/dist'
+$env:DOCS_VERSION = 'stable'
+node node_modules/vitepress/bin/vitepress.js build . --outDir .vitepress/dist/stable
+$env:DOCS_VERSION = 'development'
+node node_modules/vitepress/bin/vitepress.js build . --outDir .vitepress/dist/development
+node scripts/build-root.mjs .vitepress/dist/root
+python -m pytest scripts/test_site_contract.py -q
+Remove-Item Env:DOCS_VERSION, Env:PYWORKFORCE_BUILD_ROOT
+```
+
+Normal `docs:build` still produces `.vitepress/dist`; the checks do not change
+the production publishing layout. `README.md` is repository guidance and is
+excluded from the public documentation build.
+
+## Documentation files
 
 - `index.md` — landing page.
 - `guide/` — narrative guides (queuing, scheduling, rostering, shifts).

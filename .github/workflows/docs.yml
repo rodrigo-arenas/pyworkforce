@@ -70,26 +70,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/.vitepress/dist
           destination_dir: ${{ steps.meta.outputs.version }}
-          keep_files: true
 
       - name: Create root redirect (stable deploys only)
         if: steps.meta.outputs.version == 'stable'
-        run: |
-          mkdir -p /tmp/root-redirect
-          cat > /tmp/root-redirect/index.html << 'HTMLEOF'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <meta http-equiv="refresh" content="0; url=stable/">
-            <title>pyworkforce documentation</title>
-            <link rel="canonical" href="stable/">
-          </head>
-          <body>
-            <p>Redirecting to <a href="stable/">stable documentation</a>...</p>
-          </body>
-          </html>
-          HTMLEOF
+        run: node docs/scripts/build-root.mjs /tmp/root-redirect
 
       - name: Deploy root redirect
         if: steps.meta.outputs.version == 'stable'

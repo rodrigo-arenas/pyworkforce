@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 // "stable" on tag releases, "development" on main-branch pushes.
 const docsVersion = process.env.DOCS_VERSION ?? 'development'
 const base = `/${docsVersion}/`
+const hostname = 'https://pyworkforce.rodrigo-arenas.com'
 
 // Google Analytics measurement ID (e.g. "G-XXXXXXXXXX"), injected at build time.
 // This is a PUBLIC identifier (it ships in the page), not a credential.
@@ -29,15 +30,40 @@ export default defineConfig({
     'Tools for workforce management: queue staffing (Erlang C / Erlang A), ' +
     'shift scheduling, rostering and operations-research optimization.',
 
-  // base is /pyworkforce/stable/ or /pyworkforce/development/ depending on DOCS_VERSION.
+  // The custom host serves /stable/ or /development/ depending on DOCS_VERSION.
   base,
   lang: 'en-US',
   cleanUrls: true,
   lastUpdated: true,
-  ignoreDeadLinks: true,
+  srcExclude: ['README.md'],
+
+  sitemap: docsVersion === 'stable' ? {
+    hostname,
+    transformItems: (items) => items
+      .filter((item) => item.url !== '404')
+      .map((item) => ({ ...item, url: `${base}${item.url}` })),
+  } : undefined,
+
+  transformPageData(pageData) {
+    const path = pageData.relativePath.replace(/\\/g, '/').replace(/index\.md$/, '').replace(/\.md$/, '')
+    const canonical = `${hostname}${base}${path}`
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push(
+      ['link', { rel: 'canonical', href: canonical }],
+      ['meta', { property: 'og:url', content: canonical }],
+    )
+    if (docsVersion === 'development') {
+      pageData.frontmatter.head.push(['meta', { name: 'robots', content: 'noindex,follow' }])
+    }
+  },
+
+  // VitePress's default 404 bypasses the Markdown page-data transform.
+  transformHead({ page }) {
+    return page === '404.md' ? [['meta', { name: 'robots', content: 'noindex,follow' }]] : []
+  },
 
   head: [
-    ['link', { rel: 'icon', href: `${base}favicon.ico` }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
     ...analyticsHead,
   ],
 
