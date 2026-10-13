@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pyworkforce.rodrigo-arenas.com/stable/sitemap.xml
