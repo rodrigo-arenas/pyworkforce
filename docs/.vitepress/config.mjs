@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 // "stable" on tag releases, "development" on main-branch pushes.
 const docsVersion = process.env.DOCS_VERSION ?? 'development'
 const base = `/${docsVersion}/`
+const site = 'https://pyworkforce.rodrigo-arenas.com'
 
 // Google Analytics measurement ID (e.g. "G-XXXXXXXXXX"), injected at build time.
 // This is a PUBLIC identifier (it ships in the page), not a credential.
@@ -35,6 +36,19 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   ignoreDeadLinks: true,
+  srcExclude: ['README.md', 'agent-runs/**'],
+
+  // Only the stable build advertises pages; development pages point their
+  // canonical to the stable equivalent so ranking signals consolidate there.
+  sitemap: docsVersion === 'stable' ? { hostname: `${site}/stable/` } : undefined,
+  transformPageData(pageData) {
+    const path = pageData.relativePath.replace(/\.md$/, '').replace(/(^|\/)index$/, '$1')
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: `${site}/stable/${path}` },
+    ])
+  },
 
   head: [
     ['link', { rel: 'icon', href: `${base}favicon.ico` }],

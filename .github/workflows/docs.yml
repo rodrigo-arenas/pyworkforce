@@ -90,6 +90,7 @@ jobs:
           </body>
           </html>
           HTMLEOF
+          printf 'User-agent: *\nAllow: /\n\nSitemap: https://pyworkforce.rodrigo-arenas.com/stable/sitemap.xml\n' > /tmp/root-redirect/robots.txt
 
       - name: Deploy root redirect
         if: steps.meta.outputs.version == 'stable'
