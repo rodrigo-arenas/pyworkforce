@@ -1,5 +1,5 @@
 // Root aliases live outside the versioned VitePress artifact on GitHub Pages.
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 
 if (!process.argv[2]) throw new Error('Usage: node docs/scripts/build-root.mjs <output-directory>')
@@ -32,3 +32,4 @@ writeFileSync(join(output, 'robots.txt'), `User-agent: *
 Allow: /
 Sitemap: ${hostname}/stable/sitemap.xml
 `)
+copyFileSync(new URL('./indexnow-key.txt', import.meta.url), join(output, 'indexnow-key.txt'))

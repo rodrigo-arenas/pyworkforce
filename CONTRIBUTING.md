@@ -45,7 +45,7 @@ library; Node.js is needed only if you work on the docs.
    python -m venv .venv
    source .venv/bin/activate        # Windows: .venv\Scripts\activate
    python -m pip install --upgrade pip
-   pip install -e ".[dev]"
+   pip install -e ".[dev,plot]"
    ```
 
    **Using conda / mamba:**
@@ -53,7 +53,7 @@ library; Node.js is needed only if you work on the docs.
    ```bash
    conda create -n pyworkforce python=3.12
    conda activate pyworkforce
-   pip install -e ".[dev]"
+   pip install -e ".[dev,plot]"
    ```
 
    Either way, the editable install pulls in the runtime deps plus `pytest`,

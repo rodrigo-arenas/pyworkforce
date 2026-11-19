@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from ortools.sat.python import cp_model
 
@@ -13,7 +12,8 @@ class MinAbsDifference(BaseShiftScheduler):
                  max_period_concurrency: int,
                  max_shift_concurrency: int,
                  max_search_time: float = 120.0,
-                 num_search_workers=2):
+                 num_search_workers=2,
+                 *, shift_limits=None):
         """
         Minimizes the total absolute difference between required resources per
         period and resources scheduled by the solver.
@@ -35,10 +35,12 @@ class MinAbsDifference(BaseShiftScheduler):
             Maximum resources allowed in any period and day.
         max_shift_concurrency: int,
             Maximum resources allowed in the same shift.
-        max_search_time: float, default = 240
+        max_search_time: float, default = 120
             Maximum time, in seconds, to search for a solution.
         num_search_workers: int, default = 2
             Number of workers used to search for a solution.
+        shift_limits: dict, optional
+            Inclusive staffing bounds by ``(day, shift_name)``.
         """
 
         super().__init__(num_days,
@@ -48,7 +50,8 @@ class MinAbsDifference(BaseShiftScheduler):
                          max_period_concurrency,
                          max_shift_concurrency,
                          max_search_time,
-                         num_search_workers)
+                         num_search_workers,
+                         shift_limits=shift_limits)
 
     def solve(self):
         """
@@ -62,49 +65,24 @@ class MinAbsDifference(BaseShiftScheduler):
         """
         sch_model = cp_model.CpModel()
 
-        # Resources: Number of resources assigned in day d to shift s
-        resources = np.empty(shape=(self.num_days, self.num_shifts), dtype='object')
-        # transition resources: Variable to change domain coordinates from min |x-a|
-        # to min t, s.t t>= x-a and t>= a-x
-        transition_resources = np.empty(shape=(self.num_days, self.num_periods), dtype='object')
+        resources = self._shift_variables(sch_model)
+        gaps = []
+        capacity = self.max_period_concurrency
+        for day in range(self.num_days):
+            for period in range(self.num_periods):
+                scheduled = sum(resources[day, s] * self.shifts_coverage_matrix[s][period] for s in range(self.num_shifts))
+                sch_model.Add(scheduled <= capacity)
+                required = self.required_resources[day][period]
+                # The largest gap occurs at one end of the feasible staffing interval.
+                max_gap = max(abs(required), abs(capacity - required))
+                gap = sch_model.NewIntVar(0, max_gap, f'gap_d{day}p{period}')
+                sch_model.AddAbsEquality(gap, scheduled - required)
+                gaps.append(gap)
 
-        # Resources
-        for d in range(self.num_days):
-            for s in range(self.num_shifts):
-                resources[d][s] = sch_model.NewIntVar(0, self.max_shift_concurrency, f'resources_d{d}s{s}')
-
-        for d in range(self.num_days):
-            for p in range(self.num_periods):
-                transition_resources[d][p] = sch_model.NewIntVar(-self.max_period_concurrency,
-                                                                 self.max_period_concurrency,
-                                                                 f'transition_resources_d{d}p{p}')
-
-        # Constrains
-
-        # transition must be between x-a and a-x
-        for d in range(self.num_days):
-            for p in range(self.num_periods):
-                sch_model.Add(transition_resources[d][p] >= (
-                        sum(resources[d][s] * self.shifts_coverage_matrix[s][p] for s in range(self.num_shifts)) -
-                        self.required_resources[d][p]))
-                sch_model.Add(transition_resources[d][p] >= (self.required_resources[d][p]
-                                                             - sum(resources[d][s] * self.shifts_coverage_matrix[s][p]
-                                                                   for s in range(self.num_shifts))))
-
-        # Total programmed resources must be less than or equal to max_period_concurrency for each day and period
-        for d in range(self.num_days):
-            for p in range(self.num_periods):
-                sch_model.Add(
-                    sum(resources[d][s] * self.shifts_coverage_matrix[s][p] for s in range(self.num_shifts)) <=
-                    self.max_period_concurrency)
-
-        # Objective Function: Minimize the absolute value of the difference between required and shifted resources
-
-        sch_model.Minimize(
-            sum(transition_resources[d][p] for d in range(self.num_days) for p in range(self.num_periods)))
+        sch_model.Minimize(sum(gaps))
 
         self.solver.parameters.max_time_in_seconds = self.max_search_time
-        self.solver.num_search_workers = self.num_search_workers
+        self.solver.parameters.num_search_workers = self.num_search_workers
 
         self.status = self.solver.Solve(sch_model)
 
@@ -125,8 +103,7 @@ class MinAbsDifference(BaseShiftScheduler):
                         "cost": -1,
                         "resources_shifts": [{'day': -1, 'shift': 'Unknown', 'resources': -1}]}
 
-        self.solution_ = solution
-        return solution
+        return self._record_solution(solution)
 
 
 class MinRequiredResources(BaseShiftScheduler):
@@ -138,7 +115,8 @@ class MinRequiredResources(BaseShiftScheduler):
                  max_shift_concurrency: int,
                  cost_dict: dict = None,
                  max_search_time: float = 240.0,
-                 num_search_workers: int = 2):
+                 num_search_workers: int = 2,
+                 *, shift_limits=None):
         """
         Minimizes the weighted number of scheduled resources while ensuring that
         every period has at least the required number of resources.
@@ -167,6 +145,8 @@ class MinRequiredResources(BaseShiftScheduler):
             Maximum time, in seconds, to search for a solution.
         num_search_workers: int, default = 2
             Number of workers used to search for a solution.
+        shift_limits: dict, optional
+            Inclusive staffing bounds by ``(day, shift_name)``.
         """
 
         super().__init__(num_days,
@@ -176,7 +156,8 @@ class MinRequiredResources(BaseShiftScheduler):
                          max_period_concurrency,
                          max_shift_concurrency,
                          max_search_time,
-                         num_search_workers)
+                         num_search_workers,
+                         shift_limits=shift_limits)
 
         if cost_dict is None:
             self.cost_dict = dict.fromkeys(self.shifts, 1)
@@ -200,13 +181,7 @@ class MinRequiredResources(BaseShiftScheduler):
         """
         sch_model = cp_model.CpModel()
 
-        # Resources: Number of resources assigned in day d to shift s
-        resources = np.empty(shape=(self.num_days, self.num_shifts), dtype='object')
-
-        # Resources
-        for d in range(self.num_days):
-            for s in range(self.num_shifts):
-                resources[d][s] = sch_model.NewIntVar(0, self.max_shift_concurrency, f'resources_d{d}s{s}')
+        resources = self._shift_variables(sch_model)
 
         # Constrains
 
@@ -229,7 +204,7 @@ class MinRequiredResources(BaseShiftScheduler):
                                for s in range(self.num_shifts)))
 
         self.solver.parameters.max_time_in_seconds = self.max_search_time
-        self.solver.num_search_workers = self.num_search_workers
+        self.solver.parameters.num_search_workers = self.num_search_workers
 
         self.status = self.solver.Solve(sch_model)
 
@@ -250,5 +225,4 @@ class MinRequiredResources(BaseShiftScheduler):
                         "cost": -1,
                         "resources_shifts": [{'day': -1, 'shift': 'Unknown', 'resources': -1}]}
 
-        self.solution_ = solution
-        return solution
+        return self._record_solution(solution)

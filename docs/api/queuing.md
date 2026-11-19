@@ -31,11 +31,16 @@ queue, no abandonment.
 - `waiting_probability(positions, scale_positions=False)` → `float`
 - `service_level(positions, scale_positions=False)` → `float`
 - `achieved_occupancy(positions, scale_positions=False)` → `float`
+- `staffing_curve(positions, *, scale_positions=False)` → DataFrame with
+  `positions`, `raw_positions`, `service_level`, `occupancy` and
+  `waiting_probability`, in candidate input order. Pass a non-empty iterable
+  of positive integer headcounts. Every productive count must exceed the
+  offered load.
 - `get_params()` → `dict`
 
 Set `scale_positions=True` when `positions` already includes shrinkage.
 
-See the [Erlang C guide](/guide/erlangc).
+See the [Erlang C guide](/guide/erlangc) and the [staffing curve tutorial](/guide/staffing-curve).
 
 ## ErlangA
 

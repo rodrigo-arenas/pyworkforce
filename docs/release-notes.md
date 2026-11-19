@@ -1,5 +1,29 @@
 # Release Notes
 
+## 0.6.0
+
+### Planning and analysis
+
+- Both shift schedulers accept `shift_limits` per day and shift. Use equal
+  bounds to lock a headcount or `(0, 0)` to close a shift on a given day.
+- `scheduled_resources()` returns a mapping ready for `BreakScheduler`.
+  `coverage()` reports staffing, demand, deficits and surpluses per period.
+  `compare_coverage()` measures one plan across named demand scenarios.
+  See the [schedule stress-test tutorial](/guide/coverage-scenarios).
+- `ErlangC.staffing_curve()` compares service level, occupancy and waiting
+  probability across candidate headcounts, with optional shrinkage.
+  See the [Erlang C staffing curve tutorial](/guide/staffing-curve).
+- `pyworkforce[plot]` adds Matplotlib for `plot_coverage()` and
+  `plot_staffing_curve()`. Both return an Axes and support composing figures.
+
+### Solver corrections
+
+- `MinAbsDifference` can report coverage shortfalls larger than the period
+  staffing cap. Plans previously reported as infeasible for that reason can
+  now return `OPTIMAL` or `FEASIBLE` with a positive shortfall.
+- Both shift schedulers apply `num_search_workers` to CP-SAT.
+- `ErlangC` applies exact shrinkage rounding at whole-headcount boundaries.
+
 ## 0.5.4
 
 ### Documentation and project polish

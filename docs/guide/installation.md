@@ -10,6 +10,14 @@ pip install pyworkforce
 
 This works on Linux, macOS, and Windows.
 
+## Plotting
+
+Install the optional Matplotlib extra to use `pyworkforce.plotting`:
+
+```bash
+pip install "pyworkforce[plot]"
+```
+
 ## conda
 
 conda-forge support is **not yet available**. The `ortools-python` feedstock on
@@ -25,7 +33,7 @@ pyworkforce depends on:
 - [ortools](https://developers.google.com/optimization) (constraint solver)
 - [joblib](https://joblib.readthedocs.io/) (parallel scenario evaluation)
 
-These are installed automatically with either command above.
+Both pip commands install the base requirements. The plotting extra also installs Matplotlib.
 
 ## Verify the installation
 
@@ -42,7 +50,7 @@ mode with the development requirements:
 ```bash
 git clone https://github.com/rodrigo-arenas/pyworkforce.git
 cd pyworkforce
-pip install -e ".[dev]"
+pip install -e ".[dev,plot]"
 pytest pyworkforce/
 ruff check pyworkforce/
 ```

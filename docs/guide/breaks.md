@@ -34,8 +34,8 @@ breaks = [
     {
         "name": "Lunch",
         "duration_periods": 2,
-        "min_start_after": 2,   # must start at least 2 periods into the shift
-        "max_end_before": 2,    # must end at least 2 periods before the shift ends
+        "min_start_after": 1,   # must start at least 1 period into the shift
+        "max_end_before": 1,    # must end at least 1 period before the shift ends
     }
 ]
 
@@ -53,47 +53,43 @@ scheduler = BreakScheduler(
 
 result = scheduler.solve()
 print(result["status"])
-for entry in result["break_schedule"]:
-    print(entry)
+print("Scheduled breaks:", len(result["break_schedule"]))
 ```
 
 ```text
 OPTIMAL
-{'shift': 'Morning', 'day': 0, 'slot': 0, 'break_name': 'Lunch', 'start_period': 2, 'end_period': 4}
-{'shift': 'Morning', 'day': 0, 'slot': 1, 'break_name': 'Lunch', 'start_period': 4, 'end_period': 6}
-{'shift': 'Morning', 'day': 0, 'slot': 2, 'break_name': 'Lunch', 'start_period': 2, 'end_period': 4}
-{'shift': 'Afternoon', 'day': 0, 'slot': 0, 'break_name': 'Lunch', 'start_period': 10, 'end_period': 12}
-{'shift': 'Afternoon', 'day': 0, 'slot': 1, 'break_name': 'Lunch', 'start_period': 12, 'end_period': 14}
+Scheduled breaks: 5
 ```
 
 ## Connecting to the scheduling output
 
-Pass the `resources_shifts` output of a scheduler directly into
-`scheduled_resources`:
+Call `scheduled_resources()` on a solved shift plan to get the mapping expected
+by `BreakScheduler`. The next example reuses the shift definitions and break
+windows above. It schedules one extra person per period beyond `min_coverage`
+to leave room for breaks.
 
 ```python
 from pyworkforce.scheduling import MinRequiredResources
 
-sched_result = scheduler_obj.solve()
-
-# Build scheduled_resources from the solver output
-scheduled_resources = {}
-for entry in sched_result["resources_shifts"]:
-    shift = entry["shift"]
-    day   = entry["day"]
-    count = entry["resources"]
-    if shift not in scheduled_resources:
-        scheduled_resources[shift] = [0] * num_days
-    scheduled_resources[shift][day] = count
+shift_plan = MinRequiredResources(
+    num_days=1,
+    periods=16,
+    shifts_coverage=shifts_coverage,
+    required_resources=[[3] * 8 + [2] * 8],
+    max_period_concurrency=3,
+    max_shift_concurrency=3,
+)
+shift_plan.solve()
 
 break_sched = BreakScheduler(
-    num_days=num_days,
-    periods=periods,
+    num_days=1,
+    periods=16,
     shifts_coverage=shifts_coverage,
-    scheduled_resources=scheduled_resources,
+    scheduled_resources=shift_plan.scheduled_resources(),
     breaks=breaks,
-    min_coverage=required_resources,  # reuse the same requirements array
+    min_coverage=min_coverage,
 )
+print(break_sched.solve()["status"])
 ```
 
 ## Defining breaks

@@ -1,8 +1,14 @@
-# Erlang C
+---
+description: Use Erlang C in Python to size a call center. Work through an 80/20 service target, an occupancy limit, and shrinkage to get 20 scheduled agents.
+---
 
-Finding the number of positions (agents, tellers, operators, …) needed in a
-queue is a classic planning problem. The **Erlang C** model is the most common
-starting point.
+# Erlang C in Python for Call Center Staffing {#erlang-c}
+
+Erlang C estimates how many agents a call center needs to meet a target wait
+time when callers stay in the queue. In the [Python example](#basic-usage), 100
+calls in 30 minutes with a three-minute average handle time need 14 productive
+agents to meet an 80% in 20 seconds target and an 85% occupancy limit. At 30%
+shrinkage, schedule 20 agents so enough are available to take calls.
 
 ## The queue system
 
@@ -69,6 +75,9 @@ above everything is in minutes, so a 20-second ASA target is `20 / 60`.
 
 ## Evaluating a fixed number of positions
 
+Use the [staffing curve tutorial](/guide/staffing-curve) to compare candidate
+headcounts against service and occupancy targets in one table and figure.
+
 Besides sizing the team, you can evaluate metrics for a given number of
 positions:
 
@@ -99,10 +108,9 @@ ErlangC(transactions=100, aht=3, asa=0.333..., interval=30, shrinkage=0.3)
 
 ## When Erlang C is not enough
 
-Erlang C assumes nobody ever hangs up, which makes it **conservative**: it
-tends to over-staff because, in reality, some customers abandon the queue. If
-abandonment matters for your operation, use the
-[Erlang A model](/guide/erlanga).
+Erlang C assumes callers stay until served. If callers regularly hang up before
+an agent answers, the [Erlang A model](/guide/erlanga) lets you model their patience
+and estimate abandonment alongside staffing.
 
 ## Common pitfalls
 

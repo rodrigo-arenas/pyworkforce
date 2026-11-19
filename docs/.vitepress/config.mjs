@@ -4,6 +4,8 @@ import { defineConfig } from 'vitepress'
 const docsVersion = process.env.DOCS_VERSION ?? 'development'
 const base = `/${docsVersion}/`
 const hostname = 'https://pyworkforce.rodrigo-arenas.com'
+const description = 'Tools for workforce management: queue staffing (Erlang C / Erlang A), ' +
+  'shift scheduling, rostering and operations-research optimization.'
 
 // Google Analytics measurement ID (e.g. "G-XXXXXXXXXX"), injected at build time.
 // This is a PUBLIC identifier (it ships in the page), not a credential.
@@ -26,9 +28,7 @@ const analyticsHead = gaId
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'pyworkforce',
-  description:
-    'Tools for workforce management: queue staffing (Erlang C / Erlang A), ' +
-    'shift scheduling, rostering and operations-research optimization.',
+  description,
 
   // The custom host serves /stable/ or /development/ depending on DOCS_VERSION.
   base,
@@ -51,6 +51,13 @@ export default defineConfig({
     pageData.frontmatter.head.push(
       ['link', { rel: 'canonical', href: canonical }],
       ['meta', { property: 'og:url', content: canonical }],
+      ['meta', { property: 'og:type', content: 'website' }],
+      ['meta', { property: 'og:title', content: pageData.title }],
+      ['meta', { property: 'og:description', content: pageData.description || description }],
+      ['meta', { property: 'og:image', content: `${hostname}${base}brand/social-preview.png` }],
+      ['meta', { property: 'og:image:width', content: '1200' }],
+      ['meta', { property: 'og:image:height', content: '630' }],
+      ['meta', { property: 'og:image:alt', content: 'PyWorkforce shift coverage illustration' }],
     )
     if (docsVersion === 'development') {
       pageData.frontmatter.head.push(['meta', { name: 'robots', content: 'noindex,follow' }])
@@ -100,6 +107,8 @@ export default defineConfig({
           items: [
             { text: 'End-to-end planning', link: '/guide/end-to-end' },
             { text: 'Comparing scenarios', link: '/guide/scenarios' },
+            { text: 'Stress-test a shift schedule', link: '/guide/coverage-scenarios' },
+            { text: 'Choose staffing with Erlang C', link: '/guide/staffing-curve' },
             { text: 'Recipes', link: '/recipes/' },
           ],
         },
@@ -133,6 +142,7 @@ export default defineConfig({
             { text: 'Rostering', link: '/api/rostering' },
             { text: 'Shifts', link: '/api/shifts' },
             { text: 'Breaks', link: '/api/breaks' },
+            { text: 'Plotting', link: '/api/plotting' },
           ],
         },
       ],

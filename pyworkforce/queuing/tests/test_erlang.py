@@ -3,6 +3,34 @@ import pytest
 from pyworkforce.queuing import ErlangC
 
 
+def test_staffing_curve_reports_metrics_at_each_scheduled_headcount():
+    erlang = ErlangC(transactions=100, asa=20 / 60, aht=3, interval=30, shrinkage=0.3)
+    curve = erlang.staffing_curve([19, 20], scale_positions=True)
+    assert list(curve.columns) == ['positions', 'raw_positions', 'service_level', 'occupancy', 'waiting_probability']
+    assert curve['positions'].tolist() == [19, 20]
+    assert curve['raw_positions'].tolist() == [13, 14]
+    assert curve['service_level'].tolist() == pytest.approx([0.7956, 0.8884], abs=0.0001)
+    assert curve['occupancy'].tolist() == pytest.approx([10 / 13, 10 / 14])
+    assert curve['waiting_probability'].tolist() == pytest.approx([0.28526988, 0.17413193], abs=0.0001)
+    assert erlang.staffing_curve([14]).iloc[0]['raw_positions'] == 14
+
+
+@pytest.mark.parametrize(('positions', 'message'), [([], 'at least one'), ([True], 'positive integer'), ([10], 'traffic intensity')])
+def test_staffing_curve_rejects_missing_invalid_or_unstable_headcount(positions, message):
+    erlang = ErlangC(transactions=100, asa=20 / 60, aht=3, interval=30)
+    with pytest.raises(ValueError, match=message):
+        erlang.staffing_curve(positions)
+
+
+def test_shrinkage_preserves_exact_headcount_boundaries():
+    erlang = ErlangC(transactions=25, aht=1, asa=0.5, interval=20, shrinkage=0.8)
+    target = erlang.service_level(2)
+    row = erlang.staffing_curve([10], scale_positions=True).iloc[0]
+    assert row['raw_positions'] == 2
+    assert row['service_level'] == pytest.approx(target)
+    assert erlang.required_positions(service_level=target)['positions'] == 10
+
+
 def test_expected_erlangc_results():
     erlang = ErlangC(transactions=100, asa=0.33, aht=3, interval=30, shrinkage=0.3)
     results = erlang.required_positions(service_level=0.8, max_occupancy=0.85)

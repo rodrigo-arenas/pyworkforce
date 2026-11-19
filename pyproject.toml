@@ -53,6 +53,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+plot = ["matplotlib>=3.8"]
 dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
@@ -64,7 +65,7 @@ dev = [
 Documentation = "https://pyworkforce.rodrigo-arenas.com/"
 "Source Code" = "https://github.com/rodrigo-arenas/pyworkforce"
 "Bug Tracker" = "https://github.com/rodrigo-arenas/pyworkforce/issues"
-Changelog = "https://pyworkforce.rodrigo-arenas.com/release-notes"
+Changelog = "https://pyworkforce.rodrigo-arenas.com/stable/release-notes"
 
 [tool.setuptools]
 include-package-data = true

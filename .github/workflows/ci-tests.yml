@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade --upgrade-strategy eager -e ".[dev]"
+          pip install --upgrade --upgrade-strategy eager -e ".[dev,plot]"
       - name: Test with pytest
         run: |
           python -m pytest pyworkforce/ --verbose --color=yes --assert=plain --cov-fail-under=95 --cov=pyworkforce -p no:warnings
