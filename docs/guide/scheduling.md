@@ -1,16 +1,23 @@
-# Scheduling
+---
+description: Compare minimum staffing and minimum coverage gap with two Python shift schedulers built on OR-Tools. Try both with demand and shift coverage arrays.
+---
 
-Once you know **how many resources are required per period** (for example, from
-the [queuing](/guide/erlangc) step), scheduling decides **how many people to
-place on each predefined shift**.
+# Shift Scheduling in Python with OR-Tools {#scheduling}
+
+Given the headcount needed in each period, PyWorkforce calculates how many
+people to assign to each predefined shift. The [worked Python example](#example)
+runs both solvers on the same two-day demand and shift coverage arrays.
 
 pyworkforce provides two constraint-programming solvers, both built on
 [OR-Tools](https://developers.google.com/optimization):
 
-- `MinAbsDifference` — minimize the total absolute difference between required
-  and scheduled resources.
-- `MinRequiredResources` — minimize the (optionally weighted) number of
-  scheduled resources while ensuring every period is fully covered.
+- `MinAbsDifference` minimizes the total coverage gap, counting both overstaffing
+  and understaffing. Use it when some shortfalls are acceptable.
+- `MinRequiredResources` requires full coverage in every period. It minimizes
+  scheduled headcount, or total shift cost if you supply weights.
+
+For demand estimates, start with [Erlang C](/guide/erlangc). To assign named
+employees after deciding how many are needed per shift, use [rostering](/guide/rostering).
 
 ## Inputs
 
@@ -24,6 +31,7 @@ Both solvers share the same core inputs:
 | `required_resources` | Array of shape `[num_days, periods]` |
 | `max_period_concurrency` | Max resources allowed in any period |
 | `max_shift_concurrency` | Max resources allowed on any single shift |
+| `shift_limits` | Optional `(day, shift_name)` keys with inclusive `(minimum, maximum)` staffing bounds |
 
 ::: tip
 Use the [shift coverage builders](/guide/shifts) to create `shifts_coverage`
@@ -115,10 +123,15 @@ Both solvers accept `max_search_time` (seconds, default `120`/`240`) and
 
 - `required_resources` must have one row per day and exactly `periods` values
   per row.
-- `max_period_concurrency` and `max_shift_concurrency` are upper bounds. If
-  they are too low, the solver may correctly return `INFEASIBLE`.
+- `max_period_concurrency` and `max_shift_concurrency` are upper bounds.
+  `MinRequiredResources` returns `INFEASIBLE` if those bounds prevent full
+  coverage. `MinAbsDifference` reports a shortfall when the bounds allow a
+  partial plan. Conflicting staffing limits can make either solver infeasible.
 - Use `MinRequiredResources` when every period must be covered; use
   `MinAbsDifference` when matching demand closely is more important than strict
   coverage.
 - Shift definitions drive feasibility. Validate `shifts_coverage` before
   assuming the demand pattern is impossible.
+
+Use [`coverage()` and `compare_coverage()`](/guide/coverage-scenarios) to inspect
+the periods that the solved plan covers and compare it with alternate demand.

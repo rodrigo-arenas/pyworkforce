@@ -1,5 +1,8 @@
 ---
 layout: home
+title: 'PyWorkforce: Shift Scheduling and Workforce Planning in Python'
+titleTemplate: false
+description: Use PyWorkforce to estimate staffing with Erlang models, schedule shifts with OR-Tools, and build employee rosters. Run a Python example to get started.
 
 hero:
   name: pyworkforce
@@ -9,11 +12,11 @@ hero:
     scheduling for operations that need the right people at the right time.
   actions:
     - theme: brand
-      text: Get Started
-      link: /guide/introduction
-    - theme: alt
-      text: Quick Start
+      text: Run the Python quickstart
       link: /guide/quickstart
+    - theme: alt
+      text: Read the guide
+      link: /guide/introduction
     - theme: alt
       text: Recipes
       link: /recipes/
@@ -64,6 +67,8 @@ share the same planning problem of matching variable demand to finite resources.
 | Install and run the first example | [Quick Start](/guide/quickstart) |
 | Understand the full workflow | [End-to-end planning tutorial](/guide/end-to-end) |
 | Size call-center agents for 80/20 | [Erlang C](/guide/erlangc) |
+| Compare service and occupancy by headcount | [Erlang C staffing curve](/guide/staffing-curve) |
+| Check a solved schedule against another forecast | [Schedule stress test](/guide/coverage-scenarios) |
 | Model abandonment | [Erlang A](/guide/erlanga) |
 | Size SIP trunks or channels | [Erlang B](/guide/erlangb) |
 | Solve short practical tasks | [Recipes](/recipes/) |

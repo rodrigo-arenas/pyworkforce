@@ -1,10 +1,11 @@
+from fractions import Fraction
 from math import ceil, exp, floor
 
 from joblib import Parallel, delayed
 
 from pyworkforce.base import BaseWorkforce
 from pyworkforce.utils import ParameterGrid
-from pyworkforce.utils.validation import check_in_range, check_positive_float
+from pyworkforce.utils.validation import check_in_range, check_positive_float, check_positive_integer
 
 
 class ErlangC(BaseWorkforce):
@@ -65,9 +66,13 @@ class ErlangC(BaseWorkforce):
     def n_transactions(self):
         return self.transactions
 
+    def _available_fraction(self):
+        # Keep decimal shrinkage exact at whole-headcount boundaries.
+        return 1 - Fraction(str(self.shrinkage))
+
     def _productive_positions(self, positions: int, scale_positions: bool = False):
         if scale_positions:
-            productive_positions = floor((1 - self.shrinkage) * positions)
+            productive_positions = floor(self._available_fraction() * Fraction(str(positions)))
         else:
             productive_positions = positions
 
@@ -119,6 +124,9 @@ class ErlangC(BaseWorkforce):
         productive_positions = self._productive_positions(positions, scale_positions)
 
         probability_wait = self.waiting_probability(productive_positions, scale_positions=False)
+        return self._service_level_from_wait(productive_positions, probability_wait)
+
+    def _service_level_from_wait(self, productive_positions, probability_wait):
         exponential = exp(-(productive_positions - self.intensity) * (self.asa / self.aht))
         return max(0, 1 - (probability_wait * exponential))
 
@@ -139,6 +147,34 @@ class ErlangC(BaseWorkforce):
         productive_positions = self._productive_positions(positions, scale_positions)
 
         return self.intensity / productive_positions
+
+    def staffing_curve(self, positions, *, scale_positions=False):
+        """Return a DataFrame of service and occupancy metrics by candidate headcount.
+
+        ``positions`` is a non-empty iterable of positive integers in the order
+        to report. Set ``scale_positions=True`` to evaluate scheduled headcounts
+        after subtracting shrinkage. The frame includes both the input count
+        (``positions``) and the productive count (``raw_positions``).
+        Candidates whose productive count cannot support the offered load raise
+        ``ValueError``. Probabilities and occupancy are fractions in [0, 1].
+        """
+        import pandas as pd
+
+        rows = []
+        for headcount in positions:
+            check_positive_integer("positions", headcount)
+            raw = self._productive_positions(headcount, scale_positions)
+            waiting = self.waiting_probability(raw)
+            rows.append({
+                "positions": headcount,
+                "raw_positions": raw,
+                "service_level": self._service_level_from_wait(raw, waiting),
+                "occupancy": self.intensity / raw,
+                "waiting_probability": waiting,
+            })
+        if not rows:
+            raise ValueError("positions must contain at least one headcount")
+        return pd.DataFrame(rows)
 
     def required_positions(self, service_level: float, max_occupancy: float = 1.0):
         """
@@ -187,7 +223,7 @@ class ErlangC(BaseWorkforce):
             achieved_service_level = self.service_level(raw_positions)
 
         waiting_probability = self.waiting_probability(positions=raw_positions)
-        positions = ceil(raw_positions / (1 - self.shrinkage))
+        positions = ceil(raw_positions / self._available_fraction())
 
         return {"raw_positions": raw_positions,
                 "positions": positions,

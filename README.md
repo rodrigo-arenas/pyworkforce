@@ -45,6 +45,18 @@ pip install pyworkforce
 
 pyworkforce supports Python 3.12, 3.13, and 3.14.
 
+Install the plotting extra to explore coverage and Erlang C staffing curves
+with Matplotlib:
+
+```bash
+pip install "pyworkforce[plot]"
+```
+
+The [schedule stress-test tutorial](https://pyworkforce.rodrigo-arenas.com/stable/guide/coverage-scenarios)
+shows how to set staffing limits by shift and compare a solved plan against
+multiple demand forecasts. The [Erlang C staffing curve tutorial](https://pyworkforce.rodrigo-arenas.com/stable/guide/staffing-curve)
+shows how to choose a headcount against service and occupancy targets.
+
 ## Planning pipeline
 
 ```text

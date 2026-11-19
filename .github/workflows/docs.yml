@@ -22,8 +22,11 @@ on:
 permissions:
   contents: write  # required by peaceiris/actions-gh-pages
 
+env:
+  INDEXNOW_STATE_REF: refs/heads/indexnow-stable-state
+
 concurrency:
-  group: docs-${{ github.ref }}
+  group: docs-${{ (github.ref_type == 'tag' || inputs.version == 'stable') && 'stable' || 'development' }}
   cancel-in-progress: false
 
 jobs:
@@ -64,6 +67,10 @@ jobs:
           DOCS_VERSION: ${{ steps.meta.outputs.version }}
           GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID || secrets.GA_MEASUREMENT_ID }}
 
+      - name: Prepare stable release for IndexNow
+        if: steps.meta.outputs.version == 'stable'
+        run: printf '%s\n' "$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" > docs/.vitepress/dist/indexnow-build.txt
+
       - name: Deploy versioned docs
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -83,3 +90,58 @@ jobs:
           publish_dir: /tmp/root-redirect
           keep_files: true
           cname: pyworkforce.rodrigo-arenas.com
+
+      - name: Restore last accepted IndexNow state
+        if: steps.meta.outputs.version == 'stable'
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          state_dir="$RUNNER_TEMP/indexnow"
+          mkdir -p "$state_dir"
+          previous=$(git ls-remote --branches origin "$INDEXNOW_STATE_REF")
+          if [[ -n "$previous" ]]; then
+            git fetch --no-tags origin "$INDEXNOW_STATE_REF"
+            git rev-parse FETCH_HEAD > "$state_dir/parent"
+            git show FETCH_HEAD:state.json > "$state_dir/state.json"
+          fi
+
+      - name: Notify IndexNow after stable publication
+        if: steps.meta.outputs.version == 'stable'
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          site="https://pyworkforce.rodrigo-arenas.com"
+          key=$(cat /tmp/root-redirect/indexnow-key.txt)
+          for attempt in {1..48}; do
+            probe="run=$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT-$attempt"
+            if published=$(curl --fail --silent --show-error --max-time 5 "$site/stable/indexnow-build.txt?$probe") && [[ "$published" == "$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" ]] &&
+               proof=$(curl --fail --silent --show-error --max-time 5 "$site/indexnow-key.txt?$probe") && [[ "$proof" == "$key" ]]; then
+              python3 docs/scripts/submit_indexnow.py --submit \
+                --site docs/.vitepress/dist --root /tmp/root-redirect \
+                --state "$RUNNER_TEMP/indexnow/state.json"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo 'Stable release or IndexNow key is not publicly visible.' >&2
+          exit 1
+
+      - name: Save accepted IndexNow state
+        if: steps.meta.outputs.version == 'stable'
+        shell: bash
+        run: |
+          state_dir="$RUNNER_TEMP/indexnow"
+          blob=$(git hash-object -w "$state_dir/state.json")
+          tree=$(printf '100644 blob %s\tstate.json\n' "$blob" | git mktree)
+          parents=()
+          if [[ -f "$state_dir/parent" ]]; then
+            parent=$(cat "$state_dir/parent")
+            if [[ "$tree" == "$(git rev-parse "$parent^{tree}")" ]]; then
+              exit 0
+            fi
+            parents=(-p "$parent")
+          fi
+          commit=$(git -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit-tree "$tree" "${parents[@]}" -m 'Record accepted stable IndexNow URLs')
+          git push origin "$commit:$INDEXNOW_STATE_REF"
