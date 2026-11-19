@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">PyWorkforce</title>
+  <desc id="desc">A ribbon of incoming demand rises above staggered rows of blue shifts. Where demand peaks, more shifts overlap.</desc>
+  <defs>
+    <linearGradient id="paper" x2=".82" y2="1">
+      <stop stop-color="#fcfcfa"/>
+      <stop offset="1" stop-color="#e8eaf2"/>
+    </linearGradient>
+    <linearGradient id="shift" x1="0" y1="0" x2=".9" y2=".4">
+      <stop stop-color="#486bc9"/>
+      <stop offset=".7" stop-color="#3451b2"/>
+      <stop offset="1" stop-color="#293e91"/>
+    </linearGradient>
+    <linearGradient id="demand" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#f9ad7c"/>
+      <stop offset="1" stop-color="#fbe5cb"/>
+    </linearGradient>
+    <filter id="contact" x="-20%" y="-100%" width="140%" height="300%">
+      <feGaussianBlur stdDeviation="11"/>
+    </filter>
+    <path id="long" d="M0 0 H293 L313 21 L293 41 H0 Z"/>
+    <path id="medium" d="M0 0 H199 L219 21 L199 41 H0 Z"/>
+    <path id="short" d="M0 0 H116 L136 21 L116 41 H0 Z"/>
+    <g id="long-shift">
+      <use href="#long" y="8" fill="#243775"/>
+      <use href="#long" fill="url(#shift)"/>
+    </g>
+    <g id="mid-shift">
+      <use href="#medium" y="8" fill="#445ca1"/>
+      <use href="#medium" fill="#7391db"/>
+    </g>
+    <g id="short-shift">
+      <use href="#short" y="8" fill="#7383ae"/>
+      <use href="#short" fill="#b2c1e5"/>
+    </g>
+  </defs>
+  <rect width="1200" height="630" fill="url(#paper)"/>
+  <g transform="translate(77 64)">
+    <rect width="70" height="70" rx="3" fill="#3451b2"/>
+    <path transform="scale(2.1875)" fill="#fff" fill-rule="evenodd" d="M8 26V6h8a6 6 0 0 1 0 12h-4v8zm4-16v4h4a2 2 0 0 0 0-4z"/>
+    <text x="93" y="55" fill="#20315b" font-family="Segoe UI, Arial, sans-serif" font-size="62" font-weight="650" letter-spacing="-3">PyWorkforce</text>
+  </g>
+  <g transform="matrix(1 -.13 .43 .80 95 380)">
+    <!-- A demand silhouette stands behind a time-aligned set of shifts. -->
+    <path d="M132 8 H970" fill="none" stroke="#8f96b1" stroke-width="18" opacity=".32" filter="url(#contact)"/>
+    <path d="M159 -17 C239 -17 266 -45 324 -52 C400 -62 395 -13 463 -20 C545 -29 552 -157 629 -178 C706 -199 724 -79 790 -83 C855 -87 849 -152 911 -157 C941 -160 953 -139 976 -136 V-14 H159 Z" fill="url(#demand)"/>
+    <path d="M159 -17 C239 -17 266 -45 324 -52 C400 -62 395 -13 463 -20 C545 -29 552 -157 629 -178 C706 -199 724 -79 790 -83 C855 -87 849 -152 911 -157 C941 -160 953 -139 976 -136" fill="none" stroke="#b95c38" stroke-width="7" stroke-linecap="round"/>
+    <g fill="#c16c45">
+      <circle cx="18" cy="-24" r="6"/><circle cx="47" cy="-21" r="7"/>
+      <circle cx="78" cy="-18" r="8"/><circle cx="112" cy="-17" r="9"/>
+    </g>
+    <!-- Every row is a different staff shift on the same time axis. -->
+    <g fill="none" stroke="#c5cbdc" stroke-width="2">
+      <path d="M18 37 H975 M18 99 H975 M18 161 H975 M18 223 H975 M18 285 H975"/>
+    </g>
+    <g opacity=".86">
+      <use href="#mid-shift" x="73" y="16"/><use href="#long-shift" x="318" y="16"/><use href="#mid-shift" x="663" y="16"/>
+    </g>
+    <use href="#long-shift" x="166" y="78"/><use href="#long-shift" x="496" y="78"/>
+    <use href="#short-shift" x="829" y="78"/>
+    <use href="#mid-shift" x="305" y="140"/><use href="#long-shift" x="546" y="140"/>
+    <use href="#long-shift" x="463" y="202"/><use href="#short-shift" x="816" y="202"/>
+    <use href="#mid-shift" x="533" y="264"/>
+    <g fill="#3451b2">
+      <circle cx="18" cy="37" r="6"/><circle cx="18" cy="99" r="6"/>
+      <circle cx="18" cy="161" r="6"/><circle cx="18" cy="223" r="6"/><circle cx="18" cy="285" r="6"/>
+    </g>
+  </g>
+</svg>
