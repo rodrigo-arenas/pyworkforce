@@ -33,7 +33,9 @@ See the [staffing curve tutorial](/guide/staffing-curve).
 Pass the table from `compare_coverage(scenarios, by_period=True)`. The chart
 shows its first `limit` rows in table order, including covered intervals when
 they fall within the limit. Each cell gives the number of additional people
-needed in that interval. A zero means fully covered. A dash marks a missing
+needed in that interval. Bars share a common scale across the displayed cells.
+The longest bar fills its track. A framed cell and a bold interval label mark
+each maximum positive shortfall, including ties. A zero means fully covered. A dash marks a missing
 value if you reindex the table. Use a positive integer for `limit` and select
 the columns of interest when comparing many scenarios.
 
