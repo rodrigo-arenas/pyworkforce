@@ -4,7 +4,7 @@ description: Explore PyWorkforce coverage and staffing curves with optional Matp
 
 # API — Plotting
 
-`pyworkforce.plotting` provides two functions for inspecting workforce results.
+`pyworkforce.plotting` provides functions for inspecting workforce results.
 Install `pyworkforce[plot]` to create charts. Each function returns the
 Matplotlib `Axes` it drew on. Pass `ax` to compose a figure, or omit it to
 create a new figure. Call `ax.figure.savefig(...)` or `matplotlib.pyplot.show()`
@@ -27,3 +27,14 @@ The headcount axis uses the counts supplied to `staffing_curve()`. It represents
 scheduled or productive positions according to that call's `scale_positions`.
 
 See the [staffing curve tutorial](/guide/staffing-curve).
+
+## `plot_period_shortfalls(shortfalls, *, limit=8, ax=None)`
+
+Pass the table from `compare_coverage(scenarios, by_period=True)`. The chart
+shows its first `limit` rows in table order, including covered intervals when
+they fall within the limit. Each cell gives the number of additional people
+needed in that interval. A zero means fully covered. A dash marks a missing
+value if you reindex the table. Use a positive integer for `limit` and select
+the columns of interest when comparing many scenarios.
+
+See the [ranked shortfalls example](/guide/coverage-scenarios#which-interval-needs-extra-people-first).

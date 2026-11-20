@@ -2,7 +2,9 @@
 
 import numpy as np
 
-__all__ = ["plot_coverage", "plot_staffing_curve"]
+from pyworkforce.utils.validation import check_positive_integer
+
+__all__ = ["plot_coverage", "plot_period_shortfalls", "plot_staffing_curve"]
 
 
 def _axes(ax):
@@ -48,6 +50,45 @@ def plot_coverage(coverage, *, day=0, ax=None):
     ax.set_ylim(bottom=0)
     ax.grid(axis="y", alpha=0.2)
     ax.legend()
+    return ax
+
+
+def plot_period_shortfalls(shortfalls, *, limit=8, ax=None):
+    """Show the leading rows of a scheduler's ``compare_coverage(..., by_period=True)``.
+
+    Values are people short in each interval. The row and scenario order of the
+    input table is preserved. A dash marks a missing cell in a reindexed table.
+    Returns the Matplotlib Axes.
+    """
+    check_positive_integer("limit", limit)
+    if shortfalls.empty or list(shortfalls.index.names) != ["day", "period"]:
+        raise ValueError("shortfalls must be a non-empty table indexed by (day, period)")
+    shown = shortfalls.head(limit)
+    values = shown.to_numpy(dtype=float, na_value=np.nan)
+    observed = values[~np.isnan(values)]
+    if not np.isfinite(observed).all() or (observed < 0).any() or (observed != np.floor(observed)).any():
+        raise ValueError("shortfalls must be non-negative whole headcounts or missing")
+
+    ax = _axes(ax)
+    from matplotlib import colormaps
+
+    peak = max(1, observed.max()) if observed.size else 1
+    ax.imshow(values, aspect="auto", interpolation="nearest", vmin=0, vmax=peak,
+              cmap=colormaps["Blues"].with_extremes(bad="#e2e2e2"))
+    for row, counts in enumerate(shown.itertuples(index=False, name=None)):
+        for column, count in enumerate(counts):
+            value = values[row, column]
+            label = "—" if np.isnan(value) else str(int(count))
+            color = "white" if value > 0.6 * peak else "#172738"
+            ax.text(column, row, label, ha="center", va="center", color=color)
+
+    ax.set_xticks(range(len(shown.columns)), labels=[str(name) for name in shown.columns])
+    ax.set_yticks(range(len(shown)), labels=[f"{day} / {period}" for day, period in shown.index])
+    ax.set(title="Staffing shortfall (people)", ylabel="Day / period")
+    ax.xaxis.tick_top()
+    ax.tick_params(axis="both", length=0)
+    if np.isnan(values).any():
+        ax.set_xlabel("—  Missing observation")
     return ax
 
 

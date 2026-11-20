@@ -1,5 +1,12 @@
 # Release Notes
 
+## Unreleased
+
+- Rank intervals by the largest staffing shortfall across demand scenarios with
+  `compare_coverage(scenarios, by_period=True)`. Use `plot_period_shortfalls()`
+  to inspect the leading rows on a Matplotlib Axes.
+  See the [worked example](/guide/coverage-scenarios#which-interval-needs-extra-people-first).
+
 ## 0.6.0
 
 ### Planning and analysis

@@ -197,17 +197,27 @@ class BaseShiftScheduler(BaseWorkforce):
             "surplus": np.maximum(gap, 0),
         })
 
-    def compare_coverage(self, scenarios):
+    def compare_coverage(self, scenarios, *, by_period=False):
         """Summarize one solved plan against a non-empty mapping of named demand scenarios.
 
         Use ``None`` for original demand. Required, scheduled, shortfall and
-        surplus totals are person-periods.
+        surplus totals are person-periods. With ``by_period=True``, return shortfall
+        headcounts indexed by (day, period), with scenarios in mapping order.
+        The largest shortfall in any scenario ranks first, with ties in
+        chronological order. Covered intervals are included.
         """
         if not isinstance(scenarios, Mapping) or not scenarios:
             raise ValueError("scenarios must be a non-empty mapping of names to demand arrays")
+        frames = ((name, self.coverage(demand)) for name, demand in scenarios.items())
+        if by_period:
+            shortfalls = [frame.set_index(["day", "period"])["shortfall"] for _, frame in frames]
+            table = pd.concat(shortfalls, axis=1)
+            table.columns = pd.Index(scenarios, name="scenario", tupleize_cols=False)
+            priority = table.max(axis=1).sort_values(ascending=False, kind="stable")
+            return table.loc[priority.index]
+
         rows = []
-        for scenario, demand in scenarios.items():
-            coverage = self.coverage(demand)
+        for scenario, coverage in frames:
             totals = {column: sum(map(int, coverage[column])) for column in ("required", "scheduled", "shortfall", "surplus")}
             rows.append({"scenario": scenario, **totals, "understaffed_periods": (coverage["shortfall"] > 0).sum()})
         return pd.DataFrame(rows)
