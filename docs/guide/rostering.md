@@ -22,6 +22,7 @@ preferences.
 | `non_sequential_shifts` | Shift pairs that cannot follow one another |
 | `resources_preferences` | Preferred shifts per resource |
 | `resources_prioritization` | Relative weight of each resource's preferences |
+| `shift_block_starts` | Optional day indices at which each person may start a different shift type |
 
 ::: tip Validation
 `MinHoursRoster` checks its inputs up front: `resources` must be unique,
@@ -83,6 +84,62 @@ works and who rests:
   assignments.
 - **`resources_prioritization`** — each entry `{"resource": ..., "weight": ...}`
   scales how strongly a resource's preferences are honored.
+
+## Keep the same shift through a day off
+
+A worker on the early shift may need a predictable start time when returning
+from a day off. Pass `shift_block_starts=[0, 7]` for a ten-day plan to keep each
+person on one shift during days 0–6 and one during days 7–9. At a boundary the
+shift can stay the same or change. A block may also be entirely off.
+
+You choose the boundaries. Use `range(0, num_days, 7)` for seven-day blocks
+beginning on the first day of your plan. If the first block has three days
+before the next local week begins, use starts such as `[0, 3, 10]` for a
+fourteen-day horizon. Day 0 can correspond to any calendar date.
+
+In the example, both shifts need one person each working day. Everyone has day
+3 off. Operator A is unavailable for Late on day 0 and Early on day 7. Those
+two availability limits and the block rule determine the assignments.
+
+```python
+from pyworkforce.rostering import MinHoursRoster
+
+resources = ["Operator A", "Operator B"]
+demand = [1, 1, 1, 0, 1, 1, 1, 1, 1, 1]
+roster = MinHoursRoster(
+    num_days=10,
+    resources=resources,
+    shifts=["Early", "Late"],
+    shifts_hours=[8, 8],
+    min_working_hours=72,
+    max_resting=1,
+    required_resources={"Early": demand, "Late": demand},
+    banned_shifts=[
+        {"resource": "Operator A", "shift": "Late", "day": 0},
+        {"resource": "Operator A", "shift": "Early", "day": 7},
+    ],
+    shift_block_starts=[0, 7],
+)
+
+solution = roster.solve()
+if solution["status"] not in {"FEASIBLE", "OPTIMAL"}:
+    raise RuntimeError(solution["status"])
+assignments = {(item["resource"], item["day"]): item["shift"] for item in solution["resource_shifts"]}
+for person in resources:
+    days = [assignments.get((person, day), "Off") for day in range(roster.num_days)]
+    print(f"{person} | {' '.join(days[:7])} | {' '.join(days[7:])}")
+```
+
+```text
+Operator A | Early Early Early Off Early Early Early | Late Late Late
+Operator B | Late Late Late Off Late Late Late | Early Early Early
+```
+
+Run `python examples/rostering/shift_blocks.py` from an installed development
+checkout to reproduce the roster. The daily staffing requirements still apply,
+and forbidden next-day transitions still apply across block boundaries.
+`max_resting` caps total days off per person over the whole plan. Weekly rest
+entitlements or rotating weekends require separate rules.
 
 ## Common pitfalls
 
