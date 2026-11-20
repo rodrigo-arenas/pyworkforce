@@ -56,6 +56,11 @@ These methods require the last `solve()` to have returned `OPTIMAL` or
   demand arrays. Use `None` for the original forecast. Each scenario yields
   `required`, `scheduled`, `shortfall`, and `surplus` totals in person-periods,
   plus `understaffed_periods`. The assignments stay fixed throughout.
+- `compare_coverage(scenarios, by_period=True)` returns a shortfall table in
+  people. The row index is `(day, period)` and the columns follow scenario input
+  order. Rows are ranked by the largest shortfall across forecasts, with ties
+  in chronological order. Zero means the scheduled headcount meets or exceeds
+  demand. Every scenario must cover the entire solved horizon.
 
 See the [schedule stress-test tutorial](/guide/coverage-scenarios).
 

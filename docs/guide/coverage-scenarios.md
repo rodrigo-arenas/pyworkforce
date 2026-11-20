@@ -69,3 +69,36 @@ with explicit remaining shortfalls is acceptable.
 To plan breaks separately, pass `scheduler.scheduled_resources()` to
 [`BreakScheduler`](/guide/breaks) as `scheduled_resources`. Check coverage
 against your chosen forecast before scheduling breaks.
+
+## Which interval needs extra people first?
+
+In the development version, compare the campaign with a late rush using the
+schedule solved above. Both forecasts leave two person-periods uncovered.
+
+```python
+from pyworkforce.plotting import plot_period_shortfalls
+
+late_rush = [[2, 3, 1], [1, 2, 4]]
+scenarios = {"Base": None, "Campaign": campaign, "Late rush": late_rush}
+shortfalls = scheduler.compare_coverage(scenarios, by_period=True)
+print(shortfalls.head(3).to_string())
+ax = plot_period_shortfalls(shortfalls, limit=3)
+```
+
+```text
+scenario    Base  Campaign  Late rush
+day period
+1   2          0         0          2
+    0          0         1          0
+    1          0         1          0
+```
+
+If the late rush materializes, move two people into the last interval of day 1.
+For the campaign, cover the first two intervals of that day with one extra
+person each. The base forecast needs no additional staff in any interval.
+The full table also includes the three fully covered intervals on day 0.
+
+![Day 1 shortfalls in people. Late rush needs two in period 2. Campaign needs one each in periods 0 and 1.](../images/period-shortfalls.png)
+
+To reproduce the figure, run `python examples/scheduling/prioritize_shortfalls.py`
+from a development checkout installed with `pip install -e ".[plot]"`.

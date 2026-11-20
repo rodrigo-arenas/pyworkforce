@@ -291,3 +291,29 @@ def test_infeasible_min_required_resources_schedule():
     assert solution['resources_shifts'][0]['day'] == -1
     assert solution['resources_shifts'][0]['shift'] == 'Unknown'
     assert solution['resources_shifts'][0]['resources'] == -1
+
+
+@pytest.mark.parametrize("scheduler_class", [MinAbsDifference, MinRequiredResources])
+def test_period_shortfalls_rank_one_fixed_schedule_across_scenarios(scheduler_class, monkeypatch):
+    scheduler = scheduler_class(2, 12, {"day": [1] * 12}, [[1] * 12] * 2, 2, 2, num_search_workers=1)
+    solution = scheduler.solve()
+    monkeypatch.setattr(scheduler, "solve", lambda: pytest.fail("scenario comparison must use the saved plan"))
+    rush = [[1] * 12 for _ in range(2)]
+    rush[0][2] = rush[0][10] = 2**53 + 1
+    rush[1][11] = 2**53 + 2
+    peak = [[1] * 12 for _ in range(2)]
+    peak[0][0] = 2**53 + 1
+    table = scheduler.compare_coverage({"Rush": rush, "Base": None, "Peak": peak}, by_period=True)
+    assert scheduler.solution_ is solution
+    assert table.index.names == ["day", "period"]
+    assert table.columns.name == "scenario"
+    assert table.columns.tolist() == ["Rush", "Base", "Peak"]
+    assert table.shape == (24, 3)
+    assert table.index[:4].tolist() == [(1, 11), (0, 0), (0, 2), (0, 10)]
+    assert table.iloc[:4].values.tolist() == [
+        [2**53 + 1, 0, 0], [0, 0, 2**53], [2**53, 0, 0], [2**53, 0, 0]
+    ]
+    assert (table.iloc[4:] == 0).all().all()
+    assert table.index[4:].is_monotonic_increasing
+    with pytest.raises(ValueError, match="required_resources"):
+        scheduler.compare_coverage({"Incomplete": [[1]]}, by_period=True)
