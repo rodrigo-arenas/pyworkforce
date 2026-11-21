@@ -1,192 +1,122 @@
+# PyWorkforce
+
+[![PyPI version](https://img.shields.io/pypi/v/pyworkforce)](https://pypi.org/project/pyworkforce/)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/pyworkforce)](https://pypi.org/project/pyworkforce/)
 [![Tests](https://github.com/rodrigo-arenas/pyworkforce/actions/workflows/ci-tests.yml/badge.svg?branch=main)](https://github.com/rodrigo-arenas/pyworkforce/actions/workflows/ci-tests.yml)
-[![Codecov](https://codecov.io/gh/rodrigo-arenas/pyworkforce/branch/main/graphs/badge.svg?branch=main&service=github)](https://codecov.io/github/rodrigo-arenas/pyworkforce?branch=main)
-[![PyPI Version](https://badge.fury.io/py/pyworkforce.svg)](https://pypi.org/project/pyworkforce/)
-[![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13%20%7C%203.14-blue)](https://www.python.org/downloads/)
-[![Docs](https://img.shields.io/badge/docs-pyworkforce.rodrigo--arenas.com-blue)](https://pyworkforce.rodrigo-arenas.com/stable/)
+[![Coverage](https://codecov.io/gh/rodrigo-arenas/pyworkforce/branch/main/graphs/badge.svg?branch=main&service=github)](https://codecov.io/github/rodrigo-arenas/pyworkforce?branch=main)
 
-# pyworkforce
+**Workforce planning in Python, from queue staffing to shift schedules.**
+How many people do you need, and when? PyWorkforce uses Erlang models to size queues
+and OR-Tools to turn staffing requirements into shifts, rosters, and break schedules.
+Bring your own demand forecast and inspect the results in pandas.
 
-**Practical workforce planning in Python: queue staffing, shift scheduling, rostering, and breaks.**
-
-pyworkforce helps teams turn variable demand into staffing decisions with a friendly,
-scikit-learn-like API. It combines Erlang queueing models and OR-Tools
-constraint programming so workforce analysts, data scientists, operations
-researchers, and Python developers can move from forecast volumes to workable
-staffing plans without building every solver from scratch.
-
-It is useful for contact centers and call centers, but the same patterns apply
-to healthcare staffing, retail operations, logistics, support teams, service
-desks, and field operations.
-
-**Docs:** [pyworkforce.rodrigo-arenas.com](https://pyworkforce.rodrigo-arenas.com/stable/)  
-**Package:** [PyPI](https://pypi.org/project/pyworkforce/)  
-**Examples:** [examples/](examples/)
-
-## Why pyworkforce?
-
-- **More practical than spreadsheets:** reusable models, scenario sweeps, tested
-  calculations, and outputs that fit naturally into pandas workflows.
-- **Faster than custom scripts:** common workforce planning steps are packaged
-  behind consistent constructors, `solve()` methods, validation, and clear
-  result dictionaries.
-- **Lighter than enterprise WFM tools:** use it inside notebooks, pipelines,
-  internal apps, simulations, or decision-support workflows without adopting a
-  full platform.
-- **Built on proven methods:** Erlang C, Erlang A, and Erlang B for queue
-  staffing; OR-Tools CP-SAT for scheduling, rostering, and break placement.
-- **Designed for adoption:** small examples, copy-paste tutorials, and APIs that
-  feel familiar to Python users.
+[Quick start](https://pyworkforce.rodrigo-arenas.com/stable/guide/quickstart) ·
+[Worked planning tutorial](https://pyworkforce.rodrigo-arenas.com/stable/guide/end-to-end) ·
+[Runnable examples](https://github.com/rodrigo-arenas/pyworkforce/tree/main/examples)
 
 ## Installation
 
-```bash
-pip install pyworkforce
-```
-
-pyworkforce supports Python 3.12, 3.13, and 3.14.
-
-Install the plotting extra to explore coverage and Erlang C staffing curves
-with Matplotlib:
+Use Python 3.12–3.14 and install the package from PyPI.
 
 ```bash
-pip install "pyworkforce[plot]"
+python -m pip install pyworkforce
 ```
 
-The [schedule stress-test tutorial](https://pyworkforce.rodrigo-arenas.com/stable/guide/coverage-scenarios)
-shows how to set staffing limits by shift and compare a solved plan against
-multiple demand forecasts. The [Erlang C staffing curve tutorial](https://pyworkforce.rodrigo-arenas.com/stable/guide/staffing-curve)
-shows how to choose a headcount against service and occupancy targets.
+## Build your first shift schedule
+
+A service desk needs **2 people in the morning, 3 at midday, and 1 in the afternoon**.
+Early and Late shifts overlap at midday. How many people should start each shift?
+
+```python
+from pyworkforce.scheduling import MinRequiredResources
+
+plan = MinRequiredResources(
+    num_days=1,
+    periods=3,
+    required_resources=[[2, 3, 1]],  # people needed in each period
+    shifts_coverage={"Early": [1, 1, 0], "Late": [0, 1, 1]},
+    max_shift_concurrency=3,
+    max_period_concurrency=3,
+)
+solution = plan.solve()
+print(solution["status"], plan.scheduled_resources())
+```
+
+```text
+OPTIMAL {'Early': [2], 'Late': [1]}
+```
+
+Schedule **two people on Early and one on Late**. The overlap covers all three
+midday positions. If afternoon demand rises to two, evaluate the same assignments
+against the new forecast.
+
+```python
+coverage = plan.coverage([[2, 3, 2]])
+print(coverage[["period", "required", "scheduled", "shortfall"]].to_string(index=False))
+```
+
+```text
+ period  required  scheduled  shortfall
+      0         2          2          0
+      1         3          3          0
+      2         2          1          1
+```
+
+The afternoon is one person short. For charts, install `python -m pip install "pyworkforce[plot]"`.
+The [coverage tutorial](https://pyworkforce.rodrigo-arenas.com/stable/guide/coverage-scenarios)
+shows how to plot the gap. The [shift coverage guide](https://pyworkforce.rodrigo-arenas.com/stable/guide/shifts)
+shows how to describe longer shifts using clock hours.
 
 ## Planning pipeline
 
-![Queue sizing can supply agent requirements to shift scheduling or per-skill targets to skill-mix optimization. A solved shift schedule supplies daily headcounts to both rostering and break scheduling.](https://raw.githubusercontent.com/rodrigo-arenas/pyworkforce/main/docs/images/planning_pipeline.svg)
+![Queue sizing can supply staffing targets for skill mix or shift scheduling. Shift counts feed named rostering and anonymous break scheduling independently.](https://raw.githubusercontent.com/rodrigo-arenas/pyworkforce/19dd4b6edfb058d36563b32674d47c61a2fa9d7a/docs/images/planning_pipeline.svg)
 
-This overview follows the `main` branch. For published versions, see the
-[release notes](https://pyworkforce.rodrigo-arenas.com/stable/release-notes).
+Start at the decision you need to make. After solving a shift schedule, pass
+`scheduled_resources()` to the roster as `required_resources`, or to the break
+scheduler as `scheduled_resources`, along with each tool's constraints.
 
-Start with your own staffing requirements or derive agent counts from queue traffic.
-Use `pyworkforce.shifts` to build shift coverage from hours, spans, or period indices.
-After solving a shift schedule, `scheduled_resources()` gives counts by shift and day.
-Pass them as `required_resources` to the roster or as `scheduled_resources` to the
-break scheduler, along with each tool's constraints.
-
-| Planning decision | API | Result |
+| Your question | Model or API | Worked guide |
 | --- | --- | --- |
-| Size a queue | `ErlangA`, `ErlangC`, `ErlangB` and batch variants `MultiErlangA`, `MultiErlangC`, `MultiErlangB` | Agents for service targets (A/C), or channels for a blocking target (B) |
-| Choose a skill mix | `MultiSkillStaffing` | Minimum-cost headcount by skill profile |
-| Cover period demand with shifts | `MinRequiredResources`, `MinAbsDifference` | People per shift and day |
-| Check a solved plan | `coverage()`, `compare_coverage(..., by_period=True)` | Coverage per interval and a ranked table of scenario shortfalls |
-| Assign named people | `MinHoursRoster` | Assignments and days off, with optional shift consistency by block |
-| Place breaks | `BreakScheduler` | Break start periods for anonymous slots while maintaining minimum coverage |
+| How many agents will meet our answer-time target? | `ErlangC` for waiting callers, `ErlangA` when callers may abandon | [Waiting](https://pyworkforce.rodrigo-arenas.com/stable/guide/erlangc) · [Abandonment](https://pyworkforce.rodrigo-arenas.com/stable/guide/erlanga) |
+| How many channels will keep blocking below target? | `ErlangB` for traffic lost when all channels are busy | [Channel sizing](https://pyworkforce.rodrigo-arenas.com/stable/guide/erlangb) |
+| Which combination of skills covers demand at minimum cost? | `MultiSkillStaffing` | [Skill profiles](https://pyworkforce.rodrigo-arenas.com/stable/guide/staffing) |
+| How many people should work each shift? | `MinRequiredResources` for full coverage, `MinAbsDifference` to minimize coverage error | [Shift scheduling](https://pyworkforce.rodrigo-arenas.com/stable/guide/scheduling) |
+| Where will the schedule fall short if demand changes? | `coverage()` and `compare_coverage()` on the solved plan | [Demand scenarios](https://pyworkforce.rodrigo-arenas.com/stable/guide/coverage-scenarios) |
+| Who works which days and shifts? | `MinHoursRoster` with availability rules and preferences | [Named rosters](https://pyworkforce.rodrigo-arenas.com/stable/guide/rostering) |
+| When can people take breaks and still meet minimum coverage? | `BreakScheduler` places breaks for anonymous slots on each shift | [Break placement](https://pyworkforce.rodrigo-arenas.com/stable/guide/breaks) |
 
-Optional Matplotlib views include `plot_staffing_curve()` for Erlang C,
-`plot_coverage()` for a single day, and `plot_period_shortfalls()` for comparing scenarios.
+On the `main` branch, you can also compare shortfalls by day and period across forecasts
+with `compare_coverage(..., by_period=True)` and `plot_period_shortfalls()`, or keep
+each person's shift consistent with `shift_block_starts`. See the
+[scenario example](https://github.com/rodrigo-arenas/pyworkforce/blob/main/examples/scheduling/prioritize_shortfalls.py)
+and the [roster example](https://github.com/rodrigo-arenas/pyworkforce/blob/main/examples/rostering/shift_blocks.py).
 
-## What can I do in 5 minutes?
+## Start from call volume
 
-### Size a contact-center queue with Erlang C
+Erlang C turns forecast call volume into a staffing requirement. For **100 calls in 30 minutes**, assume a three-minute average handle
+time, an 80% answer target within 20 seconds, and 30% shrinkage.
 
 ```python
 from pyworkforce.queuing import ErlangC
 
-erlang = ErlangC(
-    transactions=100,  # calls in the interval
-    aht=3,             # average handle time, minutes
-    asa=20 / 60,       # answer-time target, minutes
-    interval=30,       # interval length, minutes
-    shrinkage=0.30,
-)
-
-print(erlang.required_positions(service_level=0.80, max_occupancy=0.85))
+queue = ErlangC(transactions=100, aht=3, asa=20 / 60, interval=30, shrinkage=0.30)
+staff = queue.required_positions(service_level=0.80, max_occupancy=0.85)
+print(f"{staff['raw_positions']} productive agents, {staff['positions']} to schedule")
 ```
 
 ```text
-{'raw_positions': 14,
- 'positions': 20,
- 'service_level': 0.8883500191794669,
- 'occupancy': 0.7142857142857143,
- 'waiting_probability': 0.1741319335950498}
+14 productive agents, 20 to schedule
 ```
 
-`raw_positions` is productive staffing. `positions` adds shrinkage for breaks,
-training, meetings, and other unavailable time.
+Explore how headcount affects [service level and occupancy](https://pyworkforce.rodrigo-arenas.com/stable/guide/staffing-curve),
+or [run several Erlang scenarios](https://pyworkforce.rodrigo-arenas.com/stable/guide/multierlang) in one batch.
 
-### Compare staffing scenarios
+## Project and community
 
-```python
-from pyworkforce.queuing import MultiErlangC
-from pyworkforce.utils import results_to_dataframe
-
-param_grid = {
-    "transactions": [80, 100, 120],
-    "aht": [3],
-    "asa": [20 / 60],
-    "interval": [30],
-    "shrinkage": [0.20, 0.30],
-}
-
-multi = MultiErlangC(param_grid=param_grid, n_jobs=-1)
-results = multi.required_positions({"service_level": [0.80], "max_occupancy": [0.85]})
-df = results_to_dataframe(results, multi.required_positions_params)
-print(df[["transactions", "shrinkage", "positions", "service_level"]])
-```
-
-Use this pattern to compare service levels, shrinkage assumptions, average
-handle time, patience, or arrival forecasts.
-
-### Build shift coverage from clock hours
-
-```python
-from pyworkforce.shifts import shift_coverage_from_hours
-
-shifts_coverage = shift_coverage_from_hours(
-    {
-        "Morning": (6, 14),
-        "Afternoon": (14, 22),
-        "Night": (22, 6),  # wraps past midnight
-    },
-    num_periods=24,
-)
-```
-
-The result feeds the scheduling solvers directly, avoiding hand-written 0/1
-coverage arrays.
-
-## Main capabilities
-
-| Capability | Use it when | Start here |
-| --- | --- | --- |
-| Erlang C staffing | Callers wait and abandonment is ignored or negligible | [Erlang C guide](https://pyworkforce.rodrigo-arenas.com/stable/guide/erlangc) |
-| Erlang A staffing | Callers may abandon before being answered | [Erlang A guide](https://pyworkforce.rodrigo-arenas.com/stable/guide/erlanga) |
-| Erlang B channel sizing | Blocked calls are lost because there is no queue | [Erlang B guide](https://pyworkforce.rodrigo-arenas.com/stable/guide/erlangb) |
-| Multi-skill staffing | Agents can cover different skill combinations | [Staffing guide](https://pyworkforce.rodrigo-arenas.com/stable/guide/staffing) |
-| Shift scheduling | You need shift counts from hourly demand | [Scheduling guide](https://pyworkforce.rodrigo-arenas.com/stable/guide/scheduling) |
-| Employee rostering | You need named assignments with rules and preferences | [Rostering guide](https://pyworkforce.rodrigo-arenas.com/stable/guide/rostering) |
-| Break scheduling | You need meal/rest breaks while maintaining coverage | [Break guide](https://pyworkforce.rodrigo-arenas.com/stable/guide/breaks) |
-
-## Project status
-
-pyworkforce is beta-stage open source software. The core models are tested and
-usable for real planning experiments, but workforce policies vary by operation,
-country, and labor agreement. Validate assumptions, units, and constraints
-against your own environment before using results operationally.
-
-## Documentation
-
-- [Get Started](https://pyworkforce.rodrigo-arenas.com/stable/guide/introduction)
-- [Quick Start](https://pyworkforce.rodrigo-arenas.com/stable/guide/quickstart)
-- [End-to-end planning tutorial](https://pyworkforce.rodrigo-arenas.com/stable/guide/end-to-end)
-- [Recipes](https://pyworkforce.rodrigo-arenas.com/stable/recipes/)
-- [API Reference](https://pyworkforce.rodrigo-arenas.com/stable/api/queuing)
-- [Release Notes](https://pyworkforce.rodrigo-arenas.com/stable/release-notes)
-
-## Contributing
-
-Contributions are welcome: examples, documentation, validation improvements,
-benchmarks, visualization helpers, additional workforce constraints, and bug
-reports all help. See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup,
-tests, docs, and roadmap ideas.
-
-## License
-
-pyworkforce is released under the [MIT License](LICENSE).
+PyWorkforce is a beta-stage, MIT-licensed project. The
+[stable documentation](https://pyworkforce.rodrigo-arenas.com/stable/) and
+[release notes](https://pyworkforce.rodrigo-arenas.com/stable/release-notes) cover the published package.
+For a bug report or a planning use case, [open an issue](https://github.com/rodrigo-arenas/pyworkforce/issues).
+To contribute a model, fix, or example, see the
+[contributing guide](https://github.com/rodrigo-arenas/pyworkforce/blob/main/CONTRIBUTING.md)
+and [license](https://github.com/rodrigo-arenas/pyworkforce/blob/main/LICENSE).
