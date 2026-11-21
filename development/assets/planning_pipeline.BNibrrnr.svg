@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="526" viewBox="0 0 760 526"
+     role="img" aria-labelledby="title description" font-family="DejaVu Sans, Arial, sans-serif">
+  <title id="title">How the PyWorkforce planning tools fit together</title>
+  <desc id="description">Erlang A and C can turn queue traffic into agent requirements. Erlang B sizes channels.
+    Per-skill requirements can be used separately to choose a skill mix. Shift scheduling uses staffing
+    requirements and shift coverage to produce counts by shift and day. A solved plan can be checked
+    against other forecasts. Shift counts feed named rostering and anonymous break scheduling independently.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="m1 1 4 2.5L1 6" fill="none" stroke="#526683" stroke-width="1.25" stroke-linejoin="round"/>
+    </marker>
+    <pattern id="schedule-grid" width="19" height="19" patternUnits="userSpaceOnUse">
+      <path d="M19 0H0v19" fill="none" stroke="#7182af" stroke-width=".8" opacity=".35"/>
+    </pattern>
+  </defs>
+  <rect x="1" y="1" width="758" height="524" rx="19" fill="#f7f8fb" stroke="#d5dae5"/>
+
+  <!-- An optional per-skill branch, and the two independent uses of shift counts. -->
+  <g fill="none" stroke="#526683" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)">
+    <path d="M353 90h50" stroke-dasharray="4 4"/>
+    <path d="M187 156v50"/>
+    <path d="M380 321v37H187v22"/>
+    <path d="M380 358h193v22"/>
+  </g>
+  <g fill="#465978" font-size="15">
+    <text x="202" y="187">Agents per period</text>
+    <text x="395" y="347">People per shift and day</text>
+  </g>
+
+  <!-- Queue sizing -->
+  <rect x="20" y="20" width="333" height="136" rx="14" fill="#fff" stroke="#c7d2e4"/>
+  <g transform="translate(38 37)" fill="none" stroke="#3b58ac" stroke-width="2.4" stroke-linecap="round">
+    <rect width="34" height="34" rx="9" fill="#eaf0ff" stroke="none"/>
+    <path d="M6 24h5v-7h5V9h5v10h7"/>
+  </g>
+  <text x="83" y="63" font-size="25" font-weight="bold" fill="#1d2b48">Queue sizing</text>
+  <g font-size="18" fill="#384965">
+    <text x="38" y="100">Erlang A / C size agent teams.</text>
+    <text x="38" y="128">Erlang B sizes channels.</text>
+  </g>
+
+  <!-- Skill mix -->
+  <rect x="407" y="20" width="333" height="136" rx="14" fill="#fffaf4" stroke="#dbccb9"/>
+  <g transform="translate(425 37)">
+    <rect width="34" height="34" rx="9" fill="#f7e8d6"/>
+    <g fill="#a86232"><circle cx="12" cy="12" r="4"/><circle cx="22" cy="12" r="4"/>
+      <rect x="8" y="19" width="18" height="7" rx="3.5"/></g>
+  </g>
+  <text x="470" y="63" font-size="25" font-weight="bold" fill="#1d2b48">Skill mix</text>
+  <g font-size="18" fill="#55463c">
+    <text x="425" y="100">Choose a minimum-cost mix</text>
+    <text x="425" y="128">for per-skill staffing needs.</text>
+  </g>
+  <text x="719" y="60" text-anchor="end" font-size="15" fill="#81502f">optional</text>
+
+  <!-- Scheduling and inspection of the same solved plan -->
+  <rect x="20" y="212" width="720" height="109" rx="14" fill="#243760"/>
+  <rect x="36" y="227" width="76" height="77" rx="9" fill="#304673"/>
+  <rect x="36" y="227" width="76" height="77" rx="9" fill="url(#schedule-grid)"/>
+  <g stroke-linecap="round" stroke-width="7">
+    <path d="M46 247h29" stroke="#f1b083"/>
+    <path d="M57 265h33" stroke="#a8c4ff"/>
+    <path d="M73 283h28" stroke="#dfe9ff"/>
+  </g>
+  <text x="129" y="253" font-size="26" font-weight="bold" fill="#fff">Shift scheduling</text>
+  <g font-size="17" fill="#e0e8f7">
+    <text x="129" y="280">Match period demand</text>
+    <text x="129" y="302">to shift coverage.</text>
+  </g>
+  <path d="M426 232v68" stroke="#687b9f"/>
+  <text x="449" y="252" font-size="20" font-weight="bold" fill="#ffceaa">Inspect coverage</text>
+  <g font-size="17" fill="#e0e8f7">
+    <text x="449" y="280">Compare forecasts and rank</text>
+    <text x="449" y="302">shortfalls by day and period.</text>
+  </g>
+
+  <!-- Independent downstream tools -->
+  <rect x="20" y="387" width="333" height="119" rx="14" fill="#fff" stroke="#c7d2e4"/>
+  <g transform="translate(38 401)">
+    <rect width="34" height="34" rx="9" fill="#eaf0ff"/>
+    <circle cx="17" cy="12" r="4.5" fill="none" stroke="#3b58ac" stroke-width="2.2"/>
+    <path d="M8 26c0-10 18-10 18 0" fill="none" stroke="#3b58ac" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+  <text x="83" y="427" font-size="25" font-weight="bold" fill="#1d2b48">Rostering</text>
+  <g font-size="17" fill="#384965">
+    <text x="38" y="460">Assign people to shifts and days.</text>
+    <text x="38" y="486">Keep shifts consistent by block.</text>
+  </g>
+  <rect x="407" y="387" width="333" height="119" rx="14" fill="#fff" stroke="#c7d2e4"/>
+  <g transform="translate(425 401)">
+    <rect width="34" height="34" rx="9" fill="#eaf0ff"/>
+    <g fill="none" stroke="#3b58ac" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="17" cy="17" r="9"/><path d="M17 11v6l4 2"/>
+    </g>
+  </g>
+  <text x="470" y="427" font-size="25" font-weight="bold" fill="#1d2b48">Break scheduling</text>
+  <g font-size="17" fill="#384965">
+    <text x="425" y="460">Time breaks for slots on a shift.</text>
+    <text x="425" y="486">Maintain minimum coverage.</text>
+  </g>
+</svg>
