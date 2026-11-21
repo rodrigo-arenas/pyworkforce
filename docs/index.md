@@ -52,9 +52,7 @@ features:
 
 ## Planning pipeline
 
-```text
-Forecast demand -> Queue staffing -> Multi-skill staffing -> Shift scheduling -> Rostering -> Break scheduling
-```
+![Queue sizing and optional skill-mix planning, shift scheduling and coverage analysis, then independent rostering and break scheduling.](./images/planning_pipeline.svg)
 
 pyworkforce is useful beyond contact centers: healthcare staffing, retail
 operations, logistics, support teams, service desks and field operations all

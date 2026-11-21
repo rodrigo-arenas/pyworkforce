@@ -59,19 +59,28 @@ shows how to choose a headcount against service and occupancy targets.
 
 ## Planning pipeline
 
-```text
-Forecast demand -> Queue staffing -> Multi-skill staffing -> Shift scheduling -> Rostering -> Break scheduling
-```
+![Queue sizing can supply agent requirements to shift scheduling or per-skill targets to skill-mix optimization. A solved shift schedule supplies daily headcounts to both rostering and break scheduling.](https://raw.githubusercontent.com/rodrigo-arenas/pyworkforce/main/docs/images/planning_pipeline.svg)
 
-![Planning pipeline](https://raw.githubusercontent.com/rodrigo-arenas/pyworkforce/main/docs/images/planning_pipeline.svg)
+This overview follows the `main` branch. For published versions, see the
+[release notes](https://pyworkforce.rodrigo-arenas.com/stable/release-notes).
 
-| Step | Module | Typical question |
+Start with your own staffing requirements or derive agent counts from queue traffic.
+Use `pyworkforce.shifts` to build shift coverage from hours, spans, or period indices.
+After solving a shift schedule, `scheduled_resources()` gives counts by shift and day.
+Pass them as `required_resources` to the roster or as `scheduled_resources` to the
+break scheduler, along with each tool's constraints.
+
+| Planning decision | API | Result |
 | --- | --- | --- |
-| Queue staffing | `pyworkforce.queuing` | How many agents or channels do we need for a service target? |
-| Multi-skill staffing | `pyworkforce.staffing` | What skill-profile mix covers all queues at minimum cost? |
-| Shift scheduling | `pyworkforce.scheduling` | How many people should work each shift? |
-| Rostering | `pyworkforce.rostering` | Which named people work on which days and shifts? |
-| Break scheduling | `pyworkforce.breaks` | When can breaks happen without dropping below coverage? |
+| Size a queue | `ErlangA`, `ErlangC`, `ErlangB` and batch variants `MultiErlangA`, `MultiErlangC`, `MultiErlangB` | Agents for service targets (A/C), or channels for a blocking target (B) |
+| Choose a skill mix | `MultiSkillStaffing` | Minimum-cost headcount by skill profile |
+| Cover period demand with shifts | `MinRequiredResources`, `MinAbsDifference` | People per shift and day |
+| Check a solved plan | `coverage()`, `compare_coverage(..., by_period=True)` | Coverage per interval and a ranked table of scenario shortfalls |
+| Assign named people | `MinHoursRoster` | Assignments and days off, with optional shift consistency by block |
+| Place breaks | `BreakScheduler` | Break start periods for anonymous slots while maintaining minimum coverage |
+
+Optional Matplotlib views include `plot_staffing_curve()` for Erlang C,
+`plot_coverage()` for a single day, and `plot_period_shortfalls()` for comparing scenarios.
 
 ## What can I do in 5 minutes?
 
