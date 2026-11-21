@@ -1,3 +1,7 @@
+from collections.abc import Sequence
+from itertools import pairwise
+from numbers import Integral
+
 import numpy as np
 from ortools.sat.python import cp_model
 
@@ -51,6 +55,11 @@ class MinHoursRoster(BaseWorkforce):
         Maximum time, in seconds, to search for a solution.
     num_search_workers: int, default = 2
         Number of workers used to search for a solution.
+    shift_block_starts : sequence of int, optional
+        Zero-based start days of blocks with one shift type per resource on
+        worked days. Start at day 0 and list boundaries in increasing order.
+        The final block extends to the end of the horizon. None allows
+        changes on any day subject to the other roster rules.
     """
 
     def __init__(self, num_days: int,
@@ -65,7 +74,8 @@ class MinHoursRoster(BaseWorkforce):
                  resources_preferences: list = None,
                  resources_prioritization: list = None,
                  max_search_time: float = 240,
-                 num_search_workers=2):
+                 num_search_workers=2, *,
+                 shift_block_starts: Sequence[int] | None = None):
 
         check_positive_integer("num_days", num_days)
         check_positive_integer("min_working_hours", min_working_hours)
@@ -95,6 +105,17 @@ class MinHoursRoster(BaseWorkforce):
         if max_resting >= num_days:
             raise ValueError(
                 f"max_resting ({max_resting}) must be smaller than num_days ({num_days})")
+
+        if shift_block_starts is not None:
+            if not isinstance(shift_block_starts, Sequence) or not shift_block_starts:
+                raise ValueError("shift_block_starts must be a non-empty sequence starting at day 0")
+            shift_block_starts = tuple(shift_block_starts)
+            if any(isinstance(day, bool) or not isinstance(day, Integral) or not 0 <= day < num_days
+                   for day in shift_block_starts):
+                raise ValueError("shift_block_starts must contain integer days within the horizon")
+            if shift_block_starts[0] != 0 or any(a >= b for a, b in pairwise(shift_block_starts)):
+                raise ValueError("shift_block_starts must begin at day 0 and be strictly increasing")
+        self.shift_block_starts = shift_block_starts
 
         self.num_days = num_days
         self._num_days = num_days
@@ -154,6 +175,18 @@ class MinHoursRoster(BaseWorkforce):
             for d in range(self._num_days):
                 sch_model.Add(sum(shifted_resource[n][d][s] for s in range(self.num_shifts)) <= 1)
 
+        if self.shift_block_starts is not None:
+            for start, stop in pairwise((*self.shift_block_starts, self._num_days)):
+                if stop - start == 1:
+                    continue  # At most one shift per day is already enforced.
+                for n in range(self.num_resource):
+                    used = []
+                    for s in range(self.num_shifts):
+                        works_shift = sch_model.NewBoolVar(f'works_shift_n{n}_block{start}_s{s}')
+                        sch_model.AddMaxEquality(works_shift, shifted_resource[n, start:stop, s].tolist())
+                        used.append(works_shift)
+                    sch_model.AddAtMostOne(used)
+
         # The number of days that an resource rest is not greater that the max allowed
         working_days = self._num_days - self.max_resting
         for n in range(self.num_resource):
@@ -169,15 +202,11 @@ class MinHoursRoster(BaseWorkforce):
                 j_idx = self.shifts.index(dependence['destination'])
                 self.non_sequential_shifts_indices[i_idx][j_idx] = 1
 
-        # An resource can not have two consecutive shifts according to shifts dependencies
-
-        for n in range(self.num_resource):
-            for d in range(self._num_days - 1):
-                for s in range(self.num_shifts):
-                    sch_model.Add(
-                        sum(shifted_resource[n][d][s] * self.non_sequential_shifts_indices[s][j] +
-                            shifted_resource[n][d + 1][j]
-                            for j in range(self.num_shifts)) <= 1)
+        # Ban only the named next-day destination, including across block boundaries.
+        for origin, destination in np.argwhere(self.non_sequential_shifts_indices):
+            for n in range(self.num_resource):
+                for d in range(self._num_days - 1):
+                    sch_model.Add(shifted_resource[n, d, origin] + shifted_resource[n, d + 1, destination] <= 1)
 
         # Resources cannot be assigned to banned shifts
         if self.banned_shifts is not None:

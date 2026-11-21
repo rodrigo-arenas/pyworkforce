@@ -9,7 +9,7 @@ MinHoursRoster(num_days, resources, shifts, shifts_hours, min_working_hours,
                banned_shifts, max_resting, required_resources,
                non_sequential_shifts=None, resources_preferences=None,
                resources_prioritization=None,
-               max_search_time=240, num_search_workers=2)
+               max_search_time=240, num_search_workers=2, *, shift_block_starts=None)
 ```
 
 Assigns named resources to days and shifts, minimizing total scheduled hours
@@ -24,8 +24,8 @@ while respecting the configured rules and rewarding preferences.
 - **min_working_hours** (`int`) — minimum hours per resource over the horizon.
 - **banned_shifts** (`list[dict]`) — `{"resource", "shift", "day"}` entries that
   forbid an assignment. May be `None`.
-- **max_resting** (`int`) — maximum resting days per resource; must be
-  `< num_days`.
+- **max_resting** (`int`) — maximum resting days per resource across the whole horizon,
+  with `1 <= max_resting < num_days`.
 - **required_resources** (`dict`) — `{shift_name: [per-day requirement, …]}`,
   one entry per day for every shift.
 - **non_sequential_shifts** (`list[dict]`, optional) —
@@ -36,6 +36,12 @@ while respecting the configured rules and rewarding preferences.
   `{"resource", "weight"}` relative preference weights.
 - **max_search_time** (`float`) — solver time limit, seconds.
 - **num_search_workers** (`int`) — solver worker threads.
+- **shift_block_starts** (sequence of integers, optional) — zero-based start
+  days for blocks in which each person can work at most one shift type. The
+  first start must be 0. Subsequent starts must increase strictly and fall
+  within the horizon. The final block ends at `num_days` (exclusive).
+  Leave as `None` for the usual day-by-day assignments. See the
+  [shift block example](/guide/rostering#keep-the-same-shift-through-a-day-off).
 
 **Validation** — raises `ValueError` when `resources` are not unique, `shifts`
 and `shifts_hours` differ in length, `required_resources` is missing a shift or

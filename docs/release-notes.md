@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- `MinHoursRoster` accepts optional `shift_block_starts` to keep each person's
+  shift consistent across worked days within planner-defined blocks. See the
+  [worked roster](/guide/rostering#keep-the-same-shift-through-a-day-off).
+- Corrected `non_sequential_shifts` to block each specified next-day pair.
+  Previously a ban on Night followed by Early could also reject two consecutive
+  Nights, and multiple bans with the same origin could rule out that shift.
+
 - Rank intervals by the largest staffing shortfall across demand scenarios with
   `compare_coverage(scenarios, by_period=True)`. Use `plot_period_shortfalls()`
   to inspect the leading rows on a Matplotlib Axes.
