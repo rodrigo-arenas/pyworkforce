@@ -1,6 +1,7 @@
 from ortools.sat.python import cp_model
 
 from pyworkforce.base import BaseWorkforce
+from pyworkforce.utils._cp_sat import add_enforced, method, objective_value
 from pyworkforce.utils.validation import check_positive_float, check_positive_integer
 
 
@@ -223,9 +224,9 @@ class BreakScheduler(BaseWorkforce):
                         valid_hi = s_end - max_before - dur + 1
 
                         key = (s, d, i, b_name)
-                        start_var = sch_model.NewIntVar(valid_lo, valid_hi, f"start_{s}_{d}_{i}_{b_name}")
-                        end_var = sch_model.NewIntVar(valid_lo + dur, valid_hi + dur, f"end_{s}_{d}_{i}_{b_name}")
-                        ivar = sch_model.NewIntervalVar(start_var, dur, end_var, f"ivar_{s}_{d}_{i}_{b_name}")
+                        start_var = method(sch_model, "new_int_var")(valid_lo, valid_hi, f"start_{s}_{d}_{i}_{b_name}")
+                        end_var = method(sch_model, "new_int_var")(valid_lo + dur, valid_hi + dur, f"end_{s}_{d}_{i}_{b_name}")
+                        ivar = method(sch_model, "new_interval_var")(start_var, dur, end_var, f"ivar_{s}_{d}_{i}_{b_name}")
 
                         start_vars[key] = start_var
                         interval_vars[key] = ivar
@@ -233,7 +234,7 @@ class BreakScheduler(BaseWorkforce):
                         slot_ivars.append(ivar)
 
                     if len(slot_ivars) > 1:
-                        sch_model.AddNoOverlap(slot_ivars)
+                        method(sch_model, "add_no_overlap")(slot_ivars)
 
         # Precompute total scheduled agents per (day, period)
         total_scheduled = [[0] * self.periods for _ in range(self.num_days)]
@@ -279,56 +280,56 @@ class BreakScheduler(BaseWorkforce):
                             if window_lo > window_hi:
                                 continue  # break can never cover this period
 
-                            covers = sch_model.NewBoolVar(f"cov_{s}_{d}_{i}_{b_name}_{p}")
+                            covers = method(sch_model, "new_bool_var")(f"cov_{s}_{d}_{i}_{b_name}_{p}")
 
                             can_be_before = window_lo > valid_lo
                             can_be_after = window_hi < valid_hi
 
                             if not can_be_before and not can_be_after:
                                 # window == full domain: break always covers this period
-                                sch_model.Add(covers == 1)
+                                method(sch_model, "add")(covers == 1)
                             elif not can_be_before:
                                 # start is always >= window_lo; covers ↔ start ≤ window_hi
-                                sch_model.Add(start_var <= window_hi).OnlyEnforceIf(covers)
-                                sch_model.Add(start_var > window_hi).OnlyEnforceIf(covers.Not())
+                                add_enforced(sch_model, start_var <= window_hi, covers)
+                                add_enforced(sch_model, start_var > window_hi, method(covers, "negated")())
                             elif not can_be_after:
                                 # start is always ≤ window_hi; covers ↔ start >= window_lo
-                                sch_model.Add(start_var >= window_lo).OnlyEnforceIf(covers)
-                                sch_model.Add(start_var < window_lo).OnlyEnforceIf(covers.Not())
+                                add_enforced(sch_model, start_var >= window_lo, covers)
+                                add_enforced(sch_model, start_var < window_lo, method(covers, "negated")())
                             else:
                                 # Two-sided: covers ↔ start ∈ [window_lo, window_hi]
-                                sch_model.Add(start_var >= window_lo).OnlyEnforceIf(covers)
-                                sch_model.Add(start_var <= window_hi).OnlyEnforceIf(covers)
+                                add_enforced(sch_model, start_var >= window_lo, covers)
+                                add_enforced(sch_model, start_var <= window_hi, covers)
 
-                                out_lo = sch_model.NewBoolVar(f"ol_{s}_{d}_{i}_{b_name}_{p}")
-                                sch_model.Add(start_var < window_lo).OnlyEnforceIf(out_lo)
-                                sch_model.Add(start_var >= window_lo).OnlyEnforceIf(out_lo.Not())
+                                out_lo = method(sch_model, "new_bool_var")(f"ol_{s}_{d}_{i}_{b_name}_{p}")
+                                add_enforced(sch_model, start_var < window_lo, out_lo)
+                                add_enforced(sch_model, start_var >= window_lo, method(out_lo, "negated")())
 
-                                out_hi = sch_model.NewBoolVar(f"oh_{s}_{d}_{i}_{b_name}_{p}")
-                                sch_model.Add(start_var > window_hi).OnlyEnforceIf(out_hi)
-                                sch_model.Add(start_var <= window_hi).OnlyEnforceIf(out_hi.Not())
+                                out_hi = method(sch_model, "new_bool_var")(f"oh_{s}_{d}_{i}_{b_name}_{p}")
+                                add_enforced(sch_model, start_var > window_hi, out_hi)
+                                add_enforced(sch_model, start_var <= window_hi, method(out_hi, "negated")())
 
                                 # NOT covers → out_lo OR out_hi
-                                sch_model.AddBoolOr([covers, out_lo, out_hi])
-                                sch_model.AddImplication(covers, out_lo.Not())
-                                sch_model.AddImplication(covers, out_hi.Not())
+                                method(sch_model, "add_bool_or")([covers, out_lo, out_hi])
+                                method(sch_model, "add_implication")(covers, method(out_lo, "negated")())
+                                method(sch_model, "add_implication")(covers, method(out_hi, "negated")())
 
                             covers_vars.append(covers)
 
                 if covers_vars:
-                    sch_model.Add(sum(covers_vars) <= slack)
+                    method(sch_model, "add")(sum(covers_vars) <= slack)
 
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = self.max_search_time
         solver.num_search_workers = self.num_search_workers
 
-        status = solver.Solve(sch_model)
+        status = method(solver, "solve")(sch_model)
 
         if status in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
             break_schedule = []
             for (s, d, i, b_name), start_var in start_vars.items():
                 dur = break_by_name[b_name]["duration_periods"]
-                start_val = solver.Value(start_var)
+                start_val = method(solver, "value")(start_var)
                 break_schedule.append({
                     "shift": s,
                     "day": d,
@@ -339,13 +340,13 @@ class BreakScheduler(BaseWorkforce):
                 })
 
             self.solution_ = {
-                "status": solver.StatusName(status),
-                "cost": solver.ObjectiveValue(),
+                "status": method(solver, "status_name")(status),
+                "cost": objective_value(solver),
                 "break_schedule": break_schedule,
             }
         else:
             self.solution_ = {
-                "status": solver.StatusName(status),
+                "status": method(solver, "status_name")(status),
                 "cost": -1,
                 "break_schedule": [
                     {

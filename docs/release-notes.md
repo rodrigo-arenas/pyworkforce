@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Use current OR-Tools CP-SAT methods when available, while retaining
+  compatibility with older OR-Tools installs. Published Python support is unchanged.
+
 - `MinHoursRoster` accepts optional `shift_block_starts` to keep each person's
   shift consistent across worked days within planner-defined blocks. See the
   [worked roster](/guide/rostering#keep-the-same-shift-through-a-day-off).

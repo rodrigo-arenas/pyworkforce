@@ -51,3 +51,63 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
+
+  cp-sat-compat:
+    name: CP-SAT API compatibility (OR-Tools ${{ matrix.ortools }})
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ortools: ['9.7.2996', '9.15.6755']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install and test a fixed compatibility reference
+        env:
+          MPLBACKEND: Agg
+          ORTOOLS_VERSION: ${{ matrix.ortools }}
+        run: |
+          if [[ "$ORTOOLS_VERSION" == "9.7.2996" ]]; then
+            # Earliest CPython 3.12 manylinux wheel; pair with protobuf 4.
+            python -m pip install -e ".[dev,plot]" "ortools==$ORTOOLS_VERSION" "protobuf<5"
+          else
+            python -m pip install -e ".[dev,plot]" "ortools==$ORTOOLS_VERSION"
+          fi
+          python -m pip check
+          python -m pytest -q
+
+  cp-sat-prerelease:
+    name: CP-SAT prerelease deprecations (experimental)
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.15'
+      - name: Install the official, checksum-pinned OR-Tools prerelease
+        env:
+          ORTOOLS_WHEEL: ortools-10.0.0rc1-cp315-cp315-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+          ORTOOLS_WHEEL_SHA256: 5d4c6108d278065d80990e8d3915016aa4657299b623d60d2e3f4c9d3f37dbc4
+        run: |
+          curl --fail --silent --show-error --location --max-time 120 \
+            "https://github.com/google/or-tools/releases/download/v10.0-rc.1/${ORTOOLS_WHEEL}" \
+            --output "${RUNNER_TEMP}/${ORTOOLS_WHEEL}"
+          printf '%s  %s\n' "${ORTOOLS_WHEEL_SHA256}" "${RUNNER_TEMP}/${ORTOOLS_WHEEL}" | sha256sum --check
+          # Experiment in a temporary copy without changing published Python support.
+          scratch="$(mktemp -d "${RUNNER_TEMP}/pyworkforce-rc.XXXXXX")"
+          git archive HEAD | tar -x -C "$scratch"
+          sed -i 's/requires-python = ">=3.12,<3.15"/requires-python = ">=3.12,<3.16"/' "$scratch/pyproject.toml"
+          python -m pip install -e "$scratch[dev,plot]" "${RUNNER_TEMP}/${ORTOOLS_WHEEL}"
+          python -m pip check
+          echo "CP_SAT_SCRATCH=$scratch" >> "$GITHUB_ENV"
+      - name: Treat legacy CP-SAT calls as regressions
+        env:
+          MPLBACKEND: Agg
+          PYWORKFORCE_TEST_CP_SAT_DEPRECATIONS: '1'
+        run: |
+          cd "$CP_SAT_SCRATCH"
+          python -m pytest -q -o 'filterwarnings=error:.* is a deprecated function\.:DeprecationWarning'
