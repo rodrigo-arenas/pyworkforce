@@ -6,6 +6,7 @@ import numpy as np
 from ortools.sat.python import cp_model
 
 from pyworkforce.base import BaseWorkforce
+from pyworkforce.utils._cp_sat import method, objective_value
 from pyworkforce.utils.validation import check_positive_float, check_positive_integer
 
 
@@ -160,20 +161,20 @@ class MinHoursRoster(BaseWorkforce):
         for n in range(self.num_resource):
             for d in range(self._num_days):
                 for s in range(self.num_shifts):
-                    shifted_resource[n][d][s] = sch_model.NewBoolVar(f'resource_shifts_n{n}d{d}s{s}')
+                    shifted_resource[n][d][s] = method(sch_model, "new_bool_var")(f'resource_shifts_n{n}d{d}s{s}')
 
         # Constrains
 
         # The number of scheduled resources must be greater than or equal to the requirement for each day and shift
         for d in range(self._num_days):
             for s in range(self.num_shifts):
-                sch_model.Add(sum(shifted_resource[n][d][s] for n in range(self.num_resource))
+                method(sch_model, "add")(sum(shifted_resource[n][d][s] for n in range(self.num_resource))
                               >= self.required_resources[self.shifts[s]][d])
 
         # A resource can at most, work 1 shift per day
         for n in range(self.num_resource):
             for d in range(self._num_days):
-                sch_model.Add(sum(shifted_resource[n][d][s] for s in range(self.num_shifts)) <= 1)
+                method(sch_model, "add")(sum(shifted_resource[n][d][s] for s in range(self.num_shifts)) <= 1)
 
         if self.shift_block_starts is not None:
             for start, stop in pairwise((*self.shift_block_starts, self._num_days)):
@@ -182,15 +183,15 @@ class MinHoursRoster(BaseWorkforce):
                 for n in range(self.num_resource):
                     used = []
                     for s in range(self.num_shifts):
-                        works_shift = sch_model.NewBoolVar(f'works_shift_n{n}_block{start}_s{s}')
-                        sch_model.AddMaxEquality(works_shift, shifted_resource[n, start:stop, s].tolist())
+                        works_shift = method(sch_model, "new_bool_var")(f'works_shift_n{n}_block{start}_s{s}')
+                        method(sch_model, "add_max_equality")(works_shift, shifted_resource[n, start:stop, s].tolist())
                         used.append(works_shift)
-                    sch_model.AddAtMostOne(used)
+                    method(sch_model, "add_at_most_one")(used)
 
         # The number of days that an resource rest is not greater that the max allowed
         working_days = self._num_days - self.max_resting
         for n in range(self.num_resource):
-            sch_model.Add(
+            method(sch_model, "add")(
                 sum(shifted_resource[n][d][s] for d in range(self._num_days) for s in range(self.num_shifts))
                 >= working_days)
 
@@ -206,7 +207,7 @@ class MinHoursRoster(BaseWorkforce):
         for origin, destination in np.argwhere(self.non_sequential_shifts_indices):
             for n in range(self.num_resource):
                 for d in range(self._num_days - 1):
-                    sch_model.Add(shifted_resource[n, d, origin] + shifted_resource[n, d + 1, destination] <= 1)
+                    method(sch_model, "add")(shifted_resource[n, d, origin] + shifted_resource[n, d + 1, destination] <= 1)
 
         # Resources cannot be assigned to banned shifts
         if self.banned_shifts is not None:
@@ -214,12 +215,12 @@ class MinHoursRoster(BaseWorkforce):
                 resource_idx = self.resources.index(ban['resource'])
                 shift_idx = self.shifts.index(ban['shift'])
                 day_idx = int(ban['day'])
-                sch_model.Add(shifted_resource[resource_idx][day_idx][shift_idx] == 0)
+                method(sch_model, "add")(shifted_resource[resource_idx][day_idx][shift_idx] == 0)
 
         # Minimum working hours per resource in the horizon
 
         for n in range(self.num_resource):
-            sch_model.Add(
+            method(sch_model, "add")(
                 sum(shifted_resource[n][d][s] * self.shifts_hours[s]
                     for d in range(self._num_days) for s in range(self.num_shifts)) >= self.min_working_hours)
 
@@ -242,7 +243,7 @@ class MinHoursRoster(BaseWorkforce):
 
         # Objective function: Minimize the total number of shifted hours rewarded by resource preferences
 
-        sch_model.Minimize(
+        method(sch_model, "minimize")(
             sum(shifted_resource[n][d][s] * (self.shifts_hours[s]
                                              - self.resources_shifts_weight[n] *
                                              self.resources_shifts_preferences[n][s])
@@ -254,7 +255,7 @@ class MinHoursRoster(BaseWorkforce):
         self.solver.parameters.max_time_in_seconds = self.max_search_time
         self.solver.num_search_workers = self.num_search_workers
 
-        self._status = self.solver.Solve(sch_model)
+        self._status = method(self.solver, "solve")(sch_model)
 
         # Output
 
@@ -266,7 +267,7 @@ class MinHoursRoster(BaseWorkforce):
                 for d in range(self._num_days):
                     working = False
                     for s in range(self.num_shifts):
-                        if self.solver.Value(shifted_resource[n][d][s]):
+                        if method(self.solver, "value")(shifted_resource[n][d][s]):
                             resource_shifts.append({
                                 "resource": self.resources[n],
                                 "day": d,
@@ -279,8 +280,8 @@ class MinHoursRoster(BaseWorkforce):
                             "day": d
                         })
 
-            solution = {"status": self.solver.StatusName(self._status),
-                        "cost": self.solver.ObjectiveValue(),
+            solution = {"status": method(self.solver, "status_name")(self._status),
+                        "cost": objective_value(self.solver),
                         "shifted_hours": shifted_hours,
                         "total_resources": len(self.resources),
                         "total_shifts": len(resource_shifts),
@@ -288,7 +289,7 @@ class MinHoursRoster(BaseWorkforce):
                         "resource_shifts": resource_shifts,
                         "resting_resource": resting_resource}
         else:
-            solution = {"status": self.solver.StatusName(self._status),
+            solution = {"status": method(self.solver, "status_name")(self._status),
                         "cost": -1,
                         "shifted_hours": -1,
                         "total_resources": 0,

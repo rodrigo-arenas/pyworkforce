@@ -6,6 +6,7 @@ import pandas as pd
 from ortools.sat.python import cp_model
 
 from pyworkforce.base import BaseWorkforce
+from pyworkforce.utils._cp_sat import method
 from pyworkforce.utils.validation import check_positive_float, check_positive_integer
 
 
@@ -133,7 +134,7 @@ class BaseShiftScheduler(BaseWorkforce):
         for day in range(self.num_days):
             for index, shift in enumerate(self.shifts):
                 lower, upper = limits.get((day, shift), (0, self.max_shift_concurrency))
-                resources[day, index] = model.NewIntVar(lower, upper, f"resources_d{day}s{index}")
+                resources[day, index] = method(model, "new_int_var")(lower, upper, f"resources_d{day}s{index}")
         return resources
 
     def _record_solution(self, solution):

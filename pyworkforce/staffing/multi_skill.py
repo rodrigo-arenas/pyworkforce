@@ -15,6 +15,7 @@ profile* figures feed directly into the per-shift scheduling problem.
 from ortools.sat.python import cp_model
 
 from pyworkforce.base import BaseWorkforce
+from pyworkforce.utils._cp_sat import method, objective_value
 from pyworkforce.utils.validation import check_positive_float, check_positive_integer
 
 
@@ -186,7 +187,7 @@ class MultiSkillStaffing(BaseWorkforce):
             ub = min(ub, self.max_agents)
 
         n_agents = {
-            p["name"]: sch_model.NewIntVar(0, ub, f"n_{p['name']}")
+            p["name"]: method(sch_model, "new_int_var")(0, ub, f"n_{p['name']}")
             for p in self.profiles
         }
 
@@ -200,14 +201,14 @@ class MultiSkillStaffing(BaseWorkforce):
                 for p in self.profiles
                 if skill in p["skills"]
             ]
-            sch_model.Add(sum(contributors) >= req)
+            method(sch_model, "add")(sum(contributors) >= req)
 
         # Optional total-agent cap
         if self.max_agents is not None:
-            sch_model.Add(sum(n_agents.values()) <= self.max_agents)
+            method(sch_model, "add")(sum(n_agents.values()) <= self.max_agents)
 
         # Objective: minimise weighted headcount
-        sch_model.Minimize(
+        method(sch_model, "minimize")(
             sum(p.get("cost", 1.0) * n_agents[p["name"]] for p in self.profiles)
         )
 
@@ -215,11 +216,11 @@ class MultiSkillStaffing(BaseWorkforce):
         solver.parameters.max_time_in_seconds = self.max_search_time
         solver.num_search_workers = self.num_search_workers
 
-        status = solver.Solve(sch_model)
+        status = method(solver, "solve")(sch_model)
 
         if status in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
             agents_per_profile = [
-                {"profile": p["name"], "agents": solver.Value(n_agents[p["name"]])}
+                {"profile": p["name"], "agents": method(solver, "value")(n_agents[p["name"]])}
                 for p in self.profiles
             ]
             total_agents = sum(e["agents"] for e in agents_per_profile)
@@ -227,21 +228,21 @@ class MultiSkillStaffing(BaseWorkforce):
             skill_coverage = {}
             for skill in self.skills:
                 skill_coverage[skill] = sum(
-                    solver.Value(n_agents[p["name"]])
+                    method(solver, "value")(n_agents[p["name"]])
                     for p in self.profiles
                     if skill in p["skills"]
                 )
 
             self.solution_ = {
-                "status": solver.StatusName(status),
-                "cost": solver.ObjectiveValue(),
+                "status": method(solver, "status_name")(status),
+                "cost": objective_value(solver),
                 "total_agents": total_agents,
                 "agents_per_profile": agents_per_profile,
                 "skill_coverage": skill_coverage,
             }
         else:
             self.solution_ = {
-                "status": solver.StatusName(status),
+                "status": method(solver, "status_name")(status),
                 "cost": -1,
                 "total_agents": -1,
                 "agents_per_profile": [{"profile": "Unknown", "agents": -1}],

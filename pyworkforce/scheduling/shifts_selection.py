@@ -2,6 +2,7 @@ import pandas as pd
 from ortools.sat.python import cp_model
 
 from pyworkforce.scheduling.base import BaseShiftScheduler
+from pyworkforce.utils._cp_sat import method, objective_value
 
 
 class MinAbsDifference(BaseShiftScheduler):
@@ -71,20 +72,20 @@ class MinAbsDifference(BaseShiftScheduler):
         for day in range(self.num_days):
             for period in range(self.num_periods):
                 scheduled = sum(resources[day, s] * self.shifts_coverage_matrix[s][period] for s in range(self.num_shifts))
-                sch_model.Add(scheduled <= capacity)
+                method(sch_model, "add")(scheduled <= capacity)
                 required = self.required_resources[day][period]
                 # The largest gap occurs at one end of the feasible staffing interval.
                 max_gap = max(abs(required), abs(capacity - required))
-                gap = sch_model.NewIntVar(0, max_gap, f'gap_d{day}p{period}')
-                sch_model.AddAbsEquality(gap, scheduled - required)
+                gap = method(sch_model, "new_int_var")(0, max_gap, f'gap_d{day}p{period}')
+                method(sch_model, "add_abs_equality")(gap, scheduled - required)
                 gaps.append(gap)
 
-        sch_model.Minimize(sum(gaps))
+        method(sch_model, "minimize")(sum(gaps))
 
         self.solver.parameters.max_time_in_seconds = self.max_search_time
         self.solver.parameters.num_search_workers = self.num_search_workers
 
-        self.status = self.solver.Solve(sch_model)
+        self.status = method(self.solver, "solve")(sch_model)
 
         if self.status in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
             resources_shifts = []
@@ -93,13 +94,13 @@ class MinAbsDifference(BaseShiftScheduler):
                     resources_shifts.append({
                         "day": d,
                         "shift": self.shifts[s],
-                        "resources": self.solver.Value(resources[d][s])})
+                        "resources": method(self.solver, "value")(resources[d][s])})
 
-            solution = {"status": self.solver.StatusName(self.status),
-                        "cost": self.solver.ObjectiveValue(),
+            solution = {"status": method(self.solver, "status_name")(self.status),
+                        "cost": objective_value(self.solver),
                         "resources_shifts": resources_shifts}
         else:
-            solution = {"status": self.solver.StatusName(self.status),
+            solution = {"status": method(self.solver, "status_name")(self.status),
                         "cost": -1,
                         "resources_shifts": [{'day': -1, 'shift': 'Unknown', 'resources': -1}]}
 
@@ -188,25 +189,25 @@ class MinRequiredResources(BaseShiftScheduler):
         # Total programmed resources in day d and period p, must be greater or equals that required resources in d, p
         for d in range(self.num_days):
             for p in range(self.num_periods):
-                sch_model.Add(sum(resources[d][s] * self.shifts_coverage_matrix[s][p]
+                method(sch_model, "add")(sum(resources[d][s] * self.shifts_coverage_matrix[s][p]
                                   for s in range(self.num_shifts)) >= self.required_resources[d][p])
 
         # Total programmed resources must be less than or equal to max_period_concurrency for each day and period
         for d in range(self.num_days):
             for p in range(self.num_periods):
-                sch_model.Add(
+                method(sch_model, "add")(
                     sum(resources[d][s] * self.shifts_coverage_matrix[s][p]
                         for s in range(self.num_shifts)) <= self.max_period_concurrency)
 
         # Objective Function: Minimize the total shifted resources
-        sch_model.Minimize(sum(resources[d][s] * self.df_cost_matrix[self.shifts[s]].item()
+        method(sch_model, "minimize")(sum(resources[d][s] * self.df_cost_matrix[self.shifts[s]].item()
                                for d in range(self.num_days)
                                for s in range(self.num_shifts)))
 
         self.solver.parameters.max_time_in_seconds = self.max_search_time
         self.solver.parameters.num_search_workers = self.num_search_workers
 
-        self.status = self.solver.Solve(sch_model)
+        self.status = method(self.solver, "solve")(sch_model)
 
         if self.status in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
             resources_shifts = []
@@ -215,13 +216,13 @@ class MinRequiredResources(BaseShiftScheduler):
                     resources_shifts.append({
                         "day": d,
                         "shift": self.shifts[s],
-                        "resources": self.solver.Value(resources[d][s])})
+                        "resources": method(self.solver, "value")(resources[d][s])})
 
-            solution = {"status": self.solver.StatusName(self.status),
-                        "cost": self.solver.ObjectiveValue(),
+            solution = {"status": method(self.solver, "status_name")(self.status),
+                        "cost": objective_value(self.solver),
                         "resources_shifts": resources_shifts}
         else:
-            solution = {"status": self.solver.StatusName(self.status),
+            solution = {"status": method(self.solver, "status_name")(self.status),
                         "cost": -1,
                         "resources_shifts": [{'day': -1, 'shift': 'Unknown', 'resources': -1}]}
 
