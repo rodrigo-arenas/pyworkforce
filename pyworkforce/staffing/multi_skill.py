@@ -214,7 +214,7 @@ class MultiSkillStaffing(BaseWorkforce):
 
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = self.max_search_time
-        solver.num_search_workers = self.num_search_workers
+        solver.parameters.num_search_workers = self.num_search_workers
 
         status = method(solver, "solve")(sch_model)
 

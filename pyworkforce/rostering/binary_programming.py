@@ -253,7 +253,7 @@ class MinHoursRoster(BaseWorkforce):
 
         self.solver = cp_model.CpSolver()
         self.solver.parameters.max_time_in_seconds = self.max_search_time
-        self.solver.num_search_workers = self.num_search_workers
+        self.solver.parameters.num_search_workers = self.num_search_workers
 
         self._status = method(self.solver, "solve")(sch_model)
 
