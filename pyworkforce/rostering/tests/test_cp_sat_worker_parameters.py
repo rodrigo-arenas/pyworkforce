@@ -37,14 +37,16 @@ from pyworkforce.staffing import MultiSkillStaffing
 )
 def test_worker_count_reaches_cp_sat(monkeypatch, build_solver):
     """Check the parameter handed to CP-SAT, not its execution time."""
-    real_solve = cp_model.CpSolver.solve
+    solver_class = cp_model.CpSolver
+    solve_name = "solve" if hasattr(solver_class, "solve") else "Solve"
+    real_solve = getattr(solver_class, solve_name)
     observed = []
 
     def capture(solver, *args, **kwargs):
         observed.append(solver.parameters.num_search_workers)
         return real_solve(solver, *args, **kwargs)
 
-    monkeypatch.setattr(cp_model.CpSolver, "solve", capture)
+    monkeypatch.setattr(solver_class, solve_name, capture)
     assert build_solver().solve()["status"] == "OPTIMAL"
     assert observed == [3]
 
